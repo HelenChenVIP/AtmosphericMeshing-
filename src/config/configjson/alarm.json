@@ -1,0 +1,32 @@
+{
+    "data":[
+        {
+            "alarmCheckReasons":[
+                {
+                    "checkReson":"设备故障",
+                    "checkCode":"0",
+                    "recoverTime":100,
+                    "recoverTimeStr":"默认预计恢复正常时间当天24点前"
+                },
+                {
+                    "checkReson":"突发性环境污染",
+                    "checkCode":"1",
+                    "recoverTime":100,
+                    "recoverTimeStr":"默认预计恢复正常时间当天24点前"
+                },
+                {
+                    "checkReson":"区域性污染",
+                    "checkCode":"2",
+                    "recoverTime":100,
+                    "recoverTimeStr":"默认预计恢复正常时间为从当前时间计算24小时后"
+                },
+                {
+                    "checkReson":"其他因素",
+                    "checkCode":"3",
+                    "recoverTime":100,
+                    "recoverTimeStr":"默认预计恢复正常时间为3小时后"
+                }
+            ]
+        }
+    ]
+}

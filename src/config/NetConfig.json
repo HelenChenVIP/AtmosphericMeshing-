@@ -1,0 +1,15 @@
+{
+  "isAutoLoad":true,
+  "Config":[
+  {
+    "configName":"内网",
+    "configIp":"172.16.12.65",
+    "configPort":"4064"
+  },
+  {
+    "configName":"外网",
+    "configIp":"172.16.12.65",
+    "configPort":"4064"
+  }
+]
+}

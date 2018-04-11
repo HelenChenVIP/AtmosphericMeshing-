@@ -1,0 +1,34 @@
+{
+    "data": [
+        {
+            "title": "A",
+            "city": [
+                {
+                    "city_child": "阿坝",
+                    "city_child_en": "aba",
+                    "city_id": 101271901,
+                    "city_name_ab": "ab.ab",
+                    "city_parent": "阿坝",
+                    "city_pinyin_name": "aba.aba",
+                    "country": "中国",
+                    "latitude": 32,
+                    "longitude": 101,
+                    "provcn": "四川"
+                },
+                {
+                    "city_child": "阿巴嘎",
+                    "city_child_en": "abaga",
+                    "city_id": 101080904,
+                    "city_name_ab": "xlgl.abg",
+                    "city_parent": "锡林郭勒",
+                    "city_pinyin_name": "xilinguole.abaga",
+                    "country": "中国",
+                    "latitude": 44,
+                    "longitude": 114,
+                    "provcn": "内蒙古"
+                }
+                 ]
+        }
+      ]
+}
+
