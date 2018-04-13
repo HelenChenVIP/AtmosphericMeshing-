@@ -137,8 +137,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-clear-cache')
-    compile project(':react-native-clear-app-cache')
     compile project(':react-native-gesture-handler')
     compile project(':react-native-charts-wrapper')
     compile project(':react-native-svg')

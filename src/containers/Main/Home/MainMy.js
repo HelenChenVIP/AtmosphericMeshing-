@@ -4,7 +4,6 @@ import { View, Text, StyleSheet,Image,Dimensions, TouchableOpacity } from 'react
 import { connect } from 'react-redux';
 import { clearToken,  } from '../../../dvapack/storage';
 import { NavigationActions } from '../../../utils';
-import clear from 'react-native-clear-cache';
 const SCREEN_WIDTH=Dimensions.get('window').width;
 
 /**
@@ -49,22 +48,6 @@ class MainMy extends Component {
           // JPushModule.deleteAlias((result) => {});
           this.props.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
     }
-    clearCache(){
-        
-            clear.runClearCache(()=>{
-        
-              console.log("清除成功");
-        
-            clear.getCacheSize((value,unit)=>{
-              this.setState({
-                cacheSize:value, //缓存大小
-                unit:unit  //缓存单位
-              })
-            });
-              
-            });
-        
-          }
     render() {
         return (
             <View style={{flexDirection:'column',backgroundColor:'#efefef'}}>
@@ -86,8 +69,7 @@ class MainMy extends Component {
                 <Image source={require('../../../images/arr_right_icon.png')} style={styles.itemRightStyle}></Image>
             </TouchableOpacity>
          
-            <TouchableOpacity style={styles.itemViewStyle}
-            onPress={this.clearCache.bind(this)}>
+            <TouchableOpacity style={styles.itemViewStyle}>
                 <Image source={require('../../../images/ic_clean.png')} style={styles.itemImageStyle}></Image>
                 <Text style={styles.itemTextView}>缓存清理{this.state.cacheSize}{this.state.unit}</Text>
                 <Image source={require('../../../images/arr_right_icon.png')} style={styles.itemRightStyle}></Image>

@@ -52,7 +52,7 @@ class LengendStateBar extends Component {
             {
                 mData.map((item,key)=>{
                     return(
-                    <View
+                    <View key={key}
                     style={{backgroundColor:mapLengedBack(item.lengendCode),flexDirection: 'row',height: 20,marginLeft:2,marginRight:2,justifyContent:'space-between',borderRadius:3,alignItems:'center'}}>
                         <Text style={{fontSize: 11,alignSelf:'center',color:mapLengedFore(item.lengendCode),padding:3}}>
                             {item.lengendName}

@@ -110,23 +110,44 @@ const enhanceSubscriptions = (subscriptions = {}) => {
         } else {
           listeners[pathReg] = action;
         }
-        Event.on('RouterChange', ({ currentScreen, params }) => {
+        Event.on('RouterChange', ({ routeName, params, type }) => {
           Object
             .keys(listeners)
             .forEach((key) => {
-              const _pathReg = key;
-              const _action = listeners[key];
-              if (currentScreen.routeName === _pathReg) {
-                if (typeof _action === 'object') {
-                  dispatch(_action);
-                } else if (typeof _action === 'function') {
-                  _action({
-                    params
-                  });
+              //返回上一级页面时，不执行数据加载
+              if (type.indexOf('BACK')==-1) {
+                const _pathReg = key;
+                const _action = listeners[key];
+                if (routeName === _pathReg) {
+                  if (typeof _action === 'object') {
+                    dispatch(_action);
+                  } else if (typeof _action === 'function') {
+                    _action({
+                      params
+                    });
+                  }
                 }
               }
+              
             });
         });
+        // Event.on('RouterChange', ({ currentScreen, params, type }) => {
+        //   Object
+        //     .keys(listeners)
+        //     .forEach((key) => {
+        //       const _pathReg = key;
+        //       const _action = listeners[key];
+        //       if (currentScreen.routeName === _pathReg) {
+        //         if (typeof _action === 'object') {
+        //           dispatch(_action);
+        //         } else if (typeof _action === 'function') {
+        //           _action({
+        //             params
+        //           });
+        //         }
+        //       }
+        //     });
+        // });
       };
       subscriber({
         ...props,

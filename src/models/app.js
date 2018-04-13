@@ -39,7 +39,7 @@ export default Model.extend({
         MainMap: ({ params }) => {
           dispatch({ type: 'GetAllPointList',payload: {},});
         },
-
+        
       });
     },
     
@@ -285,7 +285,7 @@ export default Model.extend({
      * @param {any} { payload: { username, password } } 
      * @param {any} { call, put } 
      */
-    * login({ payload: { userName, passWord } }, { call, put }) {
+    * login({ payload: { userName, passWord } }, { call, put,take }) {
       if (userName === '' || passWord === '') {
         ShowToast('用户名，密码不能为空');
       } else {
@@ -294,6 +294,7 @@ export default Model.extend({
         if (user !== null) {
           yield saveToken(user);
           yield put('loadglobalvariable', { user });
+          yield take('loadglobalvariable/@@end');
         } else {
           yield put('hideSpinning', { });
         }

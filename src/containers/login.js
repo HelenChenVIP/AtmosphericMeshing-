@@ -14,8 +14,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class login
  * @extends {Component}
  */
-@connect(({ app }) => ({
-  spinning: app.spinning,
+@connect(({ loading }) => ({
+  effects:loading.effects,
  }))
 class login extends Component {
     constructor(props) {
@@ -135,7 +135,10 @@ class login extends Component {
                 </View>
                     
                 <Button style={{ width: 280,backgroundColor:'white',height:40,marginTop:20}} className="btn" type="ghost" inline
-                onClick={()=>this._userLogin()}>{this.props.spinning ? '正在登录':'登录'}</Button> 
+                onClick={()=>this._userLogin()}>{
+                  // this.props.spinning 
+                  this.props.effects['app/login']
+                  ? '正在登录':'登录'}</Button> 
                  
              
               </View>

@@ -38,10 +38,6 @@ export default {
             type: 'apply',
             payload,
           });
-          Event.emit('RouterChange', {
-            currentScreen,
-            params
-          });
           // debounce, see https://github.com/react-community/react-navigation/issues/271
           if (payload.type === 'Navigation/NAVIGATE') {
             // yield call(delay, 500);

@@ -7,8 +7,12 @@ import {
 import { connect } from 'react-redux';
 import moment from 'moment';
 import SplashScreen from 'react-native-splash-screen';
+import {
+  createReduxBoundAddListener,
+  createReactNavigationReduxMiddleware,
+} from 'react-navigation-redux-helpers';
 import { loadToken, getNetConfig, saveNetConfig, loadNetConfig } from './dvapack/storage';
-import { createAction, NavigationActions, getCurrentScreen } from './utils';
+import { createAction, NavigationActions, getCurrentScreen, Event, getCurrentParams } from './utils';
 import NetConfig from './config/NetConfig.json';
 import api from './config/globalapi';
 // import ScanNetConfig from './components/Common/ScanNetConfig';
@@ -16,6 +20,42 @@ import AppNavigator from './containers/';
 // import DataPreview from './containers/Main/TabView/Home/DataPreview'
 import {SCREEN_WIDTH,SCREEN_HEIGHT} from './config/globalsize'
 // import Alert from './components/DataPreview/Alert'
+
+export const routerMiddleware = createReactNavigationReduxMiddleware(
+  'root',
+  state => state.router
+);
+export const screenTracking = ({getState}) => next => async (action) => {
+  if (action.type !== NavigationActions.NAVIGATE && action.type !== NavigationActions.BACK&& action.type !== NavigationActions.RESET) {
+    return next(action);
+  }
+  if(!action.routeName)
+  {
+    const navigateInfo = routerReducer(getState().router, action);
+          const currentScreen = getCurrentScreen(navigateInfo);
+          const params = getCurrentParams(navigateInfo);
+          action.routeName=currentScreen;
+          action.params=params;
+  }
+
+  // routeName, params, type 
+  let rcAction;
+  if (action.type === NavigationActions.RESET) {
+    rcAction = {
+      'type':action.type,
+      'routeName':action.routeName.routeName,
+      'params':action.params,
+    };
+  } else {
+    rcAction = action;
+  }
+  Event.emit('RouterChange', rcAction); 
+  // await delay(500);
+  const result = next(action); 
+  return result;
+};
+
+const addListener = createReduxBoundAddListener('root');
 
 @connect(({ router }) => ({ router,modalVisible:router.modalVisible }))
 class Router extends PureComponent {
@@ -58,11 +98,11 @@ class Router extends PureComponent {
   componentWillUnmount() {
     if (Platform.OS === 'android') {
       BackHandler.removeEventListener('hardwareBackPress', this.backHandle);
-      JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent);
-      JPushModule.removeReceiveNotificationListener(receiveNotificationEvent);
-      JPushModule.removeReceiveOpenNotificationListener(openNotificationEvent);
-      JPushModule.removeGetRegistrationIdListener(getRegistrationIdEvent);
-      JPushModule.clearAllNotifications();
+      // JPushModule.removeReceiveCustomMsgListener(receiveCustomMsgEvent);
+      // JPushModule.removeReceiveNotificationListener(receiveNotificationEvent);
+      // JPushModule.removeReceiveOpenNotificationListener(openNotificationEvent);
+      // JPushModule.removeGetRegistrationIdListener(getRegistrationIdEvent);
+      // JPushModule.clearAllNotifications();
     } else {
       DeviceEventEmitter.removeAllListeners();
       NativeAppEventEmitter.removeAllListeners();
