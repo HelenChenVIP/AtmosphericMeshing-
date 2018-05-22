@@ -6,7 +6,7 @@ import MainMy from './MainMy';
 
 export default TabNavigator(
   {
-    MainMap: { screen: MainMap },
+    MainMap: {screen: MainMap },
     MainRank: { screen: MainRank },
     MainAlarm: { screen: MainAlarm },
     MainMy: { screen: MainMy }
@@ -14,9 +14,9 @@ export default TabNavigator(
   {
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
-    swipeEnabled: true,
-    animationEnabled: true,
-    lazyLoad: true,
+    swipeEnabled: false,
+    animationEnabled: false,
+    lazyLoad: false,
   }
 );
 

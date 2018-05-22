@@ -3,16 +3,19 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet,ScrollView,processColor } from 'react-native';
 import { connect } from 'react-redux';
 import {BarChart} from 'react-native-charts-wrapper';
+import LoadingComponent from '../../components/comment/LoadingComponent'
+
 /**
  * 柱状图
  * HelenChen
  * @class RankChartBar
  * @extends {Component}
  */
-@connect(({app})=>({chartData:app.chartData,
+@connect(({app,loading})=>({chartData:app.chartData,
     YZhou:app.YZhou,
     listRankData:app.listRankData,
     ishow:app.ishow,
+    loading:loading.effects['app/GetGridRealTimeImgDataAndroid'],
     }))
 class RankChartBar extends Component {
     constructor() {
@@ -24,7 +27,7 @@ class RankChartBar extends Component {
           isshowloading:false,
           data: {
             dataSets: [{
-              values: [{y: 100}, {y: 105}, {y: 102}, {y: 110}, {y: 114}, {y: 109}, {y: 105}, {y: 99}, {y: 95}],
+              values: [],
               label: 'Bar dataSet',
               config: {
                 drawValues: false,
@@ -37,7 +40,7 @@ class RankChartBar extends Component {
             }],
           },
           xAxis: {
-            valueFormatter: ['1', '2', '3'],
+            valueFormatter: [],
             granularityEnabled: true,
             granularity : 1,
             axisMaximum: 100, 
@@ -47,13 +50,12 @@ class RankChartBar extends Component {
             drawGridLines: false
           },
           yAxis:{
-            left:{axisMinimum: 0},
             drawGridLines: false,
             position: 'LEFT' ,
             left: {
+              axisMinimum: 0,
               drawLabels: true,
               drawAxisLine: true,
-              drawGridLines: false,
               drawValueAboveBar:false,
               zeroLine: {
                 enabled: true,
@@ -77,8 +79,10 @@ class RankChartBar extends Component {
           },
           marker: {
             enabled: true,
-            markerColor: processColor('#7fa7fa'),
-            textColor: processColor('#333333'),
+            digits: 2,
+            backgroundTint: processColor('#ef3344'),
+            markerColor: processColor('rgba(240, 240, 240, 0.8)'),
+            textColor: processColor('#666666'),
             markerFontSize: 14,
           },
           highlights: [{x: 0}],
@@ -91,32 +95,30 @@ class RankChartBar extends Component {
           let colors=[];
           let axisMaximum=nextProps.chartData.length;
           nextProps.chartData.map((item,key)=>{
-          values.push({y:item.chartYValue});
+          values.push({y:item.chartYValue,marker:`时间:${item.chartXValue}\n值:${item.chartYValue}`});
           valueFormatter.push(item.chartXValue);
           colors.push(processColor(item.chartColor));
           })
-            this.setState({
-                data: {
-                    ...this.state.data,
-                    dataSets: [{
-                        ...this.state.data.dataSets[0],
-                        values,
-                        config:{
-                          ...this.state.data.dataSets[0].config,
-                          colors
-                        }
-                    }],
-                },
-             
-              xAxis: {
-                ...this.state.xAxis.valueFormatter,
-                valueFormatter,
-                axisMaximum,
-                axisMaximum
-              },
-            })
-           
-            
+          
+          this.setState({
+            data: {
+                ...this.state.data,
+                dataSets: [{
+                    ...this.state.data.dataSets[0],
+                    values,
+                    config:{
+                      ...this.state.data.dataSets[0].config,
+                      colors
+                    }
+                }],
+            },
+          xAxis: {
+            ...this.state.xAxis.valueFormatter,
+            valueFormatter,
+            axisMaximum,
+            axisMaximum
+          },
+        })
         }
     }
       handleZoomDomainChange(domain) {
@@ -137,7 +139,9 @@ class RankChartBar extends Component {
 
     render() {
         return (
-                <BarChart
+          this.props.loading?
+          <LoadingComponent/>
+          :<BarChart
                   style={styles.chart}
                   data={this.state.data}
                   xAxis={this.state.xAxis}

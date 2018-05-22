@@ -312,6 +312,8 @@ export const valueTVOCColor=(value)=>{
         return '#d20040';
        }else if(value>600){
         return '#9c0a4e';
+       }else{
+        return '#ffffff'; 
        }
 }
 /**
@@ -459,7 +461,52 @@ export const AQIorIAQI=(pollutantCode)=>{
                    return [['AQI', "a34004", "a34002", "a21004", "a21026", "a21005", "a05024","a01001", "a01002", 'a99054'],
                            ['AQI', 'PM25', 'PM10', 'NO2', 'SO2', "CO", 'O3',"温度", "相对湿度", 'TVOC']];     
            }
-
+   }
+     /**
+    * 根据设备类型找到所有监测名称以及监测因子
+    * @param {*} equitmentCode 
+    */
+    export const kindAndCode=(equitmentCode)=>{
+        //"23"-国控点；"24"-省控点；"25"-市控点； "26"-小型空气站.；"27"-恶臭监测站；"28"-VOC微型站；
+   //"29"-扬尘噪声小型站；"30"-六参数微型站；"32"-移动监测车；"34"-大气常规站； "35"-六参数及VOC； "18"-颗粒物；
+           switch(equitmentCode){
+                   case '30':
+                   return [{'pname':'AQI','pcode':'AQI'},{'pname':'PM25','pcode':'a34004'},{'pname':'PM10','pcode':'a34002'},
+                   {'pname':'NO2','pcode':'a21004'},{'pname':'SO2','pcode':'a21026'},{'pname':'CO','pcode':'a21005'},
+                   {'pname':'O3','pcode':'a05024'},{'pname':'温度','pcode':'a01001'},{'pname':'相对湿度','pcode':'a01002'}];
+                   case '18':
+                   return [{'pname':'PM25','pcode':'a34004'},{'pname':'PM10','pcode':'a34002'}];   
+                   case '26':
+                   return [{'pname':'AQI','pcode':'AQI'},{'pname':'PM25','pcode':'a34004'},{'pname':'PM10','pcode':'a34002'},
+                   {'pname':'NO2','pcode':'a21004'},{'pname':'SO2','pcode':'a21026'},{'pname':'CO','pcode':'a21005'},
+                   {'pname':'O3','pcode':'a05024'}];   
+                   case '28':
+                   return [{'pname':'TVOC','pcode':'a99054'}]; 
+                   case '29':
+                   return [{'pname':'PM25','pcode':'a34004'},{'pname':'PM10','pcode':'a34002'},{'pname':'TSP','pcode':'a340102'},
+                   {'pname':'噪声','pcode':'a01015'},{'pname':'温度','pcode':'a01001'},{'pname':'相对湿度','pcode':'a01002'},
+                   {'pname':'气压','pcode':'s0020'},{'pname':'风速','pcode':'a01007'},{'pname':'风向','pcode':'a01008'}]; 
+                   case '32':
+                   return [{'pname':'AQI','pcode':'AQI'},{'pname':'PM25','pcode':'a34004'},{'pname':'PM10','pcode':'a34002'},
+                   {'pname':'NO2','pcode':'a21004'},{'pname':'SO2','pcode':'a21026'},{'pname':'CO','pcode':'a21005'},
+                   {'pname':'O3','pcode':'a05024'},{'pname':'H2S','pcode':'a00018'},{'pname':'NH3','pcode':'a00017'}];  
+                   case '27':
+                   return [{'pname':'恶臭等级','pcode':'ecdj'},{'pname':'H2S','pcode':'a05'},{'pname':'NH3','pcode':'a00017'},
+                   {'pname':'OU','pcode':'a06'},{'pname':'恶臭强度','pcode':'a21089'},{'pname':'TVOC','pcode':'a99054'}];        
+                   case '34':
+                   case '23':
+                   case '24':
+                   case '25':
+                   return [{'pname':'AQI','pcode':'AQI'},{'pname':'PM25','pcode':'a34004'},{'pname':'PM10','pcode':'a34002'},
+                   {'pname':'NO2','pcode':'a21004'},{'pname':'SO2','pcode':'a21026'},{'pname':'CO','pcode':'a21005'},
+                   {'pname':'O3','pcode':'a05024'},{'pname':'温度','pcode':'a01001'},{'pname':'相对湿度','pcode':'a01002'}
+                   ,{'pname':'气压','pcode':'s0020'},{'pname':'风速','pcode':'a01007'},{'pname':'风向','pcode':'a01008'}];        
+                   case '35':
+                   return [{'pname':'AQI','pcode':'AQI'},{'pname':'PM25','pcode':'a34004'},{'pname':'PM10','pcode':'a34002'},{'pname':'NO2','pcode':'a21004'}
+                   ,{'pname':'SO2','pcode':'a21026'},{'pname':'CO','pcode':'a21005'},{'pname':'O3','pcode':'a05024'},{'pname':'温度','pcode':'a01001'},{'pname':'相对湿度','pcode':'a01002'}
+                   ,{'pname':'TVOC','pcode':'a99054'}];   
+                
+           }
    }
    /**
     * 根据设备类型找到默认监测因子

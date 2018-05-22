@@ -30,15 +30,9 @@ class MainMy extends Component {
       constructor () {
         super();
         this.state = {
-          cacheSize:"",
-          unit:"",
+       
         }
-        // clear.getCacheSize((value,unit)=>{
-        //   this.setState({
-        //     cacheSize:value, //缓存大小
-        //     unit:unit  //缓存单位
-        //   })
-        // });
+       
         
       }
          //退出
@@ -48,39 +42,18 @@ class MainMy extends Component {
           // JPushModule.deleteAlias((result) => {});
           this.props.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
     }
+    
     render() {
         return (
             <View style={{flexDirection:'column',backgroundColor:'#efefef'}}>
             <Image source={require('../../../images/bg_user.png')} style={{height:SCREEN_WIDTH/2-30}}></Image>
             <View style={{flexDirection:'column',alignItems:'center',height:SCREEN_WIDTH/2-30,backgroundColor:'#00000000',justifyContent:'center',...StyleSheet.absoluteFillObject}}>
                  <Image source={require('../../../images/userlogo.png')} style={{width:70,height:70}}></Image>
-                 <Text style={{fontSize:17,color:'#ffffff',marginTop:10}}>用户名</Text>
+                 <Text style={{fontSize:17,color:'#ffffff',marginTop:10}}>管理员</Text>
             </View>
            
 
-            <TouchableOpacity style={styles.itemViewStyle}
-            onPress={()=>{
-                this.props.dispatch(NavigationActions.navigate({
-                    routeName: 'knowledgeBase',                        
-                    params: {} }));
-            }}>
-                <Image source={require('../../../images/ic_knowledge.png')} style={styles.itemImageStyle}></Image>
-                <Text style={styles.itemTextView}>知识库</Text>
-                <Image source={require('../../../images/arr_right_icon.png')} style={styles.itemRightStyle}></Image>
-            </TouchableOpacity>
-         
-            <TouchableOpacity style={styles.itemViewStyle}>
-                <Image source={require('../../../images/ic_clean.png')} style={styles.itemImageStyle}></Image>
-                <Text style={styles.itemTextView}>缓存清理{this.state.cacheSize}{this.state.unit}</Text>
-                <Image source={require('../../../images/arr_right_icon.png')} style={styles.itemRightStyle}></Image>
-             </TouchableOpacity>
-           
-            <TouchableOpacity style={styles.itemViewStyle}>
-                <Image source={require('../../../images/ic_updata.png')} style={styles.itemImageStyle}></Image>
-                <Text style={styles.itemTextView}>版本更新</Text>
-                <Image source={require('../../../images/arr_right_icon.png')} style={styles.itemRightStyle}></Image>
-            </TouchableOpacity>  
-
+            
             <TouchableOpacity style={{flexDirection:'row',height:40,backgroundColor:'#ffffff',alignItems:'center',marginTop:20}} 
             onPress={()=>{
                 this.doLogout()

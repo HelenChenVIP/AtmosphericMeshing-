@@ -9,7 +9,8 @@ import { clearToken, saveToken, saveStorage, loadStorage } from '../dvapack/stor
 import { Model } from '../dvapack';
 import {mapLengedBack,mapLengedFore,mapEuitmentImage,statusImage,IAQILevel,kindMRCode,kindCode,TVOCLevel,valueAQIColor,valueTVOCColor,valueAQIText,} from '../utils/mapconfig'
 import mainmap from '../config/configjson/mainmap.json';
-import {selectionSort,random5,selectionSortNew} from '../utils/mathUtils';
+
+import {MapRankData,RankAscDescData,PointDeatilsHourData} from '../models/apputil';
 
 export default Model.extend({
   namespace: 'app',
@@ -28,200 +29,74 @@ export default Model.extend({
     chartYValue_new:'',
     chartXValue:'',
     ishow:false,
-    pressPollutantCode:''
-   
+    pressPollutantCode:'',
+    hourDataList:[],
+    dayDataList:[],
+    zxData:[],
   },
   
   subscriptions: {
     setupSubscriber({ dispatch, listen }) {
       listen({
-        //获取所有站点信息
+        //监测地图、排名界面 获取所有站点信息
         MainMap: ({ params }) => {
-          dispatch({ type: 'GetAllPointList',payload: {},});
+          dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Map'},});
         },
-        
+        MainRank: ({ params }) => {
+          dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Rank'},});
+        },
+        // PointDetails: ({ params:{dgimn,codeClickID,startTime,endTime} }) => {
+        //   dispatch({ type: 'GetHourDatas',payload: {dgimn,codeClickID,startTime,endTime}});
+        // },
+
       });
     },
     
   },
   reducers: {
+    //地图、排名 数据
     getpressCodeData(state,{payload:{whitchPage,pressPollutantCodeMap,pressPollutantCodeRank}}){
-      let fillIcon='';
-      let equitmentStatus='';
-      let imageList;
-      let changeAllPointList=[];
-      let mkindCode=[];
-      let mtime='';
-      let chartYValue='';
-      let chartYValue_new='';
-      let chartXValue='';
-      let chartData=[];
-      let listRankData=[];
-      let XValueList=[];
-      let chartColor='';
-      let listtv='';
-      let listtv_new='';
-      let kk=-1;
-      let sortchartData=[];
-      let sortListRankData=[];
-       
+      let pressPollutantCode='';
       if(whitchPage=='Map'){
         pressPollutantCode=pressPollutantCodeMap;
       }else{
         pressPollutantCode=pressPollutantCodeRank;
       }
-      //全部实时数据
-      state.realTimeDataList.map((mitem,key1)=>{
-        let real_DGMIN=mitem.DGIMN;
-        if(pressPollutantCode!=null&&pressPollutantCode!=''){
-          //选择的监测因子是否被包含在实时数据集合里，包含则展示此监测点不包含的话直接忽略该点
-         // if(mitem[pressPollutantCode]!=null && mitem[pressPollutantCode]!=''){
-              //全部站点
-              state.allPointList.map((item,key2)=>{
-                mtime=mitem.MonitorTime;
-                let point_DGMIN=item.dbo__T_Bas_CommonPoint__DGIMN;
-                let pointName=item.dbo__T_Bas_CommonPoint__PointName;
-                if(point_DGMIN!=null && point_DGMIN!='' && real_DGMIN!=null && real_DGMIN!=''){
-                  if(point_DGMIN==real_DGMIN){
-                    let equitmentCode=item.dbo__T_Bas_CommonPoint__PollutantType;//设备类型
-                    mkindCode=kindCode(equitmentCode);//该设备类型下所有监测因子code
-                    //绑定设备 与 监测因子
-                    mkindCode[0].map((kinditem,key3)=>{
-                      if(kinditem==pressPollutantCode){
-                        kk++;
-                        equitmentStatus=kinditem.dbo__T_Bas_CommonPoint__Status;//设备状态
-                        imageList=mapEuitmentImage(equitmentCode); 
-                        //null是在线 超标；0,3离线 异常
-                        let mValue;
-                        let pollutantindex;
-                        //status 0离线；3异常；(-1)1,2在线超标
-                        if(statusImage(equitmentStatus)!=-1){
-                          //离线 异常
-                          fillIcon=imageList[statusImage(equitmentStatus)];
-                        }else{
-                          //在线 超标
-                          //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值
-                          if(pressPollutantCode=='AQI'){                                                                               
-                              mValue=mitem.AQI;
-                          }else if(pressPollutantCode=='a99054'){
-                            if(mitem.a99054!=undefined){
-                              mValue=mitem.a99054;
-                            }else{
-                              mValue='';
-                            }
-                          }else{
-                            let mCode=pressPollutantCode+'_IAQI';
-                            mValue=mitem[mCode];
-                          }
-                          //数值 颜色渲染
-                          if(mValue!=null && mValue!=''){
-                            if(pressPollutantCode=='a99054'){
-                              if(TVOCLevel(mValue)!=undefined){
-                                pollutantindex=TVOCLevel(mValue);
-                                fillIcon=imageList[pollutantindex];
-                                chartColor=valueTVOCColor(mValue);
-                                if(mValue==0){
-                                  listtv='异常';
-                                }else if(mValue>0){
-                                  listtv='';
-                                }else{
-                                  listtv='无数据';
-                                }
-                                
-                              }else{
-                                fillIcon=imageList[2];
-                                chartColor='#333333';
-                                listtv='无数据';
-                              }
-                            }else{
-                              if(IAQILevel(mValue)!=undefined){
-                                pollutantindex=IAQILevel(mValue);
-                                fillIcon=imageList[pollutantindex];
-                                if(pressPollutantCode=='AQI'){
-                                  chartColor=valueAQIColor(mValue);
-                                  listtv=valueAQIText(mValue);
-                                }else{
-                                  chartColor=valueAQIColor(mValue);
-                                  listtv=valueAQIText(mValue);
-                                }
-                              }else{
-                                fillIcon=imageList[2];
-                                chartColor='#333333';
-                                listtv='无数据';
-                              }
-                            }
-                          }else{
-                            fillIcon=imageList[1];
-                            chartColor='#333333';
-                            listtv='无数据';
-                          }
-                        
-                        } 
-                        item.fillIcon=fillIcon;
-                        changeAllPointList.push(item);
-                        chartXValue=pointName;
-                        
-                        if(mitem[pressPollutantCode]!=undefined && mitem[pressPollutantCode]!=''){
-                          chartYValue=parseFloat(mitem[pressPollutantCode]);
-                          chartYValue_new=parseFloat(mitem[pressPollutantCode]);
-                        }else{
-                          chartYValue=0;
-                          chartYValue_new='---';
-                        } 
-                          XValueList.push(kk);
-                          chartData.push({chartXValue,chartYValue,chartColor,listtv});
-                          listRankData.push({chartXValue,chartYValue_new,chartColor,listtv});
-                      }
-                    })
-                   
-                  }
-                }
-              }) 
-         // }
+      //地图、排名Data
+      let kindData=MapRankData(state.realTimeDataList,state.allPointList,pressPollutantCode);
+      //排名Data排序
+      if(kindData.chartData!=null && kindData.chartData.length>0){
+        let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
+        if(whitchPage=='Map'){
+            if(kindData.changeAllPointList.length>0){
+              state = {...state,...{mallPointList:kindData.changeAllPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
+            }else{
+              state = {...state,...{mallPointList:state.allPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
+            }
+        }else{
+            if(kindData.changeAllPointList.length>0){
+              state = {...state,...{chartData:ascDescData.sortchartDataAll,listRankData:ascDescData.sortListRankDataAll,pressPollutantCode:pressPollutantCode}};
+            }else{
+              state = {...state,...{chartData:ascDescData.sortchartDataAll,listRankData:ascDescData.sortListRankDataAll,pressPollutantCode:pressPollutantCode}};
+            }
         }
-      })
-      let sortchartDataAll=[];
-      let sortListRankDataAll=[];
-      let YZhou=[];
-      sortchartData=selectionSort(chartData);
-      sortListRankData=selectionSortNew(listRankData);
-      let zz=-1;
-      let keyAll='';
-      sortchartData.forEach((key)=>{
-          zz++;
-          key.zz=zz;
-          sortchartDataAll.push(key);
-        });
-        let hh=-1;
-        sortListRankData.forEach((key)=>{
-          hh++;
-          key.zz=zz;
-          sortListRankDataAll.push(key);
-        });
-      
-        let maxYValue=0;
-        let minYValue=0;
-        
-        let radom5=random5(sortchartDataAll);
-        chartData.map((item,key)=>{
-          if(item.chartYValue>maxYValue){
-            maxYValue=item.chartYValue;
-          }
-          return maxYValue;
-          if(item.chartYValue<minYValue){
-            minYValue=item.chartYValue;
-          }
-          return minYValue;
-        })
-        YZhou.push(minYValue,maxYValue);
-      
-      if(changeAllPointList.length>0){
-        state = {...state,...{mallPointList:changeAllPointList,mkindCode:mkindCode,mTime:mtime,chartData:sortchartDataAll,listRankData:sortListRankDataAll,YZhou:YZhou,pressPollutantCode:pressPollutantCode}};
-      }else{
-        state = {...state,...{mallPointList:state.allPointList,mkindCode:mkindCode,mTime:mtime,chartData:sortchartDataAll,listRankData:sortListRankDataAll,YZhou:YZhou,pressPollutantCode:pressPollutantCode}};
       }
       return state;
     },
+    //站点详情 小时数据 hourData:'hour',
+    getchooseHourData(state,{payload:{hourData,choosePollutantCode}}){
+      if(choosePollutantCode==''){
+        choosePollutantCode='AQI';
+      }
+      if(hourData=='hour'){
+        let hourVaule=PointDeatilsHourData(state.hourDataList,choosePollutantCode);
+        state = {...state,...{zxData:hourVaule}};
+      }else{
+        let dayVaule=PointDeatilsHourData(state.dayDataList,choosePollutantCode);
+        state = {...state,...{zxData:dayVaule}};
+      }
+      return state;
+    }
   },
 
 
@@ -262,7 +137,9 @@ export default Model.extend({
       yield update({ globalConfig, user });
       yield call(delay, 500);
       //等到添加闪屏之后再使用
-      SplashScreen.hide();
+      if (SplashScreen) {
+        SplashScreen.hide();
+      }
     },
 
     /**
@@ -285,7 +162,7 @@ export default Model.extend({
      * @param {any} { payload: { username, password } } 
      * @param {any} { call, put } 
      */
-    * login({ payload: { userName, passWord } }, { call, put,take }) {
+    * login({ payload: { userName, passWord } }, { call, put }) {
       if (userName === '' || passWord === '') {
         ShowToast('用户名，密码不能为空');
       } else {
@@ -294,7 +171,6 @@ export default Model.extend({
         if (user !== null) {
           yield saveToken(user);
           yield put('loadglobalvariable', { user });
-          yield take('loadglobalvariable/@@end');
         } else {
           yield put('hideSpinning', { });
         }
@@ -339,11 +215,12 @@ export default Model.extend({
      * @param {any} {payload:{pollutantType}} 
      * @param {any} {call,update} 
      */
-    * GetAllPointList({payload}, {update, put, call}){
+    * GetAllPointList({payload:{whitchPage}}, {update, put, call}){
       const { data : allPointList }=yield call(homeService.GetAllPointList,{});
       if(allPointList !== null){
         yield put('GetGridRealTimeImgDataAndroid',{
           allPointList:allPointList,
+          whitchPage:whitchPage,
         });
         yield update({allPointList});
       }else{
@@ -356,23 +233,59 @@ export default Model.extend({
    * @param {any} {payload} 
    * @param {any} {update,call} 
    */
-  * GetGridRealTimeImgDataAndroid({payload:allPointList},{update,put,call}){
+  * GetGridRealTimeImgDataAndroid({payload:{allPointList,whitchPage}},{update,put,call}){
       const {data:realTimeDataList}=yield call(homeService.GetGridRealTimeImgData,{});
       if(realTimeDataList!==null){
         yield update( {realTimeDataList} ); 
         yield put('getpressCodeData',{
-          whitchPage:'Map',
+          whitchPage:whitchPage,
           pressPollutantCodeMap:mainmap.data[2].pollutantType[0].pollutantCode,
           pressPollutantCodeRank:mainmap.data[2].pollutantType[0].pollutantCode,
         })
       }else{
         ShowToast('数据为空');
       }
+    },
+  /**
+   * 站点详情-小时数据
+   * @param {*} param0 
+   * @param {*} param1 
+   */
+  * GetHourDatas({payload:{dgimn,codeClickID,startTime,endTime}},{update,put,call}){
+    const {data:hourDataList}=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
+    if(hourDataList!==null){
+      yield update( {hourDataList} ); 
+      yield put('getchooseHourData',{
+        hourData:'hour',
+        choosePollutantCode:codeClickID,
+      })
+    }else{
+      ShowToast('数据为空');
     }
+  },
+ /**
+   * 站点详情-日数据
+   * @param {*} param0 
+   * @param {*} param1 
+   */
+  * GetDayDatas({payload:{dgimn,codeClickID,startTime,endTime}},{update,put,call}){
+    const {data:dayDataList}=yield call(homeService.GetDayAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
+    if(dayDataList!==null){
+      yield update( {dayDataList} ); 
+      yield put('getchooseHourData',{
+        hourData:'day',
+        choosePollutantCode:codeClickID,
+      })
+    }else{
+      ShowToast('数据为空');
+    }
+  },
 
-    
-  
+
   }
+ 
 
 
 });
+
+

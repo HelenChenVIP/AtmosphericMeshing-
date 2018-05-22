@@ -1,7 +1,7 @@
 import { post, upload, get ,posturl} from '../dvapack/request';
 // 全局api文件
 import api from '../config/globalapi';
-
+import moment from 'moment';
 /**
  * 上传图片
  * @param {*} param 
@@ -83,6 +83,47 @@ export const uploadimage = async (param) => {
     const result = await post(api.tool.GetGridRealTimeImgDataAndroid,body,null);
     return result === null ? { data: null } : result;
   }
+/**
+ * 站点详情-小时数据
+ * @param {*} param 
+ */
+  export const GethourAQIDatasColumn = async(param) => {
+    let dgimn=param.dgimn;
+    let start=param.startTime;
+    let end=param.endTime;
+    let pageIndex=1;
+    let pageSize=10;
+    let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
+    if(start==end){
+      start=initLastDate;
+    }
+    let dic="{\"MN\":\"" + dgimn + "\",\"BeginTime\":\"" + start + "\",\"EndTime\":\"" + end + "\",\"PageIndex\":\"" + pageIndex + "\",\"PageSize\":\"" + pageSize + "\"}";
+    const body = {
+      dic:dic,
+    };
+    const result = await get(api.tool.GethourAQIDatasColumn,body,null);
+    return result === null ? { data: null } : result;
+  }
 
-
+/**
+ * 站点详情-日数据
+ * @param {*} param 
+ */
+export const GetDayAQIDatasColumn = async(param) => {
+  let dgimn=param.dgimn;
+  let start=param.startTime;
+  let end=param.endTime;
+  let pageIndex=1;
+  let pageSize=10;
+  let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
+  if(start==end){
+    start=initLastDate;
+  }
+  let dic="{\"MN\":\"" + param.dgimn + "\",\"BeginTime\":\"" + start + "\",\"EndTime\":\"" + end + "\",\"PageIndex\":\"" + pageIndex + "\",\"PageSize\":\"" + pageSize + "\"}";
+  const body = {
+    dic:dic,
+  };
+  const result = await get(api.tool.GetDayAQIDatasColumn,body,null);
+  return result === null ? { data: null } : result;
+}
 

@@ -19,8 +19,8 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
 @connect(({})=>({}))
 class MainAlarm extends Component {
     static navigationOptions = ({ navigation }) => ({
+        headerTitle: '预警监管',
         title: '预警',
-        tabBarLable: '预警',
         animationEnabled: false,
         headerBackTitle: null,
         headerTintColor: '#ffffff',

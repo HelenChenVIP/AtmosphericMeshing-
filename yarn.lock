@@ -17,6 +17,13 @@
     "@babel/types" "7.0.0-beta.40"
     lodash "^4.2.0"
 
+"@babel/runtime@^7.0.0-beta.34":
+  version "7.0.0-beta.47"
+  resolved "http://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.0.0-beta.47.tgz#273f5e71629e80f6cbcd7507503848615e59f7e0"
+  dependencies:
+    core-js "^2.5.3"
+    regenerator-runtime "^0.11.1"
+
 "@babel/types@7.0.0-beta.40":
   version "7.0.0-beta.40"
   resolved "http://registry.npm.taobao.org/@babel/types/download/@babel/types-7.0.0-beta.40.tgz#25c3d7aae14126abe05fcb098c65a66b6d6b8c14"
@@ -1343,6 +1350,10 @@ core-js@^2.2.2, core-js@^2.4.0, core-js@^2.4.1, core-js@^2.5.0:
   version "2.5.3"
   resolved "http://registry.npm.taobao.org/core-js/download/core-js-2.5.3.tgz#8acc38345824f16d8365b7c9b4259168e8ed603e"
 
+core-js@^2.5.3:
+  version "2.5.6"
+  resolved "http://registry.npm.taobao.org/core-js/download/core-js-2.5.6.tgz#0fe6d45bf3cac3ac364a9d72de7576f4eb221b9d"
+
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
   resolved "http://registry.npm.taobao.org/core-util-is/download/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
@@ -1628,6 +1639,12 @@ dva-core@^1.1.0:
     redux "^3.7.1"
     redux-saga "^0.15.4"
     warning "^3.0.0"
+
+dva-loading@^2.0.0:
+  version "2.0.1"
+  resolved "http://registry.npm.taobao.org/dva-loading/download/dva-loading-2.0.1.tgz#01b84998918f1a9cd6329677dbb9cc60292cb15e"
+  dependencies:
+    "@babel/runtime" "^7.0.0-beta.34"
 
 ecc-jsbn@~0.1.1:
   version "0.1.1"
@@ -3288,6 +3305,10 @@ mobx@^3.4.1:
   version "3.6.1"
   resolved "http://registry.npm.taobao.org/mobx/download/mobx-3.6.1.tgz#ae63a8f00e1485a740d0f91ae2f6a5f68e303bea"
 
+moment@^2.18.1:
+  version "2.22.1"
+  resolved "http://registry.npm.taobao.org/moment/download/moment-2.22.1.tgz#529a2e9bf973f259c9643d237fda84de3a26e8ad"
+
 moment@^2.20.1:
   version "2.21.0"
   resolved "http://registry.npm.taobao.org/moment/download/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
@@ -3966,6 +3987,12 @@ react-native-amap3d@^0.10.1:
   version "0.10.1"
   resolved "http://registry.npm.taobao.org/react-native-amap3d/download/react-native-amap3d-0.10.1.tgz#4e4c3437dc64ed0498b63099e942a4979330dba2"
 
+react-native-calendar-select@^0.1.2:
+  version "0.1.2"
+  resolved "http://registry.npm.taobao.org/react-native-calendar-select/download/react-native-calendar-select-0.1.2.tgz#814302a2add128209e91d1485d9afdb83b726712"
+  dependencies:
+    moment "^2.18.1"
+
 react-native-camera-roll-picker@^1.2.1:
   version "1.2.3"
   resolved "http://registry.npm.taobao.org/react-native-camera-roll-picker/download/react-native-camera-roll-picker-1.2.3.tgz#b117fd3a2b9012dcccee1261a9bc427226b8d6d2"
@@ -4038,6 +4065,12 @@ react-native-menu@^0.23.0:
     create-react-class "^15.6.0"
     prop-types "^15.5.10"
     react-timer-mixin "^0.13.3"
+
+react-native-parallax-scroll-view@^0.21.0:
+  version "0.21.0"
+  resolved "http://registry.npm.taobao.org/react-native-parallax-scroll-view/download/react-native-parallax-scroll-view-0.21.0.tgz#742fcbb9b81c47e475d6ecfb5995eb6fd6779162"
+  dependencies:
+    prop-types "^15.6.0"
 
 react-native-safe-area-view@^0.7.0:
   version "0.7.0"
@@ -4158,6 +4191,12 @@ react-native@^0.51.0:
     xcode "^0.9.1"
     xmldoc "^0.4.0"
     yargs "^9.0.0"
+
+react-navigation-redux-helpers@^1.0.5:
+  version "1.0.7"
+  resolved "http://registry.npm.taobao.org/react-navigation-redux-helpers/download/react-navigation-redux-helpers-1.0.7.tgz#ed292fcdf1eb35292f997ae9fab8ced2e3f8f3ae"
+  dependencies:
+    invariant "^2.2.2"
 
 react-navigation@^1.0.0-beta.22:
   version "1.5.0"
@@ -4301,6 +4340,10 @@ redux-logger@^3.0.6:
   dependencies:
     deep-diff "^0.3.5"
 
+redux-persist@^5.9.1:
+  version "5.9.1"
+  resolved "http://registry.npm.taobao.org/redux-persist/download/redux-persist-5.9.1.tgz#83bd4abd526ef768f63fceee338fa9d8ed6552d6"
+
 redux-saga@^0.15.4:
   version "0.15.6"
   resolved "http://registry.npm.taobao.org/redux-saga/download/redux-saga-0.15.6.tgz#8638dc522de6c6c0a496fe8b2b5466287ac2dc4d"
@@ -4318,7 +4361,7 @@ regenerate@^1.2.1:
   version "1.3.3"
   resolved "http://registry.npm.taobao.org/regenerate/download/regenerate-1.3.3.tgz#0c336d3980553d755c39b586ae3b20aa49c82b7f"
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "http://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 

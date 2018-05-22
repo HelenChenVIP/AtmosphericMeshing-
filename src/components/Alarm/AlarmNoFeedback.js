@@ -16,7 +16,10 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class AlarmNoFeedback
  * @extends {Component}
  */
-@connect(({alarm})=>({mainAlarmData:alarm.mainAlarmData,timeData:alarm.timeData}))
+@connect(({alarm,loading})=>({
+    mainAlarmData:alarm.mainAlarmData,timeData:alarm.timeData,
+    loading:loading.effects['alarm/GetMainAlarm'],
+}))
 class AlarmNoFeedback extends Component {
     constructor(props) {
         super(props);

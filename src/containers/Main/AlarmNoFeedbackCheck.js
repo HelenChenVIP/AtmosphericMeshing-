@@ -62,7 +62,7 @@ class AlarmNoFeedbackCheck extends Component {
       RecoveryTime: moment(date)
     });
    }
-  extraUniqueKey=(item, index) => `index55${index}${item}`
+  extraUniqueKey=(item, index) => `index15${index}${item}`
   renderItem=({ item }) => {
     if (this.props.navigation.state.params.checkboxStatemap.get(item.ID)) {
       return (
@@ -178,15 +178,15 @@ class AlarmNoFeedbackCheck extends Component {
         return (
             <ScrollView> 
             <View style={styles.container}>
-                <TouchableOpacity onPress={() => {this.lookMore()}}>
-                <Text style={{fontSize:14,color:'#6b6b6b',width:SCREEN_WIDTH,height:40,justifyContent:'center',alignItems:'center',textAlignVertical:'center',textAlign:'center'}}>点击查看已选预警信息</Text>
+                <TouchableOpacity style={{width:SCREEN_WIDTH,height:30,justifyContent:'center',alignItems:'center',}} onPress={() => {this.lookMore()}}>
+                <Text style={{fontSize:14,color:'#4782f5',textAlignVertical:'center',textAlign:'center'}}>点击查看已选预警信息</Text>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:80,backgroundColor:'#ffffff',alignItems:'center',borderColor:'#dedede',borderWidth:1}}>
-                    <Text style={{fontSize:16,color:'#333333',marginLeft:10,height:100,textAlignVertical:'center'}}>预警原因：</Text>
+                    <Text style={{fontSize:16,color:'#333333',marginLeft:10,textAlignVertical:'center'}}>预警原因：</Text>
                     <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',flex:1,alignItems:'center',marginRight:10}}>
                     {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
                             return (
-                                <TouchableOpacity onPress={() => {this.reasonChoose(item)}}>
+                                <TouchableOpacity onPress={() => {this.reasonChoose(item)}} key={item.checkCode}>
                                     <View style={{flexDirection:'row',marginTop:12}}>{
                                         this.state.reasonStatemap.get(item.checkCode)  
                                         ? <Image source={require('../../images/ic_rbtn_select.png')} style={{ width: 16, height: 16 }} />
@@ -258,25 +258,27 @@ class AlarmNoFeedbackCheck extends Component {
                 this.logLocationEvent}   
                 style={{width:SCREEN_WIDTH,height:150,borderColor:'#dedede',borderWidth:1}}>
               </MapView>
-              <TouchableOpacity onPress={()=>{this.summitAll()}}>
-              <Text style={{ width: SCREEN_WIDTH-60,height:40,textAlign:'center',backgroundColor:'#40a0ff',color:'#ffffff',fontSize:20,textAlignVertical:'center',alignSelf:'center',marginTop:20,borderRadius:10,marginBottom:30}}>提交</Text> 
+              <TouchableOpacity style={{width: SCREEN_WIDTH-60,height:40,backgroundColor:'#40a0ff',alignSelf:'center',justifyContent:'center',alignItems:'center',marginTop:20,borderRadius:10,marginBottom:30}} onPress={()=>{this.summitAll()}}>
+              <Text style={{ textAlign:'center',color:'#ffffff',fontSize:20,textAlignVertical:'center'}}>提交</Text> 
               </TouchableOpacity>
               <Modal
               animationType={"slide"}
-              transparent={false}
+              transparent={true}
               visible={this.state.modalVisible}
               onRequestClose={() => {alert("Modal has been closed.")}}>
-              <View style={{backgroundColor:'rgba(0, 0, 0, 0.3)',flexDirection:'row'}}>
-              <FlatList
-              style={{flex:1,marginLeft:10,marginRight:10,alignSelf:'center'}}
-              ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
-              keyExtractor={this.extraUniqueKey}
-              data={this.props.NoAlarmDesData}
-              renderItem={this.renderItem}/>
-              <TouchableOpacity style={{position:'absolute',right:2}} onPress={() => {this.setState({modalVisible:false})}}>
-              <Image source={require('../../images/icon_close_red.png') } style={{width:25,height:25}} />
-              </TouchableOpacity>
-              </View>
+                <View style={{backgroundColor:"#383838",opacity:0.8,position:"absolute",alignSelf:'center',flex:1,width:SCREEN_WIDTH,height:SCREEN_HEIGHT,marginTop:50}}>
+                <View style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT,flexDirection:'row',justifyContent:'space-between',alignSelf:'center',flexWrap:'wrap'}}>
+                    <FlatList
+                    style={{flex:1,marginLeft:10,marginRight:10,alignSelf:'center'}}
+                    ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+                    keyExtractor={this.extraUniqueKey}
+                    data={this.props.NoAlarmDesData}
+                    renderItem={this.renderItem}/>
+                    <TouchableOpacity style={{position:'absolute',right:2}} onPress={() => {this.setState({modalVisible:false})}}>
+                    <Image source={require('../../images/icon_close_red.png') } style={{width:25,height:25}} />
+                    </TouchableOpacity>
+                  </View>
+                </View>
               </Modal>
               </View>
             </ScrollView>

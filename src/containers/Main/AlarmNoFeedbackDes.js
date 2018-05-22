@@ -16,11 +16,13 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class AlarmNoFeedback
  * @extends {Component}
  */
-@connect(({alarm})=>({NoAlarmDesData:alarm.NoAlarmDesData,PageIndex:alarm.PageIndex}))
+@connect(({alarm,loading})=>({
+    NoAlarmDesData:alarm.NoAlarmDesData,PageIndex:alarm.PageIndex,
+    loading:loading.effects['alarm/GetNoAlarmDes'],}))
 class AlarmNoFeedbackDes extends Component {
     static navigationOptions = ({ navigation }) => ({
-        title: '未反馈二级',
-        tabBarLable: '未反馈二级',
+        title: '预警反馈',
+        tabBarLable: '预警反馈',
         animationEnabled: false,
         headerBackTitle: null,
         headerTintColor: '#ffffff',
@@ -203,7 +205,8 @@ class AlarmNoFeedbackDes extends Component {
                         <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{chooseTime}</Text>
                     </View>
                 </TouchableOpacity>
-                
+                {this.props.loading?
+                <LoadingComponent Message={'正在加载数据'} /> :
                 <FlatList           
                 ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                 data={this.props.NoAlarmDesData}
@@ -247,13 +250,13 @@ class AlarmNoFeedbackDes extends Component {
                       PageSize:'8',
                       IsPc:'false',
                       }));
-                }}/>
+                }}/>}
                 <View style={{width:SCREEN_WIDTH,height:50,flexDirection:'row',alignItems:'center'}}>
-                    <TouchableOpacity style={{height:50,backgroundColor:'#ffffff',flex:1}} onPress={() => {this._allChoose()}}>
-                        <Text style={{fontSize:20,color:'#333333',textAlign:'center',textAlignVertical:'center',height:50,alignSelf:'center'}}>{this.state.checkboxAlltv}</Text>
+                    <TouchableOpacity style={{height:50,backgroundColor:'#ffffff',flex:1,alignItems:'center', justifyContent: 'center',}} onPress={() => {this._allChoose()}}>
+                        <Text style={{fontSize:18,color:'#333333',textAlign:'center',textAlignVertical:'center'}}>{this.state.checkboxAlltv}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{height:50,backgroundColor:'#4884f5',flex:1}} onPress={() => {this._check()}}>
-                        <Text style={{fontSize:20,color:'#ffffff',textAlign:'center',textAlignVertical:'center',height:50,alignSelf:'center'}}>反馈</Text>
+                    <TouchableOpacity style={{height:50,backgroundColor:'#4884f5',flex:1,alignItems:'center', justifyContent: 'center',}} onPress={() => {this._check()}}>
+                        <Text style={{fontSize:18,color:'#ffffff',textAlign:'center',textAlignVertical:'center'}}>反馈</Text>
                     </TouchableOpacity>
                 </View>
             </View>

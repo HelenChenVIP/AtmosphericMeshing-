@@ -17,8 +17,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 @connect(({alarm})=>({NoAlarmDesData:alarm.NoAlarmDesData,PageIndex:alarm.PageIndex}))
 class AlarmDoneFeedDes extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
-        title: '未反馈二级',
-        tabBarLable: '未反馈二级',
+        title: '反馈详情',
+        tabBarLable: '反馈详情',
         animationEnabled: false,
         headerBackTitle: null,
         headerTintColor: '#ffffff',

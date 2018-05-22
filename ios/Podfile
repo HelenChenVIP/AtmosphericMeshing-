@@ -1,0 +1,32 @@
+platform :ios, '8.0'
+# use_frameworks!
+target 'GridTools' do
+  pod 'React', :path => '../node_modules/react-native', :subspecs => [
+        'Core',
+        'CxxBridge', # Include this for RN >= 0.47
+        'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
+        # 'RCTText',
+        # 'RCTNetwork',
+        # 'RCTWebSocket', # needed for debugging
+        # Add any other subspecs you want to use in your project
+    ]
+    #  pod 'react-native-amap3d', path: '../node_modules/react-native-amap3d/'
+
+    # Third party deps podspec link
+    pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
+    pod 'GLog', :podspec => '../node_modules/react-native/third-party-podspecs/GLog.podspec'
+    pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+    pod 'yoga', path: '../node_modules/react-native/ReactCommon/yoga/'
+    
+    # pod 'react-native-amap3d', path: '../node_modules/react-native-amap3d/lib/ios'
+
+    pod 'SwiftyJSON', git: 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+    pod 'Charts', git: 'https://github.com/danielgindi/Charts.git'
+end
+# post_install do |installer|
+#     installer.pods_project.targets.each do |target|
+#         target.build_configurations.each do |config|
+#         config.build_settings['SWIFT_VERSION'] = '4.1'    # 4.0
+#         end
+#     end
+# end

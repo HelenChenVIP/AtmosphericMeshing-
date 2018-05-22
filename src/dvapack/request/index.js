@@ -31,7 +31,8 @@ const fetchtimeout = (requestPromise, timeout = 30000) => {
 
 
 async function request(url, _options) {
-  const { neturl } = await getUseNetConfig();
+  // const { neturl } = await getUseNetConfig();
+  const neturl = 'https://api.chsdl.cn/GridWebApi';
   const uri = new URI(neturl + url);
   const options = _options || {};
   options.method = options.method || 'GET';
