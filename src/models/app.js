@@ -69,9 +69,9 @@ export default Model.extend({
         let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
         if(whitchPage=='Map'){
             if(kindData.changeAllPointList.length>0){
-              state = {...state,...{mallPointList:kindData.changeAllPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
+              state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:kindData.changeAllPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
             }else{
-              state = {...state,...{mallPointList:state.allPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
+              state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:state.allPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
             }
         }else{
             if(kindData.changeAllPointList.length>0){

@@ -44,7 +44,7 @@ class PointDetailsFlatList extends Component {
        return (
            <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between',marginTop:1}}>
                <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10,textAlign:'center',alignSelf:'center'}}>{item.item.XValue}</Text> 
-               <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.choosePollutantCode}</Text> 
+               <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.choosePollutantName}</Text> 
                <Text style={{height:25,fontSize: 14,color:'#333333',backgroundColor:item.item.chartColor == '#16010b' ? '#ffffff' : item.item.chartColor,padding:3,width:SCREEN_WIDTH/6,borderRadius:10,textAlign:'center',alignSelf:'center'}}>{item.item.YValue_new}</Text> 
                <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.listtv}</Text> 
            </View>
@@ -54,7 +54,7 @@ class PointDetailsFlatList extends Component {
        return (
            <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between',marginTop:1}}>
                <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10,textAlign:'center',alignSelf:'center'}}>{item.item.XValue}</Text> 
-               <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.choosePollutantCode}</Text> 
+               <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.choosePollutantName}</Text> 
                <Text style={{height:25,fontSize: 14,color:'#333333',backgroundColor:item.item.chartColor == '#16010b' ? '#ffffff' : item.item.chartColor,padding:3,width:SCREEN_WIDTH/6,borderRadius:10,textAlign:'center',alignSelf:'center'}}>{item.item.YValue_new}</Text> 
                <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>  </Text> 
            </View>

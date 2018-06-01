@@ -42,7 +42,7 @@ class MainRank extends Component {
    
     render() {
           return (
-            <View style={{flexDirection:'column',flex:1,}}>
+            <View style={{flexDirection:'column',flex:1,backgroundColor:'#ffffff'}}>
                 <PollutantcodeBarRank style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}/> 
                 <RankFlatList/>
             </View>

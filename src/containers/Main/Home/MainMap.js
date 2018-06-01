@@ -20,7 +20,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 @connect(({app})=>({pressPollutantCode:app.pressPollutantCode}))
 class MainMap extends Component {
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: '莱西网格化',
+        headerTitle: '临沂网格化',
         title: '地图',
         animationEnabled: false,
         headerBackTitle: null,
@@ -42,6 +42,7 @@ class MainMap extends Component {
         componentDidMount(){
             this.props.navigation.setParams({navigatePress:this.refreshOn})
           }
+          
         refreshOn=()=>{
             this.props.navigation.dispatch(createAction('app/getpressCodeData')({
                 whitchPage:'Map',

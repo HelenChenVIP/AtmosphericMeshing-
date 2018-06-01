@@ -1,4 +1,4 @@
-import {mapLengedBack,mapLengedFore,mapEuitmentImage,statusImage,IAQILevel,kindMRCode,kindCode,TVOCLevel,valueAQIColor,valueTVOCColor,valueAQIText,} from '../utils/mapconfig';
+import {mapLengedBack,mapLengedFore,mapEuitmentImage,statusImage,IAQILevel,kindMRCode,kindCode,TVOCLevel,valueAQIColor,valueTVOCColor,valueAQIText,CodeForName} from '../utils/mapconfig';
 import {selectionSort,random5,selectionSortNew} from '../utils/mathUtils';
 /**
  * 地图、排名 Data
@@ -10,6 +10,7 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
     let equitmentStatus='';
     let imageList;
     let changeAllPointList=[];
+    let markerRealDatas=[];
     let mkindCode=[];
     let mtime='';
     let chartYValue='';
@@ -39,9 +40,10 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                     mkindCode=kindCode(equitmentCode);//该设备类型下所有监测因子code
                     //绑定设备 与 监测因子
                     mkindCode[0].map((kinditem,key3)=>{
+                      //选中的监测因子==设备可以监测的监测因子 展示 否则不展示
                       if(kinditem==pressPollutantCode){
                         kk++;
-                        equitmentStatus=kinditem.dbo__T_Bas_CommonPoint__Status;//设备状态
+                        equitmentStatus=item.dbo__T_Bas_CommonPoint__Status;//设备状态
                         imageList=mapEuitmentImage(equitmentCode); 
                         //null是在线 超标；0,3离线 异常
                         let mValue;
@@ -112,7 +114,6 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                         item.fillIcon=fillIcon;
                         changeAllPointList.push(item);
                         chartXValue=pointName;
-                        
                         if(mitem[pressPollutantCode]!=undefined && mitem[pressPollutantCode]!=''){
                           chartYValue=parseFloat(mitem[pressPollutantCode]);
                           chartYValue_new=parseFloat(mitem[pressPollutantCode]);
@@ -123,16 +124,22 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                           XValueList.push(kk);
                           chartData.push({chartXValue,chartYValue,chartColor,listtv});
                           listRankData.push({chartXValue,chartYValue_new,chartColor,listtv});
+                         
+                      }else{
+                        
                       }
                     })
                    
                   }
                 }
               }) 
+              mitem.mkindCode=mkindCode;
+              markerRealDatas.push(mitem);
          // }
         }
       })
-      return {chartData,listRankData,changeAllPointList,mkindCode,mtime};
+ 
+      return {chartData,listRankData,changeAllPointList,mkindCode,mtime,markerRealDatas};
 }
 //排名 正序反序
 export const RankAscDescData=(chartData,listRankData)=>{
@@ -222,7 +229,8 @@ export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
       chartColor='#ffffff';
       listtv='无数据';
     }
-    ZXvaule.push({XValue,YValue,YValue_new,chartColor,listtv,choosePollutantCode});
+    let choosePollutantName=CodeForName(choosePollutantCode);
+    ZXvaule.push({XValue,YValue,YValue_new,chartColor,listtv,choosePollutantName});
   })
   return ZXvaule;
 }

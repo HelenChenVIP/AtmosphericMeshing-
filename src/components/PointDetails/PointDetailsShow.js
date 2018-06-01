@@ -169,11 +169,17 @@ class PointDetailsShow extends Component {
     extraUniqueKey=(item, index) => `index7${index}${item}`
     //渲染污染因子
     renderItem=({ item }) => {
-          return (
-              <TouchableOpacity onPress={()=>{this.codeClick(item)}}>
-                <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>{item.pname}</Text>
-                </TouchableOpacity>
-          );
+        let codeName;
+        if(item.pcode=='a34004'){
+            codeName='PM2.5';
+        }else{
+            codeName=item.pname;
+        }
+        return (
+            <TouchableOpacity onPress={()=>{this.codeClick(item)}}>
+              <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>{codeName}</Text>
+              </TouchableOpacity>
+        );
     }
     //选择的code
     codeClick=(item)=>{

@@ -19,15 +19,16 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     mTime:app.mTime,
     pressPollutantCode:app.pressPollutantCode,
     realTimeDataList:app.realTimeDataList,
-    mkindCode:app.mkindCode}))
+    mkindCode:app.mkindCode,
+    markerRealDatas:app.markerRealDatas}))
 class MapBase extends Component {
     constructor(props) {
         super(props); 
         this.state = {        
             rotateEnabled: false,//地图旋转
             pressPollutantCode:'AQI',
-            avglat:36.887208,
-            avglong:120.519118,
+            avglat:36.180897,
+            avglong:119.214348,
             czlat:0.05,
             czlong:0.05,
             activecode:'',
@@ -54,11 +55,15 @@ class MapBase extends Component {
    
     _renderClickItem = (dgimn) =>{
         let rtnVal;
-        if (this.props.realTimeDataList != null && this.props.realTimeDataList!='') {
+        this.props.markerRealDatas;
+        if (this.props.markerRealDatas != null && this.props.markerRealDatas!='') {
                 rtnVal = [];
-                this.props.realTimeDataList.map((item, key) => {
+                this.props.markerRealDatas.map((item, key) => {
                 if(item.DGIMN == dgimn){
-                    let kindCodeList=this.props.mkindCode;
+                    let kindCodeList=item.mkindCode;
+                    console.log('===========地图base========================');
+                    console.log(kindCodeList);
+                    console.log('====================================');
                     if(kindCodeList.length>0){
                         let codeList=kindCodeList[0];//监测因子code
                         let nameList=kindCodeList[1];//监测因子name
@@ -109,22 +114,22 @@ class MapBase extends Component {
        let md=Number(this.state.czlong);
         return (
             <MapView 
-            zoomLevel={11} 
+            zoomLevel={14} 
             rotateEnabled={this.state.rotateEnabled}      
-            style={[StyleSheet.absoluteFill,StyleSheet.mapContainer]}
+            style={StyleSheet.absoluteFill}
             region={
-                {latitude: this.state.avglat,
-                longitude: this.state.avglong,
-                latitudeDelta: this.state.czlat,
-                longitudeDelta: this.state.czlong,}
+                {latitude: ma,
+                longitude: mb,
+                latitudeDelta: mc,
+                longitudeDelta: md,}
             }
           >
             {   this.props.mallPointList ? 
                 //循环渲染Marker 
                 this._renderMarker() :<Marker 
                 coordinate={{
-                    latitude: 35.035278,
-                    longitude: 118.476389,
+                    latitude:36.180897,
+                    longitude:119.214348,
                 }} 
                 icon={() =><View >
                     <Text>{}</Text>      
