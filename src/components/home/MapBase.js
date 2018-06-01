@@ -27,10 +27,10 @@ class MapBase extends Component {
         this.state = {        
             rotateEnabled: false,//地图旋转
             pressPollutantCode:'AQI',
-            avglat:36.180897,
-            avglong:119.214348,
-            czlat:0.05,
-            czlong:0.05,
+            avglat:35.103663,
+            avglong:118.356618,
+            czlat:0.1,
+            czlong:0.1,
             activecode:'',
             monitorTime:''
         }
@@ -107,6 +107,17 @@ class MapBase extends Component {
           } 
           return rtnVal;
     }
+    _coordinates = [
+        {
+          latitude: 34.3776250003,
+          longitude: 116.70123,
+        },
+        {
+          latitude: 36.2068410004,
+          longitude: 119.911327,
+        },
+        
+      ]
     render() {
        let ma=Number(this.state.avglat);
        let mb=Number(this.state.avglong);
@@ -114,7 +125,7 @@ class MapBase extends Component {
        let md=Number(this.state.czlong);
         return (
             <MapView 
-            zoomLevel={14} 
+            zoomLevel={11} 
             rotateEnabled={this.state.rotateEnabled}      
             style={StyleSheet.absoluteFill}
             region={
@@ -127,10 +138,7 @@ class MapBase extends Component {
             {   this.props.mallPointList ? 
                 //循环渲染Marker 
                 this._renderMarker() :<Marker 
-                coordinate={{
-                    latitude:36.180897,
-                    longitude:119.214348,
-                }} 
+                coordinate={this._coordinates}
                 icon={() =><View >
                     <Text>{}</Text>      
                 </View>}
