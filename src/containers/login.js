@@ -15,7 +15,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @extends {Component}
  */
 @connect(({ loading }) => ({
-  loginLoading:loading.effects['app/login'],
+  loginLoading:loading.effects['app/login']
+  ||loading.effects['app/loadglobalvariable'],
  }))
 class login extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class login extends Component {
 
       async componentWillMount() {
         const loginmsg = await loadStorage('loginmsg');
-        if (loginmsg != null) {
+        if (loginmsg != null&&this) {
           this.setState(loginmsg);
         }
       }
@@ -133,13 +134,15 @@ class login extends Component {
                   </TouchableOpacity>
                  
                 </View>
-                    
-                <Button style={{ width: 280,backgroundColor:'white',height:40,marginTop:20}} className="btn" type="ghost" inline
-                onClick={()=>this._userLogin()}>{
+                {this.props.loginLoading? 
+                  <Button style={{ width: 280,backgroundColor:'white',height:40,marginTop:20}} className="btn" type="ghost" inline
+                  onClick={()=>{}}>{
                   // this.props.spinning 
-                  this.props.loginLoading
-                  ? '正在登录':'登录'}</Button> 
-                 
+                  '正在登录'}</Button>   
+                  :<Button style={{ width: 280,backgroundColor:'white',height:40,marginTop:20}} className="btn" type="ghost" inline
+                  onClick={()=>this._userLogin()}>{
+                    '登录'}</Button> 
+                }
              
               </View>
             </View>

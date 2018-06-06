@@ -7,6 +7,7 @@ import { createAction,ShowToast,NavigationActions} from '../../utils';
 import coordinate from '../../utils/coordinate';
 import mainmap from '../../config/configjson/mainmap.json';
 import {AQIorIAQI,IAQIColorLevel} from '../../utils/mapconfig';
+import { log } from 'util';
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -45,10 +46,11 @@ class MapBase extends Component {
           let czlat=parseFloat(latlong[2])-parseFloat(latlong[0]);
           let czlong=parseFloat(latlong[3])-parseFloat(latlong[1]);
           this.setState({pressPollutantCode:mypollutant[0].pollutantCode,
-                avglat:avglat.toFixed(2),
-                avglong:avglong.toFixed(2),
-                czlat:czlat.toFixed(2),
-                czlong:czlong.toFixed(2)});
+                // avglat:avglat.toFixed(2),
+                // avglong:avglong.toFixed(2),
+                // czlat:czlat.toFixed(2),
+                // czlong:czlong.toFixed(2)
+            });
           
       }
       }
@@ -119,21 +121,16 @@ class MapBase extends Component {
         
       ]
     render() {
-       let ma=Number(this.state.avglat);
-       let mb=Number(this.state.avglong);
-       let mc=Number(this.state.czlat);
-       let md=Number(this.state.czlong);
         return (
             <MapView 
             zoomLevel={11} 
             rotateEnabled={this.state.rotateEnabled}      
-            style={StyleSheet.absoluteFill}
-            region={
-                {latitude: ma,
-                longitude: mb,
-                latitudeDelta: mc,
-                longitudeDelta: md,}
-            }
+            style={{flex: 1,
+                width:SCREEN_WIDTH,height:SCREEN_HEIGHT}}
+                coordinate={{
+                    latitude: 35.103663,
+                    longitude: 118.356618,
+                  }}
           >
             {   this.props.mallPointList ? 
                 //循环渲染Marker 
@@ -155,6 +152,8 @@ class MapBase extends Component {
             rtnVal.splice(0,rtnVal.length);
         }
         this.props.mallPointList ? this.props.mallPointList.map((item,key)=>{
+            debugger;
+            this.state.activecode==item.dbo__T_Bas_CommonPoint__DGIMN;
             if(item.fillIcon!=null && item.fillIcon!=''){
                 let mLat;
                 let mLon;
@@ -163,8 +162,9 @@ class MapBase extends Component {
                     mLat=item.dbo__T_Bas_CommonPoint__Latitude;
                     mLon=item.dbo__T_Bas_CommonPoint__Longitude;
                 }else{
-                    mLat=36.887208;
-                    mLon=120.519118;
+                    mLat=35.103663;
+                    mLon=118.356618;
+                    
                 }
                 //将84坐标改为高德坐标
                 mLonAndmLat=coordinate.wgs84togcj02(mLon,mLat);
@@ -176,11 +176,15 @@ class MapBase extends Component {
                 image={
                     item.fillIcon
                 }
-                // icon={
-                //     <Image source={require(imageUri)}/>
-                // }
+                
                 onPress={()=>{
+                    debugger;
                     this.setState({activecode:item.dbo__T_Bas_CommonPoint__DGIMN});
+                    log("打印Marker1111111");
+                    log(item.dbo__T_Bas_CommonPoint__DGIMN);
+                    log("打印Marker2222222");
+                    log(this.state.activecode);
+                    
                 }}               
                 coordinate={{
                 latitude: mLonAndmLat[1],

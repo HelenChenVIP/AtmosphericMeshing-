@@ -143,7 +143,6 @@ class Router extends PureComponent {
     return (
       <View style={{ flex: 1 }}>
         <AppNavigator navigation={navigation} />
-
       </View>
     );
   }

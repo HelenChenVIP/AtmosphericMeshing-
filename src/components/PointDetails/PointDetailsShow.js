@@ -18,7 +18,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsShow
  * @extends {Component}
  */
-@connect(({})=>({}))
+@connect()
 class PointDetailsShow extends Component {
     constructor(props) {
         super(props); 

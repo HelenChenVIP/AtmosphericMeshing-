@@ -12,7 +12,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @class MainMy
  * @extends {Component}
  */
-@connect(({})=>({}))
+@connect()
 class MainMy extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: '我的',

@@ -30,7 +30,8 @@ if (!__DEV__) {
 const dvaEnhancer = {
   onEffect: (effect, sagaEffects, model) => function * effectEnhancer(...args) {
     const config = getUseNetConfig();
-    let url = `${config.neturl + api.system.nettest}`;
+    let neturl = 'https://api.chsdl.cn/GridWebApi';
+    let url = `${neturl + api.system.nettest}`;
     let result = yield test(url, {}).then(async data => true, json => false);
     const CNConfig = [];
     const NetConfig = getNetConfig();
@@ -38,14 +39,18 @@ const dvaEnhancer = {
       yield effect(...args);
     } else {
       const configBak = NetConfig.find((value, index, arr) => value.isuse === false); 
-      config.isuse = false; 
-      configBak.isuse = true;
-      CNConfig.push(config);
-      CNConfig.push(configBak);
-      //保存网络设置
-      saveNetConfig(CNConfig);
+      if (configBak) {
+        config.isuse = false; 
+        configBak.isuse = true;
+        CNConfig.push(config);
+        CNConfig.push(configBak);
+        //保存网络设置
+        saveNetConfig(CNConfig);
+        neturl = configBak.neturl;
+      }
+      
        //拼接url
-      url = `${configBak.neturl + api.system.nettest}`;
+      url = `${neturl + api.system.nettest}`;
       result = yield test(url, {}).then(async data => true, json => false);
       if (result) {
         yield effect(...args);

@@ -126,7 +126,7 @@ export default Model.extend({
         //     actions: [NavigationActions.navigate({ routeName: 'MainNavigator', params: { unverifiedCount: alarmCount.length, pollutanttype } })],
         //   }),
         // );
-        yield put('hideSpinning', { });
+        // yield put('hideSpinning', { });
         yield put(
           NavigationActions.reset({
             index: 0,

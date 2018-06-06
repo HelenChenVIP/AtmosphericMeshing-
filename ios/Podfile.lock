@@ -23,6 +23,10 @@ PODS:
     - DoubleConversion
     - GLog
   - GLog (0.3.4)
+  - React (0.51.0):
+    - React/Core (= 0.51.0)
+  - react-native-image-picker (0.14.3):
+    - React
   - React/Core (0.51.0):
     - yoga (= 0.51.0.React)
   - React/CxxBridge (0.51.0):
@@ -47,6 +51,10 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNSVG (6.2.2):
+    - React
+  - RNVectorIcons (4.4.3):
+    - React
   - SwiftyJSON (4.1.0)
   - yoga (0.51.0.React)
 
@@ -55,9 +63,12 @@ DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - GLog (from `../node_modules/react-native/third-party-podspecs/GLog.podspec`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - React/Core (from `../node_modules/react-native`)
   - React/CxxBridge (from `../node_modules/react-native`)
   - React/DevSupport (from `../node_modules/react-native`)
+  - RNSVG (from `../node_modules/react-native-svg`)
+  - RNVectorIcons (from `../node_modules/react-native-vector-icons`)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga/`)
 
@@ -76,6 +87,12 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/GLog.podspec"
   React:
     :path: "../node_modules/react-native"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
+  RNVectorIcons:
+    :path: "../node_modules/react-native-vector-icons"
   SwiftyJSON:
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
   yoga:
@@ -96,9 +113,12 @@ SPEC CHECKSUMS:
   Folly: b7255b29f1d693c375d642d0f04f0592181156d9
   GLog: 3e4e4ae9746ce6bf6e9420c7fc1e08ad59c8ba1a
   React: 541ba768b9855e10cdc76f55427a5cd0653ca806
+  react-native-image-picker: 42cfe2c8435d893414f8714a81e480313cb1412b
+  RNSVG: 6252323c0312735f0af5f58b5adf2965b6a9ffbf
+  RNVectorIcons: c0dbfbf6068fefa240c37b0f71bd03b45dddac44
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
   yoga: 17521bbb0dd54a47c0b3ac43253e78cdac7488e0
 
-PODFILE CHECKSUM: 5144bac885a802c2c7fc8acb7df749036f3569aa
+PODFILE CHECKSUM: ab18a2b8e13be311052a7ccb6d377d126977cc92
 
 COCOAPODS: 1.5.2

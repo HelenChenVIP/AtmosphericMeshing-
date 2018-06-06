@@ -23,7 +23,7 @@ export default Model.extend({
       },
     effects:{
         * GetMainAlarm({payload:{starttime,endtime,polluntCode,warnReason,RegionCode,pointName,state}}, {update, put, call}){
-          const { data : mainAlarmData}=yield call(alarmService.GetMainAlarmService,
+          const { data : mainAlarmData} = yield call(alarmService.GetMainAlarmService,
                     {starttime:starttime,
                     endtime:endtime,
                     polluntCode:'',

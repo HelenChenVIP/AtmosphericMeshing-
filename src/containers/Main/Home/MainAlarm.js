@@ -16,7 +16,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @extends {Component}
  */
 
-@connect(({})=>({}))
+@connect()
 class MainAlarm extends Component {
     static navigationOptions = ({ navigation }) => ({
         headerTitle: '预警监管',

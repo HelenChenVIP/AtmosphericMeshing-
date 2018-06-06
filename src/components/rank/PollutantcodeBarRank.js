@@ -12,7 +12,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @class PollutantcodeBar
  * @extends {Component}
  */
-@connect(({})=>({}))
+@connect()
 class PollutantcodeBarRank extends Component {
     constructor(props) {
         super(props); 

@@ -15,7 +15,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetails
  * @extends {Component}
  */
-@connect(({})=>({}))
+@connect()
 class PointDetails extends Component {
     static navigationOptions = ({ navigation }) => ({
         title: '站点详情',

@@ -56,7 +56,7 @@ class MainMap extends Component {
             <StatusBar
                     barStyle="light-content"
                 />
-                <MapBase/>
+                <MapBase />
                 <PollutantcodeBar style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',position:'absolute',top:0}}/> 
                 <View style={styles.lengendStyle}>
                     <LengendStateBar style={{backgroundColor:'#ffffff',width:SCREEN_WIDTH}}/>
