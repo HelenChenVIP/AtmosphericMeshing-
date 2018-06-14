@@ -93,6 +93,8 @@ class MapBase extends PureComponent {
     }
   
     render() {
+        console.log('activecode');
+        console.log(this.state.activecode);
         return (
             this.props.loading?
             <LoadingComponent/>
@@ -102,8 +104,8 @@ class MapBase extends PureComponent {
             style={{flex: 1,
                 width:SCREEN_WIDTH,height:SCREEN_HEIGHT}}
                 coordinate={{
-                    latitude: 35.103663,
-                    longitude: 118.356618,
+                    latitude: this.state.avglat,
+                    longitude: this.state.avglong,
                   }}
           >
             {   this.props.mallPointList ? 
@@ -127,7 +129,7 @@ class MapBase extends PureComponent {
             rtnVal.splice(0,rtnVal.length);
         }
         this.props.mallPointList ? this.props.mallPointList.map((item,key)=>{
-            this.state.activecode==item.dbo__T_Bas_CommonPoint__DGIMN;
+            // this.state.activecode==item.dbo__T_Bas_CommonPoint__DGIMN;
             if(item.fillIcon!=null && item.fillIcon!=''){
                 let mLat;
                 let mLon;
@@ -138,7 +140,6 @@ class MapBase extends PureComponent {
                 }else{
                     mLat=35.103663;
                     mLon=118.356618;
-                    
                 }
                 //将84坐标改为高德坐标
                 mLonAndmLat=coordinate.wgs84togcj02(mLon,mLat);
@@ -146,14 +147,18 @@ class MapBase extends PureComponent {
                 rtnVal.push(
                 <Marker   
                 key={key+1} 
-                active={this.state.activecode==item.dbo__T_Bas_CommonPoint__DGIMN}  
+                active={this.props.activecode==item.dbo__T_Bas_CommonPoint__DGIMN}  
                 image={
                     item.fillIcon
                 }
                 
                 onPress={()=>{
-                    this.setState({activecode:item.dbo__T_Bas_CommonPoint__DGIMN});
-                    
+                    this.setState({
+                        avglat:item.dbo__T_Bas_CommonPoint__Latitude,
+                        avglong:item.dbo__T_Bas_CommonPoint__Longitude,
+                        // activecode:item.dbo__T_Bas_CommonPoint__DGIMN
+                    });
+                    this.props.dispatch(createAction('app/setActivecode')({activecode:item.dbo__T_Bas_CommonPoint__DGIMN}));
                 }}               
                 coordinate={{
                 latitude: mLonAndmLat[1],
@@ -168,7 +173,8 @@ class MapBase extends PureComponent {
                         </View>
                         <TouchableOpacity
                         onPress={() => {
-                            this.setState({activecode:''});
+                            // this.setState({activecode:''});
+                            this.props.dispatch(createAction('app/setActivecode')({'activecode':''}));
                             }}
                         style={{position:'absolute',right:10,marginTop:5}}>
                             <Image source={require('../../images/icon_close_red.png')} style={{width:26,height:26,}}></Image>

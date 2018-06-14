@@ -46,7 +46,8 @@ class AlarmNoFeedbackCheck extends PureComponent {
           <Image source={focused ? require('../../images/ic_me_hover.png') : require('../../images/ic_me.png')} style={{height:20,width:20}}></Image>,
       })
       constructor(props) {
-        super(props); 
+        super(props);
+        console.log(props); 
         this.state = {        
             rotateEnabled: false,//地图旋转
             RecoveryTime: moment().add(alarmJson.data[0].recoverTime, 'hours'),
@@ -135,7 +136,14 @@ class AlarmNoFeedbackCheck extends PureComponent {
             latitude: this.state.latitude,
             isRecord: 1,
           },
-          callback: this.feedbackCallback
+          successCallback: this.feedbackCallback,
+          failCallback:()=>{
+            // this.props.navigation.state.params.clearselect;
+            // this.props.dispatch(NavigationActions.back());
+            CloseToast();
+            ShowResult(false, '提交失败');
+          },
+          'checkboxIndexmap':this.props.navigation.state.params.checkboxIndexmap
     }));
   }
   scrollToInput =(reactNode: any) => {

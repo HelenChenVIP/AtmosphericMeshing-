@@ -16,13 +16,13 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  */
 @connect(({map})=>({listRankData:map.listRankData,
     pressPollutantCode:map.pressPollutantCode,
-    }))
+    }),null,null,{withRef:true})
 class RankFlatList extends Component {
     render() {
         return (
            <FlatList                  
             data={this.props.listRankData}
-            ListHeaderComponent={<RankChartBar/>}
+            ListHeaderComponent={<View style={{height:240,width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}><RankChartBar ref={ref=>this._rankChartBar = ref}/></View>}
             renderItem={this._renderItemList}
             keyExtractor={this._extraUniqueKey}
             refreshing={false}
@@ -34,6 +34,10 @@ class RankFlatList extends Component {
                   }));      
             }}/>
         );
+    }
+    _sortRankChart = () => {
+        this.props.dispatch(createAction('app/doSortchartDataAll')()); 
+        this._rankChartBar.wrappedInstance._sort();
     }
     //FlatList key
    _extraUniqueKey=(item,index)=> `index11${index}${item}`

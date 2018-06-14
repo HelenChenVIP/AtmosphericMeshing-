@@ -23,6 +23,7 @@ class RankChartBar extends Component {
     constructor() {
         super();
         this.state = {
+          isReversedOrder:false,
           clicked: false,
           style: {
           },
@@ -135,6 +136,47 @@ class RankChartBar extends Component {
       }
 
       console.log(event.nativeEvent)
+    }
+
+    _sort = () => {
+      if (this.props.chartData!= null) {
+        let values=[];
+        let valueFormatter=[];
+        let colors=[];
+        let axisMaximum=this.props.chartData.length;
+        this.props.chartData.map((item,key)=>{
+        values.push({y:item.chartYValue,marker:`时间:${item.chartXValue}\n值:${item.chartYValue}`});
+        valueFormatter.push(item.chartXValue);
+        colors.push(processColor(item.chartColor));
+        })
+        if (this.state.isReversedOrder) {
+          this.setState({'isReversedOrder':false});
+        } else {
+          values.reverse();
+          valueFormatter.reverse();
+          colors.reverse();
+          this.setState({'isReversedOrder':true});
+        }
+        this.setState({
+          data: {
+              ...this.state.data,
+              dataSets: [{
+                  ...this.state.data.dataSets[0],
+                  values,
+                  config:{
+                    ...this.state.data.dataSets[0].config,
+                    colors
+                  }
+              }],
+          },
+        xAxis: {
+          ...this.state.xAxis.valueFormatter,
+          valueFormatter,
+          axisMaximum,
+          axisMaximum
+        },
+      })
+      }
     }
 
     render() {

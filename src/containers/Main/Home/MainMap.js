@@ -23,7 +23,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     }))
 class MainMap extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: '临沂网格化',
+        headerTitle: '网格化',
         title: '地图',
         animationEnabled: false,
         headerBackTitle: null,

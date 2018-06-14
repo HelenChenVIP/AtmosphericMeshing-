@@ -17,7 +17,7 @@ export default Model.extend({
     subscriptions: {
         setupSubscriber({ dispatch, listen }) {
           listen({
-              
+            
           });
         },
       },
@@ -69,10 +69,33 @@ export default Model.extend({
             }
           },
 
-          * SummitAll({ payload: { postjson, callback } }, { callWithSpinning }) {
+          * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { callWithSpinning, update, put, call, select }) {
            
-            yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
-            callback();
+            const result = yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
+            if (result&&result.requstresult==='1') {
+              let {NoAlarmDesData,mainAlarmData} = yield select(state => state.alarm);
+              console.log(mainAlarmData);
+              const index=mainAlarmData.findIndex((item)=>{
+                return item.dgimn==postjson.DGIMN;
+              })
+              
+              let arr = [];
+              checkboxIndexmap.forEach((item, key, mapObj)=>{
+                  arr.push(item);
+              });
+              mainAlarmData[index].count = mainAlarmData[index].count - arr.length;
+              let _mainAlarmData = mainAlarmData.slice(0)
+              let _NoAlarmDesData = [];
+              NoAlarmDesData.map((item,key)=>{
+                if (arr.indexOf(key)==-1) {
+                  _NoAlarmDesData.push(item);
+                }
+              });
+              yield update({'NoAlarmDesData':_NoAlarmDesData,'mainAlarmData':_mainAlarmData});
+              successCallback();
+            } else {
+              failCallback();
+            }
           },
 
           * GetCheckEarlyWarningInfo({payload:{ID}}, {update, put, call}){

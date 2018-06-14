@@ -20,6 +20,8 @@ import AppNavigator from './containers/';
 // import DataPreview from './containers/Main/TabView/Home/DataPreview'
 import {SCREEN_WIDTH,SCREEN_HEIGHT} from './config/globalsize'
 // import Alert from './components/DataPreview/Alert'
+import CodePush from "react-native-code-push";
+import {doUpdate} from './utils/CodePushUtil'
 
 export const routerMiddleware = createReactNavigationReduxMiddleware(
   'root',
@@ -91,6 +93,8 @@ class Router extends PureComponent {
     BackHandler.addEventListener('hardwareBackPress', this.backHandle);
   }
   async componentDidMount() {
+    CodePush.notifyAppReady();
+    doUpdate((syncStatus)=>{},(progress)=>{});
     const user = await loadToken();
     this.props.dispatch(createAction('app/loadglobalvariable')({ user }));
      

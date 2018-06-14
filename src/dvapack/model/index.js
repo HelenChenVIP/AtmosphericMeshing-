@@ -114,7 +114,6 @@ const enhanceSubscriptions = (subscriptions = {}) => {
           Object
             .keys(listeners)
             .forEach((key) => {
-              //返回上一级页面时，不执行数据加载
               if (type.indexOf('BACK')==-1) {
                 const _pathReg = key;
                 const _action = listeners[key];
