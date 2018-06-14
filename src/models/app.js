@@ -33,6 +33,7 @@ export default Model.extend({
     hourDataList:[],
     dayDataList:[],
     zxData:[],
+    activecode:'',
   },
   
   subscriptions: {
@@ -280,11 +281,18 @@ export default Model.extend({
       ShowToast('数据为空');
     }
   },
-
-
+  *doSortchartDataAll({payload},{update,put,call,select}){
+    let { listRankData:a } = yield select(state => state.app);
+    let listRankData = [];
+    for (let i = a.length - 1;i>=0;i--) {
+      listRankData.push(a[i]);
+    }
+    yield update({listRankData});
+  },
+  *setActivecode({payload:{activecode}},{update,put,call,select}){
+    yield update({activecode});
+  },
   }
- 
-
 
 });
 

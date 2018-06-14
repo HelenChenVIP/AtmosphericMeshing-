@@ -90,7 +90,8 @@ export function test(url, params) {
 }
 // file: {uri}
 export async function upload(url, body, optionscall, tooken) {
-  const { neturl } = await getUseNetConfig();
+  // const { neturl } = await getUseNetConfig();
+  const neturl = 'https://api.chsdl.cn/GridWebApi';
   url = await geturl(url, tooken);
   const uri = new URI(neturl + url);
   const options = {
@@ -102,7 +103,7 @@ export async function upload(url, body, optionscall, tooken) {
     body: JSON.stringify(body),
     ...optionscall
   };
- 
+ console.log(uri.toString());
   const resp = await fetch(uri.toString(), options);
   console.log(`status${resp.status}`);
   const text = await resp.text();

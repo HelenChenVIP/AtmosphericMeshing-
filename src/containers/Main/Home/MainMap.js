@@ -20,7 +20,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 @connect(({app})=>({pressPollutantCode:app.pressPollutantCode}))
 class MainMap extends Component {
     static navigationOptions = ({ navigation }) => ({
-        headerTitle: '临沂网格化',
+        headerTitle: '网格化',
         title: '地图',
         animationEnabled: false,
         headerBackTitle: null,

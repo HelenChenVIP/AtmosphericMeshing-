@@ -39,6 +39,7 @@ class AlarmNoFeedbackDes extends Component {
           startDate: moment().format('YYYY-MM-DD HH:mm:ss'),
           endDate: moment().format('YYYY-MM-DD HH:mm:ss'),
           checkboxStatemap:(new Map(): Map<string, boolean>),
+          checkboxIndexmap:(new Map(): Map<string, numbuer>),
           checkboxState:false,
           checkboxAlltv:'全选',
           mBeginTime:'',
@@ -102,7 +103,7 @@ class AlarmNoFeedbackDes extends Component {
     _renderItemList = (item) => {
         if(item!=null){
             return(
-                <TouchableOpacity  onPress={() => {this._someChoose(item.item)}}>
+                <TouchableOpacity  onPress={() => {this._someChoose(item.item,item.index)}}>
                     <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'column',height:70,marginTop:5,marginBottom:5,marginLeft:10,marginRight:10}}>
                         <View style={{flexDirection:'row',height:40,marginLeft:10,marginRight:10,alignItems:'center'}}> 
                             <View style={{flexDirection:'row',height:40,flex:1,alignItems:'center'}}> 
@@ -123,15 +124,21 @@ class AlarmNoFeedbackDes extends Component {
         }
     }
     //选择其中几项
-    _someChoose=(item)=>{
+    _someChoose=(item,index)=>{
         this.setState((state) => {
             const checkboxStatemap = new Map(state.checkboxStatemap);
+            const checkboxIndexmap = new Map(state.checkboxIndexmap);
             if (checkboxStatemap.get(item.ID) === undefined) {
                 checkboxStatemap.set(item.ID, true); 
             } else {
                 checkboxStatemap.delete(item.ID);
             }
-            return { checkboxStatemap };
+            if (checkboxIndexmap.get(item.ID) === undefined) {
+                checkboxIndexmap.set(item.ID, index); 
+            } else {
+                checkboxIndexmap.delete(item.ID);
+            }
+            return { checkboxStatemap,checkboxIndexmap };
           });
 
     }
@@ -140,17 +147,20 @@ class AlarmNoFeedbackDes extends Component {
         this.setState((state) => {
             // copy the map rather than modifying state.
             const checkboxStatemap = new Map(state.checkboxStatemap);
+            const checkboxIndexmap = new Map(state.checkboxIndexmap);
             let checkboxAlltv='全选';
             this.props.NoAlarmDesData.map((item, key) => {
               if (checkboxStatemap.get(item.ID) === undefined) {
                 checkboxStatemap.set(item.ID, true); // toggle
+                checkboxIndexmap.set(item.ID, key); 
                 checkboxAlltv='取消全选';
               } else {
                 checkboxStatemap.set(item.ID, !checkboxStatemap.get(item.ID)); // toggle
+                checkboxIndexmap.delete(item.ID);
                 checkboxAlltv='全选';
               }
             });
-            return { checkboxStatemap,checkboxAlltv };
+            return { checkboxStatemap,checkboxAlltv,checkboxIndexmap };
           });
     }
     clearselect=() => {
@@ -158,12 +168,18 @@ class AlarmNoFeedbackDes extends Component {
       }
     //核实
     _check=()=>{
+        // console.log(this.state.checkboxIndexmap);
+        // let arr = [];
+        // this.state.checkboxIndexmap.forEach((item, key, mapObj)=>{
+        //     arr.push(item);
+        // });
+        // console.log(arr);
         if (this.state.checkboxStatemap.size !== 0) {
-           
             this.props.dispatch(NavigationActions.navigate({
                 routeName: 'AlarmNoFeedbackCheck',                        
                 params: {
                     checkboxStatemap: this.state.checkboxStatemap,
+                    checkboxIndexmap: this.state.checkboxIndexmap,
                     DGIMN: this.props.navigation.state.params.DGIMN,
                     clearselect: this.clearselect
                 } }));

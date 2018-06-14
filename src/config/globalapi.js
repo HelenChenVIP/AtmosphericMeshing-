@@ -21,7 +21,7 @@ const api = {
     alarm:{
       GetEarlyWarningGroupByDGIMN:'/rest/AlarmDealInfoApi/GetEarlyWarningGroupByDGIMN',//获取未反馈 反馈1级
       GetAllAlarmDataList:'/rest/AlarmDealInfoApi/GetAllAlarmDataList',//获取未核实2级
-      AddEarlyWarningFeedback:'/rest/AlarmDealInfoApi/AddEarlyWarningFeedback',//反馈提交全部
+      AddEarlyWarningFeedback:'/rest/AlarmDealInfoApi/AddGridEarlyWarningFeedback',//反馈提交全部
       GetCheckEarlyWarningInfo:'/rest/AlarmDealInfoApi/GetCheckEarlyWarningInfo',//获取反馈单子
       uploadimage: '/rest/AlarmDealInfoApi/UploadImage/',//图片上传
     },
