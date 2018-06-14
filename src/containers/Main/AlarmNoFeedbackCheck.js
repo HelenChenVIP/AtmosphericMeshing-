@@ -89,15 +89,16 @@ class AlarmNoFeedbackCheck extends PureComponent {
   //选择预警原因
   reasonChoose=(item)=>{
     this.setState((state) => {
-        const reasonStatemap = new Map(state.reasonStatemap);
-        let aa=reasonStatemap.get(item.checkCode);
-        if( reasonStatemap.size>0){
-          reasonStatemap.delete(item.checkCode);
-          reasonStatemap.set(item.checkCode, false); 
-        }else{
-          reasonStatemap.set(item.checkCode, true); 
-        }
-        return { reasonStatemap };
+      checkCode:item.checkCode;
+        // const reasonStatemap = new Map(state.reasonStatemap);
+        // let aa=reasonStatemap.get(item.checkCode);
+        // if( reasonStatemap.size>0){
+        //   reasonStatemap.delete(item.checkCode);
+        //   reasonStatemap.set(item.checkCode, false); 
+        // }else{
+        //   reasonStatemap.set(item.checkCode, true); 
+        // }
+        // return { reasonStatemap };
       });
    }
    logLocationEvent = ({ nativeEvent }) => {
@@ -193,20 +194,14 @@ class AlarmNoFeedbackCheck extends PureComponent {
                 <TouchableOpacity style={{width:SCREEN_WIDTH,height:30,justifyContent:'center',alignItems:'center',}} onPress={() => {this.lookMore()}}>
                 <Text style={{fontSize:14,color:'#4782f5',textAlignVertical:'center',textAlign:'center'}}>点击查看已选预警信息</Text>
                 </TouchableOpacity>
-                <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:80,backgroundColor:'#ffffff',alignItems:'center',borderColor:'#dedede',borderWidth:1}}>
+                <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:130,backgroundColor:'#ffffff',alignItems:'center',borderColor:'#dedede',borderWidth:1}}>
                     <Text style={{fontSize:16,color:'#333333',marginLeft:10,textAlignVertical:'center'}}>预警原因：</Text>
-                    <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',flex:1,alignItems:'center',marginRight:10}}>
+                    <View style={{flex:1,height:126,}}>
                     {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
                             return (
-                              <TouchableOpacity onPress={() => {this.reasonChoose(item)}} key={item.checkCode}>
-                                <View style={{flexDirection:'row',marginTop:12}}>{
-                                    this.state.reasonStatemap.get(item.checkCode)  
-                                    ? <Image source={require('../../images/ic_rbtn_select.png')} style={{ width: 16, height: 16 }} />
-                                    : <Image source={require('../../images/ic_rbtn_default.png')} style={{ width: 16, height: 16 }} />
-                                }
-                                <Text style={{fontSize:16,color:'#848484',marginLeft:2}}>{item.checkReson}</Text>
-                                </View>
-                            </TouchableOpacity>
+                              <RadioItem style={{width:200,height:30}} key={item.checkCode} checked={this.state.checkCode === item.checkCode} onChange={() => this.reasonChoose(item)}>
+                              {item.checkReson}
+                              </RadioItem>
                             );
                         })}
                     </View>
@@ -261,7 +256,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
                     <Text style={{fontSize:16,color:'#333333',marginLeft:10,flex:1}}>定位</Text>
               </View>
               <MapView 
-                zoomLevel={14} 
+                zoomLevel={13} 
                 locationEnabled={true}
                 showsLocationButton={true}
                 rotateEnabled={this.state.rotateEnabled}    

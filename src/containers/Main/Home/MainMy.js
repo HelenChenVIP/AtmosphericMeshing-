@@ -48,9 +48,13 @@ class MainMy extends PureComponent {
           // JPushModule.deleteAlias((result) => {});
           this.props.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
     }
-    
+    onChange = (value) => {
+        console.log('checkbox');
+        this.setState({
+          value,
+        });
+      };
     render() {
-        
         return (
             <View style={{flexDirection:'column',backgroundColor:'#efefef'}}>
             <Image source={require('../../../images/bg_user.png')} style={{height:SCREEN_WIDTH/2-30}}></Image>
@@ -65,14 +69,14 @@ class MainMy extends PureComponent {
                 <Image source={require('../../../images/ic_logon.png')} style={styles.itemImageStyle}></Image>
                 <Text style={styles.itemTextView}>退出登录</Text>
             </TouchableOpacity> 
-            <View style={{width:SCREEN_WIDTH,height:300}}>
-                <List renderHeader={() => 'RadioItem demo'}>
+            <View style={{width:SCREEN_WIDTH,height:500,flexDirection:'row'}}>
+                <List style={{flexDirection:'row',width:SCREEN_WIDTH,height:500,}} renderHeader={() => 'RadioItem demo'}>
                 {data.map(i => (
-                <RadioItem key={i.value} checked={value === i.value} onChange={() => this.onChange(i.value)}>
+                <RadioItem style={{width:200,height:50}} key={i.value} checked={this.state.value === i.value} onChange={() => this.onChange(i.value)}>
                     {i.label}
                 </RadioItem>
                 ))}
-              </List>
+               </List>
             </View>
 
             </View>
