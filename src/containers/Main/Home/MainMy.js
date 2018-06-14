@@ -4,8 +4,14 @@ import { View, Text, StyleSheet,Image,Dimensions, TouchableOpacity } from 'react
 import { connect } from 'react-redux';
 import { clearToken,  } from '../../../dvapack/storage';
 import { NavigationActions } from '../../../utils';
-const SCREEN_WIDTH=Dimensions.get('window').width;
+import { List, Radio, Flex, WhiteSpace } from 'antd-mobile';
 
+const SCREEN_WIDTH=Dimensions.get('window').width;
+const RadioItem = Radio.RadioItem;
+const data = [
+    { value: 0, label: 'doctor' },
+    { value: 1, label: 'bachelor' },
+  ];
 /**
  * 主页-我的
  * HelenChen
@@ -30,7 +36,7 @@ class MainMy extends PureComponent {
       constructor () {
         super();
         this.state = {
-       
+                value: 0,
         }
        
         
@@ -44,6 +50,7 @@ class MainMy extends PureComponent {
     }
     
     render() {
+        
         return (
             <View style={{flexDirection:'column',backgroundColor:'#efefef'}}>
             <Image source={require('../../../images/bg_user.png')} style={{height:SCREEN_WIDTH/2-30}}></Image>
@@ -51,9 +58,6 @@ class MainMy extends PureComponent {
                  <Image source={require('../../../images/userlogo.png')} style={{width:70,height:70}}></Image>
                  <Text style={{fontSize:17,color:'#ffffff',marginTop:10}}>管理员</Text>
             </View>
-           
-
-            
             <TouchableOpacity style={{flexDirection:'row',height:40,backgroundColor:'#ffffff',alignItems:'center',marginTop:20}} 
             onPress={()=>{
                 this.doLogout()
@@ -61,6 +65,16 @@ class MainMy extends PureComponent {
                 <Image source={require('../../../images/ic_logon.png')} style={styles.itemImageStyle}></Image>
                 <Text style={styles.itemTextView}>退出登录</Text>
             </TouchableOpacity> 
+            <View style={{width:SCREEN_WIDTH,height:300}}>
+                <List renderHeader={() => 'RadioItem demo'}>
+                {data.map(i => (
+                <RadioItem key={i.value} checked={value === i.value} onChange={() => this.onChange(i.value)}>
+                    {i.label}
+                </RadioItem>
+                ))}
+              </List>
+            </View>
+
             </View>
         );
     }
