@@ -15,74 +15,31 @@ import {MapRankData,RankAscDescData,PointDeatilsHourData} from '../models/apputi
 export default Model.extend({
   namespace: 'app',
   state: {
-    selectpointlist:[],
     pointTypeList:[],
-    allPointList:[],
-    realTimeDataList:[],
     choosePollutantCode:'',
-    fillIcon:'',
-    mkindCode:[],
-    mallPointList:[],
-    chartData:[],
-    listRankData:[],
-    chartYValue:'',
-    chartYValue_new:'',
-    chartXValue:'',
-    ishow:false,
-    pressPollutantCode:'',
     hourDataList:[],
     dayDataList:[],
     zxData:[],
+    pointName:'',
+    latitude:'',
+    longitude:'',
+    dgimn:'',
+    showIndex:'',
+    codeClickID:'',
+    startTime:'',
+    endTime:'',
   },
   
   subscriptions: {
     setupSubscriber({ dispatch, listen }) {
       listen({
-        //监测地图、排名界面 获取所有站点信息
-        MainMap: ({ params }) => {
-          dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Map'},});
-        },
-        MainRank: ({ params }) => {
-          dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Rank'},});
-        },
-        // PointDetails: ({ params:{dgimn,codeClickID,startTime,endTime} }) => {
-        //   dispatch({ type: 'GetHourDatas',payload: {dgimn,codeClickID,startTime,endTime}});
-        // },
-
+      
       });
     },
     
   },
   reducers: {
-    //地图、排名 数据
-    getpressCodeData(state,{payload:{whitchPage,pressPollutantCodeMap,pressPollutantCodeRank}}){
-      let pressPollutantCode='';
-      if(whitchPage=='Map'){
-        pressPollutantCode=pressPollutantCodeMap;
-      }else{
-        pressPollutantCode=pressPollutantCodeRank;
-      }
-      //地图、排名Data
-      let kindData=MapRankData(state.realTimeDataList,state.allPointList,pressPollutantCode);
-      //排名Data排序
-      if(kindData.chartData!=null && kindData.chartData.length>0){
-        let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
-        if(whitchPage=='Map'){
-            if(kindData.changeAllPointList.length>0){
-              state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:kindData.changeAllPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
-            }else{
-              state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:state.allPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
-            }
-        }else{
-            if(kindData.changeAllPointList.length>0){
-              state = {...state,...{chartData:ascDescData.sortchartDataAll,listRankData:ascDescData.sortListRankDataAll,pressPollutantCode:pressPollutantCode}};
-            }else{
-              state = {...state,...{chartData:ascDescData.sortchartDataAll,listRankData:ascDescData.sortListRankDataAll,pressPollutantCode:pressPollutantCode}};
-            }
-        }
-      }
-      return state;
-    },
+   
     //站点详情 小时数据 hourData:'hour',
     getchooseHourData(state,{payload:{hourData,choosePollutantCode}}){
       if(choosePollutantCode==''){
@@ -96,7 +53,9 @@ export default Model.extend({
         state = {...state,...{zxData:dayVaule}};
       }
       return state;
-    }
+    },
+
+
   },
 
 
@@ -209,49 +168,14 @@ export default Model.extend({
         }
       }
     },
-    /**
-     * 获取所有站点信息
-     * Helenchen
-     * @param {any} {payload:{pollutantType}} 
-     * @param {any} {call,update} 
-     */
-    * GetAllPointList({payload:{whitchPage}}, {update, put, call}){
-      const { data : allPointList }=yield call(homeService.GetAllPointList,{});
-      if(allPointList !== null){
-        yield put('GetGridRealTimeImgDataAndroid',{
-          allPointList:allPointList,
-          whitchPage:whitchPage,
-        });
-        yield update({allPointList});
-      }else{
-        ShowToast('数据为空');
-      }
-    },
-  /**
-   * 获取地图实时数据
-   * HelenChen
-   * @param {any} {payload} 
-   * @param {any} {update,call} 
-   */
-  * GetGridRealTimeImgDataAndroid({payload:{allPointList,whitchPage}},{update,put,call}){
-      const {data:realTimeDataList}=yield call(homeService.GetGridRealTimeImgData,{});
-      if(realTimeDataList!==null){
-        yield update( {realTimeDataList} ); 
-        yield put('getpressCodeData',{
-          whitchPage:whitchPage,
-          pressPollutantCodeMap:mainmap.data[2].pollutantType[0].pollutantCode,
-          pressPollutantCodeRank:mainmap.data[2].pollutantType[0].pollutantCode,
-        })
-      }else{
-        ShowToast('数据为空');
-      }
-    },
+  
   /**
    * 站点详情-小时数据
    * @param {*} param0 
    * @param {*} param1 
    */
-  * GetHourDatas({payload:{dgimn,codeClickID,startTime,endTime}},{update,put,call}){
+  * GetHourDatas({payload},{update,put,call,select}){
+    const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.app);
     const {data:hourDataList}=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
     if(hourDataList!==null){
       yield update( {hourDataList} ); 
@@ -268,7 +192,8 @@ export default Model.extend({
    * @param {*} param0 
    * @param {*} param1 
    */
-  * GetDayDatas({payload:{dgimn,codeClickID,startTime,endTime}},{update,put,call}){
+  * GetDayDatas({payload},{update,put,call,select}){
+    const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.app);
     const {data:dayDataList}=yield call(homeService.GetDayAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
     if(dayDataList!==null){
       yield update( {dayDataList} ); 

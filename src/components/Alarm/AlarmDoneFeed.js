@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList } from 'react-native';
 import NoDataComponent from '../comment/NoDataComponent';
 import LoadingComponent from '../comment/LoadingComponent';
@@ -19,7 +19,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 @connect(({alarm,loading})=>({
     mainAlarmData:alarm.mainAlarmData,timeData:alarm.timeData,
     loading:loading.effects['alarm/GetMainAlarm'],}))
-class AlarmDoneFeed extends Component {
+class AlarmDoneFeed extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -78,10 +78,12 @@ class AlarmDoneFeed extends Component {
                             <Text style={{fontSize:12,color:'#757575',marginTop:5,alignSelf:'flex-start'}}>{item.item.regionName}</Text>
                         </View>
                         <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
-                        <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
-                        <Text style={{fontSize:12,color:'#969696'}}>{'已反馈'}</Text>
-                        <Text style={{fontSize:12,color:'white',backgroundColor:'#5285ed',width:30,height:20,borderColor:'red',borderRadius:10,marginTop:5,textAlign:'center'}}>{item.item.count}</Text>
-                    </View>
+                            <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
+                                <Text style={{fontSize:12,color:'#969696'}}>{'已反馈'}</Text>
+                                <View style={{backgroundColor:'#5285ed',width:30,height:20,borderColor:'#5285ed',borderRadius:10,marginTop:5,}}>
+                                <Text style={{fontSize:12,color:'white',textAlign:'center',textAlignVertical:'center'}}>{item.item.count}</Text>
+                                </View>
+                            </View>
                         </View>
                     </View>
                 </TouchableOpacity>

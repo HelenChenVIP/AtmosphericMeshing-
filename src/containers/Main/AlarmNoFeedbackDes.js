@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList } from 'react-native';
 import NoDataComponent from '../../components/comment/NoDataComponent';
 import LoadingComponent from '../../components/comment/LoadingComponent';
@@ -19,7 +19,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 @connect(({alarm,loading})=>({
     NoAlarmDesData:alarm.NoAlarmDesData,PageIndex:alarm.PageIndex,
     loading:loading.effects['alarm/GetNoAlarmDes'],}))
-class AlarmNoFeedbackDes extends Component {
+class AlarmNoFeedbackDes extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '预警反馈',
         tabBarLable: '预警反馈',

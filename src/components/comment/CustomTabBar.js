@@ -1,6 +1,6 @@
 
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import {
   StyleSheet,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Badge } from 'antd-mobile';
 
-class CustomTabBar extends Component {
+class CustomTabBar extends PureComponent {
   static propTypes = {
     goToPage: PropTypes.func, // 跳转到对应tab的方法
     activeTab: PropTypes.number, // 当前被选中的tab下标

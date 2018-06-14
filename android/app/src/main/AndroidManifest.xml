@@ -2,6 +2,11 @@
     package="com.gridtools"
     android:versionCode="1"
     android:versionName="1.0">
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
@@ -11,25 +16,26 @@
         android:targetSdkVersion="22" />
 
     <application
-      android:name=".MainApplication"
-      android:allowBackup="true"
-      android:label="@string/app_name"
-      android:icon="@mipmap/icon_launcher"
-      android:theme="@style/AppTheme">
+        android:name=".MainApplication"
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/icon_launcher"
+        android:theme="@style/AppTheme">
+        <!-- 确保 meta-data 是直属 application 的子标签 -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="0296fe89e4e3c4c0b04208a5e89d08b4"/>
-      <activity
-        android:name=".MainActivity"
-        android:label="@string/app_name"
-        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-        android:windowSoftInputMode="adjustResize">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-      </activity>
-      <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
     </application>
 
 </manifest>

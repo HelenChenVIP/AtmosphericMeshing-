@@ -1,11 +1,9 @@
 package com.gridtools;
 
 import android.app.Application;
-
 import com.facebook.react.ReactApplication;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import com.horcrux.svg.SvgPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.github.wuxudong.rncharts.MPAndroidChartPackage;
+import cn.qiuxiang.react.amap3d.AMap3DPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -26,10 +24,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new SplashScreenReactPackage(),
-            new SvgPackage(),
-            new RNGestureHandlerPackage()
-
+            new MPAndroidChartPackage(),
+            new AMap3DPackage()
       );
     }
 
@@ -48,6 +44,6 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-
+    
   }
 }

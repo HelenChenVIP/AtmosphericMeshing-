@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, WebView } from 'react-native';
 
 /**
@@ -8,7 +8,7 @@ import { View, Text, StyleSheet, WebView } from 'react-native';
  * @class knowledge
  * @extends {Component}
  */
-class knowledgeBase extends Component {
+class knowledgeBase extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '知识库',
         tabBarLable: '知识库',

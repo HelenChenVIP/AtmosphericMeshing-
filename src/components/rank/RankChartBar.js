@@ -1,21 +1,23 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet,ScrollView,processColor } from 'react-native';
+import { View, Text, StyleSheet,ScrollView,processColor,Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import {BarChart} from 'react-native-charts-wrapper';
 import LoadingComponent from '../../components/comment/LoadingComponent'
 
+const SCREEN_WIDTH=Dimensions.get('window').width;
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
  * 柱状图
  * HelenChen
  * @class RankChartBar
  * @extends {Component}
  */
-@connect(({app,loading})=>({chartData:app.chartData,
-    YZhou:app.YZhou,
-    listRankData:app.listRankData,
-    ishow:app.ishow,
-    loading:loading.effects['app/GetGridRealTimeImgDataAndroid'],
+@connect(({map,loading})=>({chartData:map.chartData,
+    YZhou:map.YZhou,
+    listRankData:map.listRankData,
+    ishow:map.ishow,
+    loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],
     }))
 class RankChartBar extends Component {
     constructor() {
@@ -24,14 +26,13 @@ class RankChartBar extends Component {
           clicked: false,
           style: {
           },
-          isshowloading:false,
           data: {
             dataSets: [{
               values: [],
-              label: 'Bar dataSet',
+              label: '实时排名',
               config: {
-                drawValues: false,
-                colors: [processColor('red'), processColor('blue'), processColor('green')],
+                drawValues: false,  
+                colors: [],
                 barSpacePercent: 40,
                 barShadowColor: processColor('lightgrey'),
                 highlightAlpha: 90,
@@ -40,22 +41,22 @@ class RankChartBar extends Component {
             }],
           },
           xAxis: {
+            drawGridLines: false,
             valueFormatter: [],
-            granularityEnabled: true,
+            granularityEnabled: false,
             granularity : 1,
-            axisMaximum: 100, 
-            axisMinimum: -0.5, 
             centerAxisLabels: true, 
             position: 'BOTTOM' ,
-            drawGridLines: false
+            drawLabels: true,
           },
           yAxis:{
             drawGridLines: false,
             position: 'LEFT' ,
             left: {
+              drawAxisLine: false,
+              drawGridLines: false,
               axisMinimum: 0,
               drawLabels: true,
-              drawAxisLine: true,
               drawValueAboveBar:false,
               zeroLine: {
                 enabled: true,
@@ -122,7 +123,6 @@ class RankChartBar extends Component {
         }
     }
       handleZoomDomainChange(domain) {
-        //console.log('Domain change: ', domain.x);
         this.setState({ zoomedXDomain: domain.x });
       }
       
@@ -142,11 +142,11 @@ class RankChartBar extends Component {
           this.props.loading?
           <LoadingComponent/>
           :<BarChart
-                  style={styles.chart}
+               style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT/3}}
                   data={this.state.data}
                   xAxis={this.state.xAxis}
                   yAxis={this.state.yAxis}
-                  animation={{durationX: 2000}}
+                  animation={{durationX: 3000}}
                   legend={this.state.legend}
                   gridBackgroundColor={processColor('#ffffff')}
                   drawBarShadow={false}

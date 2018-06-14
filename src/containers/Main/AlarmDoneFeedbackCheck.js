@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Image,Dimensions,TouchableOpacity } from 'react-native';
 import {MapView, Marker, Polyline} from 'react-native-amap3d';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
@@ -15,7 +15,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @extends {Component}
  */
 @connect(({alarm})=>({CheckEarlyWarningInfoData:alarm.CheckEarlyWarningInfoData}))
-class AlarmDoneFeedbackCheck extends Component {
+class AlarmDoneFeedbackCheck extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '核实反馈',
         tabBarLable: '核实反馈',

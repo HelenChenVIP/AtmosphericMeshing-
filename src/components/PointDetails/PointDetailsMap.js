@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import {MapView, Marker, Polyline} from 'react-native-amap3d';
 import coordinate from '../../utils/coordinate';
@@ -10,7 +10,7 @@ import coordinate from '../../utils/coordinate';
  * @class PointDetailsMap
  * @extends {Component}
  */
-class PointDetailsMap extends Component {
+class PointDetailsMap extends PureComponent {
     constructor(props) {
         super(props); 
         this.state = {        

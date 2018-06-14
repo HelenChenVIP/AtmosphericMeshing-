@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList,Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import RankChartBar from '../rank/RankChartBar';
+import mainmap from '../../config/configjson/mainmap.json';
+import { createAction,ShowToast,NavigationActions} from '../../utils'; 
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 
@@ -12,18 +14,25 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @class RankFlatList
  * @extends {Component}
  */
-@connect(({app})=>({listRankData:app.listRankData,
-    pressPollutantCode:app.pressPollutantCode,
+@connect(({map})=>({listRankData:map.listRankData,
+    pressPollutantCode:map.pressPollutantCode,
     }))
 class RankFlatList extends Component {
     render() {
         return (
            <FlatList                  
             data={this.props.listRankData}
-            ListHeaderComponent={<View style={{height:240,width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}><RankChartBar/></View>}
+            ListHeaderComponent={<RankChartBar/>}
             renderItem={this._renderItemList}
             keyExtractor={this._extraUniqueKey}
-            />
+            refreshing={false}
+            onRefresh={() => {
+                this.props.dispatch(createAction('map/mapAllRedures')({
+                    whitchPage:'Rank',
+                    pressPollutantCodeMap: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
+                    pressPollutantCodeMap: ''
+                  }));      
+            }}/>
         );
     }
     //FlatList key

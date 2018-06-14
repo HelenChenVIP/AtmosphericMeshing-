@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,  FlatList, } from 'react-native';
 import {mapLengedBack,mapLengedFore} from '../../utils/mapconfig'
 import { connect } from 'react-redux';
@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
  * @extends {Component}
  */
 @connect(({app})=>({mkindCode:app.mkindCode}))
-class LengendStatBar extends Component {
+class LengendStatBar extends PureComponent {
     constructor(props) {
         super(props); 
         this.state = {        

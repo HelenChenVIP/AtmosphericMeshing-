@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity,Image,Dimensions  } from 'react-native';
 import { connect } from 'react-redux';
 import {MapView, Marker, Polyline} from 'react-native-amap3d';
@@ -7,7 +7,8 @@ import { createAction,ShowToast,NavigationActions} from '../../utils';
 import coordinate from '../../utils/coordinate';
 import mainmap from '../../config/configjson/mainmap.json';
 import {AQIorIAQI,IAQIColorLevel} from '../../utils/mapconfig';
-import { log } from 'util';
+import LoadingComponent from '../../components/comment/LoadingComponent'
+
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -16,13 +17,14 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class MapBase
  * @extends {Component}
  */
-@connect(({app})=>({mallPointList:app.mallPointList,
-    mTime:app.mTime,
-    pressPollutantCode:app.pressPollutantCode,
-    realTimeDataList:app.realTimeDataList,
-    mkindCode:app.mkindCode,
-    markerRealDatas:app.markerRealDatas}))
-class MapBase extends Component {
+@connect(({map,loading})=>({mallPointList:map.mallPointList,
+    mTime:map.mTime,
+    pressPollutantCode:map.pressPollutantCode,
+    realTimeDataList:map.realTimeDataList,
+    mkindCode:map.mkindCode,
+    markerRealDatas:map.markerRealDatas,
+    loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],}))
+class MapBase extends PureComponent {
     constructor(props) {
         super(props); 
         this.state = {        
@@ -35,25 +37,8 @@ class MapBase extends Component {
             activecode:'',
             monitorTime:''
         }
-        //this.getDataInfos();
       }
-      componentWillMount(){
-        let mypollutant=mainmap.data[2].pollutantType;
-        let latlong=mainmap.data[3].MapConfig[0].PointLimit.split(',');
-      if(latlong!=null && latlong!=''&& latlong.length>=3){
-          let avglat=(parseFloat(latlong[0])+parseFloat(latlong[2]))/2;
-          let avglong=(parseFloat(latlong[1])+parseFloat(latlong[3]))/2;
-          let czlat=parseFloat(latlong[2])-parseFloat(latlong[0]);
-          let czlong=parseFloat(latlong[3])-parseFloat(latlong[1]);
-          this.setState({pressPollutantCode:mypollutant[0].pollutantCode,
-                // avglat:avglat.toFixed(2),
-                // avglong:avglong.toFixed(2),
-                // czlat:czlat.toFixed(2),
-                // czlong:czlong.toFixed(2)
-            });
-          
-      }
-      }
+  
    
     _renderClickItem = (dgimn) =>{
         let rtnVal;
@@ -63,9 +48,6 @@ class MapBase extends Component {
                 this.props.markerRealDatas.map((item, key) => {
                 if(item.DGIMN == dgimn){
                     let kindCodeList=item.mkindCode;
-                    console.log('===========地图base========================');
-                    console.log(kindCodeList);
-                    console.log('====================================');
                     if(kindCodeList.length>0){
                         let codeList=kindCodeList[0];//监测因子code
                         let nameList=kindCodeList[1];//监测因子name
@@ -109,20 +91,12 @@ class MapBase extends Component {
           } 
           return rtnVal;
     }
-    _coordinates = [
-        {
-          latitude: 34.3776250003,
-          longitude: 116.70123,
-        },
-        {
-          latitude: 36.2068410004,
-          longitude: 119.911327,
-        },
-        
-      ]
+  
     render() {
         return (
-            <MapView 
+            this.props.loading?
+            <LoadingComponent/>
+            :<MapView 
             zoomLevel={11} 
             rotateEnabled={this.state.rotateEnabled}      
             style={{flex: 1,
@@ -135,7 +109,8 @@ class MapBase extends Component {
             {   this.props.mallPointList ? 
                 //循环渲染Marker 
                 this._renderMarker() :<Marker 
-                coordinate={this._coordinates}
+                coordinate={{latitude: 34.3776250003,
+                    longitude: 116.70123,}}
                 icon={() =><View >
                     <Text>{}</Text>      
                 </View>}
@@ -152,7 +127,6 @@ class MapBase extends Component {
             rtnVal.splice(0,rtnVal.length);
         }
         this.props.mallPointList ? this.props.mallPointList.map((item,key)=>{
-            debugger;
             this.state.activecode==item.dbo__T_Bas_CommonPoint__DGIMN;
             if(item.fillIcon!=null && item.fillIcon!=''){
                 let mLat;
@@ -178,12 +152,7 @@ class MapBase extends Component {
                 }
                 
                 onPress={()=>{
-                    debugger;
                     this.setState({activecode:item.dbo__T_Bas_CommonPoint__DGIMN});
-                    log("打印Marker1111111");
-                    log(item.dbo__T_Bas_CommonPoint__DGIMN);
-                    log("打印Marker2222222");
-                    log(this.state.activecode);
                     
                 }}               
                 coordinate={{
@@ -214,17 +183,18 @@ class MapBase extends Component {
                     {
                         <TouchableOpacity
                         onPress={() => {
-                        this.props.dispatch(NavigationActions.navigate({
-                            routeName: 'PointDetails',                        
-                            params: {fillIcon: item.fillIcon,
-                                     latitude: item.dbo__T_Bas_CommonPoint__Latitude,
-                                     longitude: item.dbo__T_Bas_CommonPoint__Longitude,
-                                     pointName: item.dbo__T_Bas_CommonPoint__PointName,
-                                     pollutantType:item.dbo__T_Cod_PollutantType,
-                                     linkman:item.dbo__T_Bas_CommonPoint__Linkman,
-                                     region:item.dbo__T_Cod_Region,
-                                     dgimn:item.dbo__T_Bas_CommonPoint__DGIMN,
-                                     equitmentType:item.dbo__T_Bas_CommonPoint__PollutantType,} }));
+                            this.props.dispatch(createAction('map/updateState')({
+                                fillIcon: item.fillIcon,
+                                latitude: item.dbo__T_Bas_CommonPoint__Latitude,
+                                longitude: item.dbo__T_Bas_CommonPoint__Longitude,
+                                pointName: item.dbo__T_Bas_CommonPoint__PointName,
+                                pollutantType:item.dbo__T_Cod_PollutantType,
+                                linkman:item.dbo__T_Bas_CommonPoint__Linkman,
+                                region:item.dbo__T_Cod_Region,
+                                dgimn:item.dbo__T_Bas_CommonPoint__DGIMN,
+                                equitmentType:item.dbo__T_Bas_CommonPoint__PollutantType,
+                                 }));
+                                 this.props.dispatch(NavigationActions.navigate({routeName: 'PointDetailsShow', params: { }}))        
                         }}
                         style={{height:30,width:SCREEN_WIDTH-120,alignItems:'center'}}>
                         <Text style={{ color: '#4B83F5', fontSize: 14 ,alignSelf:'center'}}>{'查看详情'}</Text>

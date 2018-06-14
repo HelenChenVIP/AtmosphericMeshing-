@@ -138,7 +138,6 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
          // }
         }
       })
- 
       return {chartData,listRankData,changeAllPointList,mkindCode,mtime,markerRealDatas};
 }
 //排名 正序反序

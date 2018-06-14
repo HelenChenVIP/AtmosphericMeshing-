@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Image,Dimensions,TouchableOpacity,StatusBar} from 'react-native';
 import { connect } from 'react-redux';
 import { createAction,ShowToast,NavigationActions} from '../../../utils'; 
@@ -8,6 +8,7 @@ import LengendStateBar from '../../../components/home/LengendStateBar';
 import LengendEquitmentBar from '../../../components/home/LengendEquitmentBar';
 import mainmap from '../../../config/configjson/mainmap.json';
 import MapBase from '../../../components/home/MapBase';
+
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -17,8 +18,10 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class MainMap
  * @extends {Component} 
  */
-@connect(({app})=>({pressPollutantCode:app.pressPollutantCode}))
-class MainMap extends Component {
+@connect(({map})=>({
+    pressPollutantCode:map.pressPollutantCode,
+    }))
+class MainMap extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         headerTitle: '临沂网格化',
         title: '地图',
@@ -44,18 +47,16 @@ class MainMap extends Component {
           }
           
         refreshOn=()=>{
-            this.props.navigation.dispatch(createAction('app/getpressCodeData')({
+            this.props.dispatch(createAction('map/mapAllRedures')({
                 whitchPage:'Map',
                 pressPollutantCodeMap: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
                 pressPollutantCodeRank:''
-                }));
+                 }))
         }
     render() {
         return (
             <View style={styles.container}>
-            <StatusBar
-                    barStyle="light-content"
-                />
+            <StatusBar barStyle="light-content"/>
                 <MapBase />
                 <PollutantcodeBar style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',position:'absolute',top:0}}/> 
                 <View style={styles.lengendStyle}>

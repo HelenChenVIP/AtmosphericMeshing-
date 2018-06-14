@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Image,Dimensions,TouchableOpacity} from 'react-native';
 import CustomTabBar from '../../../components/comment/CustomTabBar';
 import AlarmNoFeedback from '../../../components/Alarm/AlarmNoFeedback';
@@ -17,7 +17,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  */
 
 @connect()
-class MainAlarm extends Component {
+class MainAlarm extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         headerTitle: '预警监管',
         title: '预警',
@@ -33,14 +33,14 @@ class MainAlarm extends Component {
       handleChangeTab=({ i }) => {
           let mState=0;
           if(i==0){
-              mState=0;
+            mState=0;
           }else{
             mState=2;
           }
         let nowTime = (new Date()).valueOf();
         let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
         let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-        this.props.dispatch(createAction('alarm/GetMainAlarm')({
+        this.props.dispatch(createAction('alarm/updateState')({
             starttime:initLastDate,
             endtime:initCurrenDate,
             polluntCode:'',
@@ -49,6 +49,15 @@ class MainAlarm extends Component {
             pointName:'',
             state:mState
             }));
+        // this.props.dispatch(createAction('alarm/GetMainAlarm')({
+        //     starttime:initLastDate,
+        //     endtime:initCurrenDate,
+        //     polluntCode:'',
+        //     warnReason:'',
+        //     RegionCode:'',
+        //     pointName:'',
+        //     state:mState
+        //     }));
       }
       
     render() {

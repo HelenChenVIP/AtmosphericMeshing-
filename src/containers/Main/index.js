@@ -5,7 +5,10 @@ import AlarmNoFeedbackCheck from './AlarmNoFeedbackCheck';
 import AlarmDoneFeedDes from './AlarmDoneFeedDes';
 import AlarmDoneFeedbackCheck from './AlarmDoneFeedbackCheck';
 import knowledgeBase from './KnowledgeBase';
-import PointDetails from './PointDetails';
+import PointDetailsShow from './../../components/PointDetails/PointDetailsShow';
+import AlarmNoFeedback from './../../components/Alarm/AlarmNoFeedback';
+import AlarmDoneFeed from './../../components/Alarm/AlarmDoneFeed';
+
 export default StackNavigator(
     {
       HomeNavigator: { screen: HomeNavigator },
@@ -14,7 +17,9 @@ export default StackNavigator(
       AlarmDoneFeedDes:{screen:AlarmDoneFeedDes},
       AlarmDoneFeedbackCheck:{screen:AlarmDoneFeedbackCheck},
       knowledgeBase:{screen:knowledgeBase},
-      PointDetails:{screen:PointDetails},
+      PointDetailsShow:{screen:PointDetailsShow},
+      AlarmNoFeedback:{screen:AlarmNoFeedback},
+      AlarmDoneFeed:{screen:AlarmDoneFeed},
     }, {
       headerMode: 'float',
     }

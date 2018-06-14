@@ -30,7 +30,7 @@ class PollutantcodeBarRank extends Component {
                 <TouchableOpacity
                  onPress={()=>{
                     this.setState({pressPollutantCode:item.item.pollutantCode}); 
-                    this.props.dispatch(createAction('app/getpressCodeData')({
+                    this.props.dispatch(createAction('map/mapAllRedures')({
                         whitchPage:'Rank',
                         pressPollutantCodeRank: item.item.pollutantCode,
                         pressPollutantCodeMap: ''

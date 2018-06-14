@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Dimensions,FlatList,} from 'react-native';
 import { connect } from 'react-redux';
 import PointDetailsChart from '../PointDetails/PointDetailsChart';
@@ -15,22 +15,21 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsFlatList
  * @extends {Component}
  */
-@connect(({app})=>({zxData:app.zxData}))
-class PointDetailsFlatList extends Component {
+@connect(({app})=>({
+    zxData:app.zxData,
+    showIndex:app.showIndex,
+   }))
+class PointDetailsFlatList extends PureComponent  {
     render() {
-        let dgimn=this.props.pointDetailsShow.dgimn;
-        let showIndex=this.props.pointDetailsShow.showIndex;
-        let codeClickID=this.props.pointDetailsShow.codeClickID;
-        let startTime=this.props.pointDetailsShow.startTime;
-        let endTime=this.props.pointDetailsShow.endTime;
+        let showIndex=this.props.showIndex;
         return (
             <FlatList   
-            style={{height:SCREEN_HEIGHT,width:SCREEN_WIDTH,backgroundColor:'#efefef',flex: 1,}}
+            style={{height:SCREEN_HEIGHT,width:SCREEN_WIDTH,backgroundColor:'#ffffff',flex: 1,}}
             ListEmptyComponent={() => (this.props.zxData ? null : <View style={{ height: SCREEN_HEIGHT - 600 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
             data={this.props.zxData}
             ListHeaderComponent={<View style={{height:SCREEN_HEIGHT/3,width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}>
             {
-                showIndex=='0' ? <PointDetailsChart pointDetailsShow={{dgimn,codeClickID,startTime,endTime}}/> : <PointDetailsBar pointDetailsShow={{dgimn,codeClickID,startTime,endTime}}/>
+                showIndex=='0' ? <PointDetailsChart/> : <PointDetailsBar/>
             }</View>}
             renderItem={this._renderItemList}
             keyExtractor={this._extraUniqueKey}/>
@@ -42,20 +41,24 @@ class PointDetailsFlatList extends Component {
    if(item.item.listtv!=undefined)
    {
        return (
-           <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between',marginTop:1}}>
-               <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10,textAlign:'center',alignSelf:'center'}}>{item.item.XValue}</Text> 
+           <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between',marginTop:1,borderBottomWidth:1,borderBottomColor:'#efefef'}}>
+               <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10,textAlign:'center',alignSelf:'center'}}>{this.props.showIndex=='0' ? item.item.XValue:(item.item.XValue).substring(0,5)}</Text> 
                <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.choosePollutantName}</Text> 
-               <Text style={{height:25,fontSize: 14,color:'#333333',backgroundColor:item.item.chartColor == '#16010b' ? '#ffffff' : item.item.chartColor,padding:3,width:SCREEN_WIDTH/6,borderRadius:10,textAlign:'center',alignSelf:'center'}}>{item.item.YValue_new}</Text> 
+               <View style={{height:25,width:SCREEN_WIDTH/6,backgroundColor:item.item.chartColor == '#16010b' ? '#ffffff' : item.item.chartColor,borderRadius:10,alignSelf:'center'}}>
+               <Text style={{color:'#333333',padding:3,fontSize: 14,textAlignVertical:'center',textAlign:'center'}}>{item.item.YValue_new}</Text> 
+               </View>
                <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.listtv}</Text> 
            </View>
        )
    }
    else{
        return (
-           <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between',marginTop:1}}>
-               <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10,textAlign:'center',alignSelf:'center'}}>{item.item.XValue}</Text> 
+           <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between',marginTop:1,borderBottomWidth:1,borderBottomColor:'#efefef'}}>
+               <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10,textAlign:'center',alignSelf:'center'}}>{this.props.showIndex=='0' ? item.item.XValue:(item.item.XValue).substring(0,5)}</Text> 
                <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.choosePollutantName}</Text> 
-               <Text style={{height:25,fontSize: 14,color:'#333333',backgroundColor:item.item.chartColor == '#16010b' ? '#ffffff' : item.item.chartColor,padding:3,width:SCREEN_WIDTH/6,borderRadius:10,textAlign:'center',alignSelf:'center'}}>{item.item.YValue_new}</Text> 
+               <View style={{height:25,width:SCREEN_WIDTH/6,backgroundColor:item.item.chartColor == '#16010b' ? '#ffffff' : item.item.chartColor,borderRadius:10,alignSelf:'center'}}>
+               <Text style={{color:'#333333',padding:3,fontSize: 14,textAlignVertical:'center',textAlign:'center'}}>{item.item.YValue_new}</Text> 
+               </View>
                <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>  </Text> 
            </View>
        )

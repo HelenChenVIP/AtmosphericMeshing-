@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, Dimensions,Image,TouchableOpacity,Modal,FlatList } from 'react-native';
 import { SegmentedControl } from 'antd-mobile';
 import PointDetailsFlatList from '../PointDetails/PointDetailsFlatList';
@@ -18,8 +18,29 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsShow
  * @extends {Component}
  */
-@connect()
-class PointDetailsShow extends Component {
+@connect(({app})=>({fillIcon:app.fillIcon,
+    latitude:app.latitude,
+    longitude:app.longitude,
+    pointName:app.pointName,
+    pollutantType:app.pollutantType,
+    linkman:app.linkman,
+    region:app.region,
+    dgimn:app.dgimn,
+    equitmentType:app.equitmentType,
+    }))
+class PointDetailsShow extends PureComponent  {
+    static navigationOptions = ({ navigation }) => ({
+        title: '站点详情',
+        tabBarLable: '站点详情',
+        animationEnabled: false,
+        headerBackTitle: null,
+        headerTintColor: '#ffffff',
+        headerTitleStyle: {alignSelf: 'center'},//标题居中
+        headerStyle: { backgroundColor: '#5688f6',height:45 },
+        labelStyle: {fontSize: 14},
+        tabBarIcon: ({ focused, tintColor }) =>
+          <Image source={focused ? require('../../images/ic_me_hover.png') : require('../../images/ic_me.png')} style={{height:20,width:20}}></Image>,
+      })
     constructor(props) {
         super(props); 
         this.state = {        
@@ -33,12 +54,13 @@ class PointDetailsShow extends Component {
       }
     
     render() {
-        let pointName=this.props.pointDetails.pointName ? this.props.pointDetails.pointName : '-- --';
-        let region=this.props.pointDetails.region ? this.props.pointDetails.region : '-- --';
-        let pollutantType=this.props.pointDetails.pollutantType ? this.props.pointDetails.pollutantType : '-- --';
-        let linkman=this.props.pointDetails.linkman ? this.props.pointDetails.linkman : '-- --';
-        let dgimn=this.props.pointDetails.dgimn ? this.props.pointDetails.dgimn : '-- --';
-        let equitmentType=this.props.pointDetails.equitmentType ? this.props.pointDetails.equitmentType : '-- --';
+        let pointName=this.props.pointName_details ? this.props.pointName_details : '-- --';
+        let region=this.props.region ? this.props.region : '-- --';
+        let pollutantType=this.props.pollutantType ? this.props.pollutantType : '-- --';
+        let linkman=this.props.linkman ? this.props.linkman : '-- --';
+        //let dgimn=this.props.pointDetails.dgimn ? this.props.pointDetails.dgimn : '-- --';
+        let equitmentType=this.props.equitmentType ? this.props.equitmentType : '-- --';
+       
         let mkindCode=kindAndCode(equitmentType);
         let showIndex=this.state.PagerIndex;
         const color = {
@@ -49,7 +71,11 @@ class PointDetailsShow extends Component {
         let endTime=this.state.endDate;
         let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
         startTime=(startTime==endTime ? initLastDate : startTime);
-        let chooseTime = startTime + '至' + endTime;
+        let mstartTime;
+        let mendTime;
+        this.state.PagerIndex==0 ? mstartTime=startTime+' 00:00' : mstartTime=startTime;
+        this.state.PagerIndex==0 ? mendTime=endTime.substring(0,13)+':00': mendTime=endTime.substring(0,10);
+        let chooseTime = mstartTime + '至' + mendTime;
         let codeClickID=this.state.codeClickID;
         return (
             <View style={styles.container}>
@@ -65,15 +91,15 @@ class PointDetailsShow extends Component {
                     <Text style={{fontSize:16,color:'#4b66e4',marginRight:10,textAlignVertical:'center'}}>{linkman}</Text>
                 </View>
                 <SegmentedControl
-                style={{height:38,marginTop: 10, backgroundColor:'#ffffff'}}
+                style={{height:38,marginTop: 10,borderRadius:0}}
                 values={['小时数据', ' 日数据']}
                 onChange={this.onChange}
                 onValueChange={this.onValueChange}/>
                 <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,marginTop:1,backgroundColor:'#ffffff',alignItems:'center',justifyContent:'space-between'}}>
                     {
-                        // <TouchableOpacity onPress={()=>{this.chooseTime()}}>
-                        // <Image source={require('../../images/time.png')} style={{width:26,height:26,marginLeft:10}}/>
-                        // </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>{this.chooseTime()}}>
+                        <Image source={require('../../images/time.png')} style={{width:26,height:26,marginLeft:10}}/>
+                        </TouchableOpacity>
                     }
                     <Calendar
                     i18n="zh"
@@ -120,7 +146,15 @@ class PointDetailsShow extends Component {
                     </Modal>
                 </View>
                 <Text style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',fontSize:13,color:'#818181',textAlign:'center',alignSelf:'center'}}>{chooseTime}</Text>
-                <PointDetailsFlatList pointDetailsShow={{dgimn,showIndex,codeClickID,startTime,endTime}}/>
+                <PointDetailsFlatList>{
+                    this.props.dispatch(createAction('app/updateState')({
+                        showIndex: showIndex,
+                        codeClickID: codeClickID,
+                        startTime: startTime,
+                        endTime: endTime,
+                         }))
+                }
+                </PointDetailsFlatList>
             </View>
         );
     }
@@ -132,9 +166,6 @@ class PointDetailsShow extends Component {
         }else{
             this.setState({PagerIndex:'1'});
         }
-        console.log('=============站点详情onChange=======================');
-        console.log(i);
-        
     }
     onValueChange = (value) => {
         console.log('=============站点详情onValueChange=======================');
@@ -153,17 +184,13 @@ class PointDetailsShow extends Component {
           startDate: moment(startDate).format('YYYY-MM-DD'),
           endDate: moment(endDate).format('YYYY-MM-DD'),
         });
-
-        let dgimn=this.props.pointDetails.dgimn
-        let codeClickID=this.state.codeClickID;
-        let startTime=this.state.startDate;
-        let endTime=this.state.endDate;
-        this.props.dispatch(createAction('app/GetHourDatas')({
-          dgimn:dgimn,
-          codeClickID:codeClickID,
-          startTime:startTime,
-          endTime:endTime
-           }));
+        if(this.state.PagerIndex=='0'){
+            this.props.dispatch(createAction('app/GetHourDatas')({
+            }));
+        }else{
+            this.props.dispatch(createAction('app/GetDayDatas')({
+            }));
+        }
       }
 
     extraUniqueKey=(item, index) => `index7${index}${item}`
@@ -188,16 +215,13 @@ class PointDetailsShow extends Component {
             codeClickName:item.pname,
             modalVisible:false
         });
-        let dgimn=this.props.pointDetails.dgimn
-        let codeClickID=this.state.codeClickID;
-        let startTime=this.state.startDate;
-        let endTime=this.state.endDate;
-        this.props.dispatch(createAction('app/GetHourDatas')({
-            dgimn:dgimn,
-            codeClickID:codeClickID,
-            startTime:startTime,
-            endTime:endTime
-             }));
+        if(this.state.PagerIndex=='0'){
+            this.props.dispatch(createAction('app/GetHourDatas')({
+            }));
+        }else{
+            this.props.dispatch(createAction('app/GetDayDatas')({
+            }));
+        }
     }
 
 }

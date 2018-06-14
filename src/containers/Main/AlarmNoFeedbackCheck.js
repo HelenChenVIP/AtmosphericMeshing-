@@ -1,6 +1,6 @@
 //import liraries
-import React, { Component } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image,TextInput,ScrollView,TouchableOpacity,Modal,FlatList } from 'react-native';
+import React, { PureComponent } from 'react';
+import { View, Text, StyleSheet, Dimensions, Image,TextInput,ScrollView,TouchableOpacity,Modal,FlatList, } from 'react-native';
 import alarmJson from '../../config/configjson/alarm.json';
 import {MapView, Marker, Polyline} from 'react-native-amap3d';
 import { DatePicker, List,TextareaItem } from 'antd-mobile';
@@ -8,7 +8,9 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 import ImagePicker from 'react-native-image-picker';
 import NoDataComponent from '../../components/comment/NoDataComponent';
+import { Radio} from 'antd-mobile';
 
+const RadioItem = Radio.RadioItem;
 import { createAction,ShowToast,NavigationActions,CloseToast,ShowResult,ShowLoadingToast} from '../../utils'; 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -30,7 +32,7 @@ const options = {
  * @extends {Component}
  */
 @connect(({alarm})=>({NoAlarmDesData:alarm.NoAlarmDesData}))
-class AlarmNoFeedbackCheck extends Component {
+class AlarmNoFeedbackCheck extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '核实反馈',
         tabBarLable: '核实反馈',
@@ -50,8 +52,8 @@ class AlarmNoFeedbackCheck extends Component {
             RecoveryTime: moment().add(alarmJson.data[0].recoverTime, 'hours'),
             modalVisible:false,
             reasonStatemap:(new Map(): Map<string, boolean>),
-            longitude: 118.476389,
-            latitude: 35.035278,
+            longitude: '',
+            latitude: '',
             sceneDescription:'',
             imagelist: [],
         }
@@ -87,10 +89,12 @@ class AlarmNoFeedbackCheck extends Component {
   reasonChoose=(item)=>{
     this.setState((state) => {
         const reasonStatemap = new Map(state.reasonStatemap);
-        if (reasonStatemap.get(item.checkCode) === undefined) {
-            reasonStatemap.set(item.checkCode, true); 
-        } else {
-            reasonStatemap.delete(item.checkCode);
+        let aa=reasonStatemap.get(item.checkCode);
+        if( reasonStatemap.size>0){
+          reasonStatemap.delete(item.checkCode);
+          reasonStatemap.set(item.checkCode, false); 
+        }else{
+          reasonStatemap.set(item.checkCode, true); 
         }
         return { reasonStatemap };
       });
@@ -186,15 +190,15 @@ class AlarmNoFeedbackCheck extends Component {
                     <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',flex:1,alignItems:'center',marginRight:10}}>
                     {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
                             return (
-                                <TouchableOpacity onPress={() => {this.reasonChoose(item)}} key={item.checkCode}>
-                                    <View style={{flexDirection:'row',marginTop:12}}>{
-                                        this.state.reasonStatemap.get(item.checkCode)  
-                                        ? <Image source={require('../../images/ic_rbtn_select.png')} style={{ width: 16, height: 16 }} />
-                                        : <Image source={require('../../images/ic_rbtn_default.png')} style={{ width: 16, height: 16 }} />
-                                    }
-                                    <Text style={{fontSize:16,color:'#848484',marginLeft:2}}>{item.checkReson}</Text>
-                                    </View>
-                                </TouchableOpacity>
+                              <TouchableOpacity onPress={() => {this.reasonChoose(item)}} key={item.checkCode}>
+                                <View style={{flexDirection:'row',marginTop:12}}>{
+                                    this.state.reasonStatemap.get(item.checkCode)  
+                                    ? <Image source={require('../../images/ic_rbtn_select.png')} style={{ width: 16, height: 16 }} />
+                                    : <Image source={require('../../images/ic_rbtn_default.png')} style={{ width: 16, height: 16 }} />
+                                }
+                                <Text style={{fontSize:16,color:'#848484',marginLeft:2}}>{item.checkReson}</Text>
+                                </View>
+                            </TouchableOpacity>
                             );
                         })}
                     </View>
@@ -207,15 +211,16 @@ class AlarmNoFeedbackCheck extends Component {
                 value={this.state.RecoveryTime.toDate()}>
                 <TimeComponent />
               </DatePicker>
-               <View style={{flexDirection:'row',width:SCREEN_WIDTH,alignItems:'center',marginTop:1,backgroundColor:'#ffffff'}}>
-                    <Text style={{fontSize:16,marginLeft:10,color:'#333333'}}>描述:</Text>
-                    <TextareaItem
-                        style={{width:SCREEN_WIDTH,marginRight:10,fontSize:16,color:'#848484'}}
-                        placeholder="请填写描述信息"
-                        data-seed="logId"
-                        autoHeight
-                        ref={el => {this.autoFocusInst = el}}/>
-               </View>
+              <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:50,alignItems:'center',marginTop:1,backgroundColor:'#ffffff'}}>
+              <Text style={{fontSize:16,marginLeft:10,marginRight:10,color:'#333333',textAlignVertical:'center'}}>描述:</Text>
+              <TextInput
+                multiline = {true}
+                underlineColorAndroid="transparent"
+                style={{height: 50,backgroundColor:'#ffffff',marginRight:10,width:SCREEN_WIDTH-100}}
+                placeholder="请填写描述信息"
+                onChangeText={(sceneDescription) => this.setState({sceneDescription})}
+              />
+              </View>
                <Text style={{width:SCREEN_WIDTH,height:50,fontSize:16,color:'#333333',marginTop:1,backgroundColor:'#ffffff',textAlignVertical:'center'}}>    图片</Text>
                <View style={{flexDirection:'row',width:SCREEN_WIDTH,backgroundColor:'#ffffff',alignItems:'center',flexWrap:'wrap',marginBottom:10}}>
                {this.renderPickedImage()}
@@ -249,13 +254,20 @@ class AlarmNoFeedbackCheck extends Component {
               </View>
               <MapView 
                 zoomLevel={14} 
+                locationEnabled={true}
+                showsLocationButton={true}
                 rotateEnabled={this.state.rotateEnabled}    
-                coordinate={{
-                    latitude: this.state.latitude,
-                    longitude: this.state.longitude,
-                  }}
                 onLocation={({ nativeEvent }) =>
-                this.logLocationEvent}   
+                {
+                  this.setState({
+                    longitude: nativeEvent.longitude,
+                    latitude: nativeEvent.latitude
+                  });
+                }}   
+                coordinate={{
+                  latitude: this.state.latitude ? this.state.latitude : 35.103663,
+                  longitude: this.state.longitude ? this.state.longitude : 118.356618,
+                }}
                 style={{width:SCREEN_WIDTH,height:150,borderColor:'#dedede',borderWidth:1}}>
               </MapView>
               <TouchableOpacity style={{width: SCREEN_WIDTH-60,height:40,backgroundColor:'#40a0ff',alignSelf:'center',justifyContent:'center',alignItems:'center',marginTop:20,borderRadius:10,marginBottom:30}} onPress={()=>{this.summitAll()}}>
@@ -291,7 +303,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#dedede',
-        flexDirection:'column'
+        flexDirection:'column',
+        width:SCREEN_WIDTH,
     },
 });
 const TimeComponent = props => (

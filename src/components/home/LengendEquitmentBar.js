@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, FlatList, Image } from 'react-native';
 import {mapEuitment} from '../../utils/mapconfig'
 /**
@@ -8,7 +8,7 @@ import {mapEuitment} from '../../utils/mapconfig'
  * @class LengendEquitmentBar
  * @extends {Component}
  */
-class LengendEquitmentBar extends Component {
+class LengendEquitmentBar extends PureComponent {
     constructor(props) {
         super(props); 
         this.state = {        

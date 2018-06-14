@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
 import { connect } from 'react-redux';
@@ -13,7 +13,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @extends {Component}
  */
 @connect()
-class PollutantcodeBar extends Component {
+class PollutantcodeBar extends PureComponent {
     constructor(props) {
         super(props); 
         this.state = {        
@@ -29,11 +29,17 @@ class PollutantcodeBar extends Component {
                 <TouchableOpacity
                  onPress={()=>{
                     this.setState({pressPollutantCode:item.item.pollutantCode}); 
-                    this.props.dispatch(createAction('app/getpressCodeData')({
+                    this.props.dispatch(createAction('map/mapAllRedures')({
                         whitchPage:'Map',
                         pressPollutantCodeMap: item.item.pollutantCode,
                         pressPollutantCodeRank:''
-                      }));             
+                         }))
+
+                    // this.props.dispatch(createAction('app/getpressCodeData')({
+                    //     whitchPage:'Map',
+                    //     pressPollutantCodeMap: item.item.pollutantCode,
+                    //     pressPollutantCodeRank:''
+                    //   }));             
                 }}>{
                     item.item.pollutantName=='PM25' ? <Text style={{fontSize: 14,alignSelf:'center',padding:5,color:color}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:color}}>2.5</Text> </Text>
                     : item.item.pollutantName=='PM10' ? <Text style={{fontSize: 14,alignSelf:'center',padding:5,color:color}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:color}}>10</Text> </Text> 

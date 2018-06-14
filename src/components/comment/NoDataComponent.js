@@ -1,6 +1,6 @@
 
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
   StyleSheet,
@@ -9,7 +9,7 @@ import {
   Text
 } from 'react-native';
 
-class NoDataComponent extends Component {
+class NoDataComponent extends PureComponent {
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'column', alignItems: 'center', justifyContent: 'center', }}>

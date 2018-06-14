@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList } from 'react-native';
 import NoDataComponent from '../comment/NoDataComponent';
 import LoadingComponent from '../comment/LoadingComponent';
@@ -7,6 +7,7 @@ import { createAction,ShowToast,NavigationActions} from '../../utils';
 import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
 import { connect } from 'react-redux';
+
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
@@ -20,7 +21,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     mainAlarmData:alarm.mainAlarmData,timeData:alarm.timeData,
     loading:loading.effects['alarm/GetMainAlarm'],
 }))
-class AlarmNoFeedback extends Component {
+class AlarmNoFeedback extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -80,7 +81,9 @@ class AlarmNoFeedback extends Component {
                         </View>
                         <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{fontSize:12,color:'#969696'}}>{'未反馈'}</Text>
-                            <Text style={{fontSize:12,color:'white',backgroundColor:'red',width:30,height:20,borderColor:'red',borderRadius:10,marginTop:5,textAlign:'center'}}>{item.item.count}</Text>
+                            <View style={{backgroundColor:'red',width:30,height:20,borderColor:'red',borderRadius:10,marginTop:5,}}>
+                            <Text style={{fontSize:12,color:'white',textAlign:'center',textAlignVertical:'center'}}>{item.item.count}</Text>
+                            </View>
                         </View>
                     </View>
                 </TouchableOpacity>

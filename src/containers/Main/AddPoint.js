@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet ,Dimensions,Image,TextInput,TouchableOpacity} from 'react-native';
 import {MapView, Marker, Polyline} from 'react-native-amap3d'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -34,7 +34,7 @@ const options = {
  * @extends {Component}
  */
 @connect(({app}) => ({pointTypeList: app.pointTypeList }))
-class AddPoint extends Component {
+class AddPoint extends PureComponent {
     
     constructor(props) {
         super(props); 

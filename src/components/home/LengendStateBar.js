@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import {mapLengedBack,mapLengedFore} from '../../utils/mapconfig'
 import { connect } from 'react-redux';
@@ -11,8 +11,8 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @class LengendStateBar
  * @extends {Component}
  */
-@connect(({app})=>({pressPollutantCode:app.pressPollutantCode}))
-class LengendStateBar extends Component {
+@connect(({map})=>({pressPollutantCode:map.pressPollutantCode}))
+class LengendStateBar extends PureComponent {
     constructor(props) {
         super(props); 
         this.state = {        

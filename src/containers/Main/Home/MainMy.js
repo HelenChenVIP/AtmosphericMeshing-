@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Image,Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { clearToken,  } from '../../../dvapack/storage';
@@ -13,7 +13,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @extends {Component}
  */
 @connect()
-class MainMy extends Component {
+class MainMy extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '我的',
         tabBarLable: '我的',

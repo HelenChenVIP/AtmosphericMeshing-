@@ -1,9 +1,10 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,ScrollView,processColor,Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import {BarChart} from 'react-native-charts-wrapper';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
+import LoadingComponent from '../../components/comment/LoadingComponent'
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -13,22 +14,25 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsChart
  * @extends {Component}
  */
-@connect(({app})=>({zxData:app.zxData}))
-class PointDetailsBar extends Component {
+@connect(({app,loading})=>({
+  zxData:app.zxData,
+  // codeClickID:app.codeClickID,
+  // startTime:app.startTime,
+  // endTime:app.endTime,
+  // dgimn:app.dgimn,
+  loading:loading.effects['app/GetDayDatas'],}))
+class PointDetailsBar extends PureComponent  {
     constructor() {
         super();
         this.state = {
           clicked: false,
-          style: {
-          },
-          isshowloading:false,
           data: {
             dataSets: [{
-              values: [{y: 100}, {y: 105}, {y: 102}, {y: 110}, {y: 114}, {y: 109}, {y: 105}, {y: 99}, {y: 95}],
-              label: 'Bar dataSet',
+              values: [],
+              label: '日数据',
               config: {
                 drawValues: false,
-                colors: [processColor('red'), processColor('blue'), processColor('green')],
+                colors: [],
                 barSpacePercent: 40,
                 barShadowColor: processColor('lightgrey'),
                 highlightAlpha: 90,
@@ -37,23 +41,22 @@ class PointDetailsBar extends Component {
             }],
           },
           xAxis: {
-            valueFormatter: ['1', '2', '3'],
-            granularityEnabled: true,
+            drawGridLines: false,
+            valueFormatter: [],
+            granularityEnabled: false,
             granularity : 1,
-            axisMaximum: 100, 
-            axisMinimum: -0.5, 
             centerAxisLabels: true, 
             position: 'BOTTOM' ,
-            drawGridLines: false
+            drawLabels: true,
           },
           yAxis:{
-            left:{axisMinimum: 0},
             drawGridLines: false,
             position: 'LEFT' ,
             left: {
-              drawLabels: true,
-              drawAxisLine: true,
+              drawAxisLine: false,
               drawGridLines: false,
+              axisMinimum: 0,
+              drawLabels: true,
               drawValueAboveBar:false,
               zeroLine: {
                 enabled: true,
@@ -87,26 +90,36 @@ class PointDetailsBar extends Component {
         };
       }
       componentWillMount(){
-        let dgimn=this.props.pointDetailsShow.dgimn;
-        let codeClickID=this.props.pointDetailsShow.codeClickID;
-        let startTime=this.props.pointDetailsShow.startTime;
-        let endTime=this.props.pointDetailsShow.endTime;
+        // let dgimn=this.props.dgimn;
+        // let codeClickID=this.props.codeClickID;
+        // let startTime=this.props.startTime;
+        // let endTime=this.props.endTime;
         this.props.dispatch(createAction('app/GetDayDatas')({
-          dgimn:dgimn,
-          codeClickID:codeClickID,
-          startTime:startTime,
-          endTime:endTime
+          // dgimn:dgimn,
+          // codeClickID:codeClickID,
+          // startTime:startTime,
+          // endTime:endTime
            }));
       } 
       componentWillReceiveProps(nextProps) {
         if (nextProps.zxData !== this.props.zxData) {
+          // let dgimn=this.props.dgimn;
+          // let codeClickID=this.props.codeClickID;
+          // let startTime=this.props.startTime;
+          // let endTime=this.props.endTime;
+          // this.props.dispatch(createAction('app/GetDayDatas')({
+          //   dgimn:dgimn,
+          //   codeClickID:codeClickID,
+          //   startTime:startTime,
+          //   endTime:endTime
+          //    }));
           let values=[];
           let valueFormatter=[];
           let colors=[];
           let axisMaximum=nextProps.zxData.length;
           nextProps.zxData.map((item,key)=>{
-          values.push({y:item.YValue,marker:`时间:${item.XValue}\n值:${item.YValue}`});
-          valueFormatter.push(item.XValue);
+          values.push({y:item.YValue,marker:`时间:${(item.XValue).substring(0,5)}\n值:${item.YValue}`});
+          valueFormatter.push((item.XValue).substring(0,5));
           colors.push(processColor(item.chartColor));
           })
           this.setState({
@@ -147,7 +160,9 @@ class PointDetailsBar extends Component {
     }
     render() {
         return (
-            <BarChart
+          this.props.loading?
+          <LoadingComponent/>
+            :<BarChart
             style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT/3}}
             data={this.state.data}
             xAxis={this.state.xAxis}

@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Image, Dimensions, TouchableOpacity } from 'react-native';
 import PollutantcodeBarRank from '../../../components/rank/PollutantcodeBarRank';
 import { connect } from 'react-redux';
@@ -14,8 +14,8 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @class MainRank
  * @extends {Component}
  */
-@connect(({app})=>({pressPollutantCode:app.pressPollutantCode}))
-class MainRank extends Component {
+@connect(({map})=>({pressPollutantCode:map.pressPollutantCode}))
+class MainRank extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         headerTitle: '实时排名',
         title: '排名',
@@ -33,7 +33,7 @@ class MainRank extends Component {
         this.props.navigation.setParams({navigatePress:this.rankUpDown})
       }
       rankUpDown=()=>{
-        this.props.navigation.dispatch(createAction('app/getpressCodeData')({
+        this.props.navigation.dispatch(createAction('map/mapAllRedures')({
           whitchPage:'Rank',
           pressPollutantCodeRank: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
           pressPollutantCodeMap: ''

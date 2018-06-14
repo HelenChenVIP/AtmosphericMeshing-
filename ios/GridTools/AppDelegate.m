@@ -11,16 +11,14 @@
 
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
-#import "SplashScreen.h" //使用react-native-splash-screen
-#import <AMapFoundationKit/AMapFoundationKit.h>
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
+
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:nil];
-//  jsCodeLocation = [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"GridTools"
@@ -33,8 +31,6 @@
   rootViewController.view = rootView;
   self.window.rootViewController = rootViewController;
   [self.window makeKeyAndVisible];
-//  [SplashScreen show];  //使用react-native-splash-screen
-  [AMapServices sharedServices].apiKey = @"7bd17268fe0385ff803add1814c11b16";
   return YES;
 }
 

@@ -1,10 +1,9 @@
 rootProject.name = 'GridTools'
-include ':react-native-splash-screen'
-project(':react-native-splash-screen').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-splash-screen/android')
-include ':react-native-svg'
-project(':react-native-svg').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-svg/android')
-include ':react-native-gesture-handler'
-project(':react-native-gesture-handler').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-gesture-handler/android')
+include ':react-native-charts-wrapper'
+project(':react-native-charts-wrapper').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-charts-wrapper/android')
+
+include ':react-native-amap3d'
+project(':react-native-amap3d').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-amap3d/lib/android')
+
 
 include ':app'
-

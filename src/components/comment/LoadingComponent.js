@@ -1,6 +1,6 @@
 
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 
 import {
   View,
@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
-class LoadingComponent extends Component {
+class LoadingComponent extends PureComponent {
   render() {
     return (
       <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>

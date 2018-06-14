@@ -1,5 +1,5 @@
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Dimensions,TouchableOpacity, Animated,Platform,Image } from 'react-native';
 import PointDetailsMap from './../../components/PointDetails/PointDetailsMap';
 import PointDetailsShow from '../../components/PointDetails/PointDetailsShow';
@@ -15,8 +15,16 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetails
  * @extends {Component}
  */
-@connect()
-class PointDetails extends Component {
+@connect(({app})=>({fillIcon:app.fillIcon,
+    latitude:app.latitude,
+    longitude:app.longitude,
+    pointName:app.pointName,
+    pollutantType:app.pollutantType,
+    linkman:app.linkman,
+    region:app.region,
+    dgimn:app.dgimn,
+    equitmentType:app.equitmentType,}))
+class PointDetails extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '站点详情',
         tabBarLable: '站点详情',
@@ -36,16 +44,15 @@ class PointDetails extends Component {
         };
       }
     render() {
-        let fillIcon=this.props.navigation.state.params.fillIcon;
-        let latitude=this.props.navigation.state.params.latitude;
-        let longitude=this.props.navigation.state.params.longitude;
-
-        let pointName=this.props.navigation.state.params.pointName;
-        let pollutantType=this.props.navigation.state.params.pollutantType;
-        let linkman=this.props.navigation.state.params.linkman;
-        let region=this.props.navigation.state.params.region;
-        let dgimn=this.props.navigation.state.params.dgimn;
-        let equitmentType=this.props.navigation.state.params.equitmentType;
+        let fillIcon=this.props.fillIcon;
+        let latitude=this.props.latitude;
+        let longitude=this.props.longitude;
+        let pointName=this.props.pointName;
+        let pollutantType=this.props.pollutantType;
+        let linkman=this.props.linkman;
+        let region=this.props.region;
+        let dgimn=this.props.dgimn;
+        let equitmentType=this.props.equitmentType;
         return (
                <View style={styles.container}>
                     <PointDetailsShow pointDetails={{pointName,pollutantType,linkman,region,dgimn,equitmentType}}/>
