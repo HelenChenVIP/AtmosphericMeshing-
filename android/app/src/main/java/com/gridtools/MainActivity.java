@@ -1,8 +1,6 @@
 package com.gridtools;
 
 import com.facebook.react.ReactActivity;
-import android.os.Bundle;
-import com.microsoft.codepush.react.CodePush;
 
 public class MainActivity extends ReactActivity {
 

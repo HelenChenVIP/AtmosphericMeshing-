@@ -1,4 +1,4 @@
 <resources>
-    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">fpx3ovlEXfr7nVIhi5k_Of3NZTGJd4a7e3a5-9ea1-45d8-9b3f-6f08d1f6119f</string>
-    <string name="app_name">临沂网格化</string>
+    <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey">fpx3ovlEXfr7nVIhi5k_Of3NZTGJd4a7e3a5-9ea1-45d8-9b3f-6f08d1f6119f </string>
+    <string name="app_name">大气环境网格化监管系统</string>
 </resources>

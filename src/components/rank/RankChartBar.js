@@ -18,7 +18,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     listRankData:map.listRankData,
     ishow:map.ishow,
     loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],
-    }))
+    }),null,null,{withRef:true})
 class RankChartBar extends Component {
     constructor() {
         super();

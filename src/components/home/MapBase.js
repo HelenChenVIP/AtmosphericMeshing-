@@ -158,7 +158,7 @@ class MapBase extends PureComponent {
                         avglong:item.dbo__T_Bas_CommonPoint__Longitude,
                         // activecode:item.dbo__T_Bas_CommonPoint__DGIMN
                     });
-                    this.props.dispatch(createAction('app/setActivecode')({activecode:item.dbo__T_Bas_CommonPoint__DGIMN}));
+                    this.props.dispatch(createAction('map/setActivecode')({activecode:item.dbo__T_Bas_CommonPoint__DGIMN}));
                 }}               
                 coordinate={{
                 latitude: mLonAndmLat[1],
@@ -174,7 +174,7 @@ class MapBase extends PureComponent {
                         <TouchableOpacity
                         onPress={() => {
                             // this.setState({activecode:''});
-                            this.props.dispatch(createAction('app/setActivecode')({'activecode':''}));
+                            this.props.dispatch(createAction('map/setActivecode')({'activecode':''}));
                             }}
                         style={{position:'absolute',right:10,marginTop:5}}>
                             <Image source={require('../../images/icon_close_red.png')} style={{width:26,height:26,}}></Image>

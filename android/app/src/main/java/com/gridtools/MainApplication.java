@@ -1,7 +1,13 @@
 package com.gridtools;
 
 import android.app.Application;
+
 import com.facebook.react.ReactApplication;
+import com.oblador.vectoricons.VectorIconsPackage;
+import com.horcrux.svg.SvgPackage;
+import org.devio.rn.splashscreen.SplashScreenReactPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.microsoft.codepush.react.CodePush;
 import com.github.wuxudong.rncharts.MPAndroidChartPackage;
 import cn.qiuxiang.react.amap3d.AMap3DPackage;
 import com.facebook.react.ReactNativeHost;
@@ -30,6 +36,11 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VectorIconsPackage(),
+            new SvgPackage(),
+            new SplashScreenReactPackage(),
+            new ImagePickerPackage(),
+            new CodePush(getResources().getString(R.string.reactNativeCodePush_androidDeploymentKey), getApplicationContext(), BuildConfig.DEBUG),
             new MPAndroidChartPackage(),
             new AMap3DPackage()
       );
@@ -50,6 +61,5 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
-    
   }
 }
