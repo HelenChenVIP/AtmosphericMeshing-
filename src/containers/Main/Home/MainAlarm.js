@@ -40,16 +40,7 @@ class MainAlarm extends PureComponent {
         let nowTime = (new Date()).valueOf();
         let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
         let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-        this.props.dispatch(createAction('alarm/updateState')({
-            starttime:initLastDate,
-            endtime:initCurrenDate,
-            polluntCode:'',
-            warnReason:'',
-            RegionCode:'',
-            pointName:'',
-            state:mState
-            }));
-        // this.props.dispatch(createAction('alarm/GetMainAlarm')({
+        // this.props.dispatch(createAction('alarm/updateState')({
         //     starttime:initLastDate,
         //     endtime:initCurrenDate,
         //     polluntCode:'',
@@ -58,6 +49,16 @@ class MainAlarm extends PureComponent {
         //     pointName:'',
         //     state:mState
         //     }));
+        debugger;
+        this.props.dispatch(createAction('alarm/GetMainAlarm')({
+            starttime:initLastDate,
+            endtime:initCurrenDate,
+            polluntCode:'',
+            warnReason:'',
+            RegionCode:'',
+            pointName:'',
+            state:mState
+            }));
       }
       
     render() {

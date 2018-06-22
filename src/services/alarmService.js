@@ -51,7 +51,7 @@ export const GetMainAlarmService = async(param) => {
       WarningReason: param.WarningReason,
       sceneDescription: param.sceneDescription,
       ImageID: param.ImageID,
-      personalFeedback: user.User_Name,
+      personalFeedback: user.UserName,
       feedbackTime: param.feedbackTime,
       RecoveryTime: param.RecoveryTime,
       longitude: param.longitude,
@@ -59,7 +59,6 @@ export const GetMainAlarmService = async(param) => {
       isRecord:1
     };
     const result = await post(api.alarm.AddEarlyWarningFeedback, body, null);
-   
     return result;
   };
   //获取核实单

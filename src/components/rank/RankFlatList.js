@@ -36,7 +36,6 @@ class RankFlatList extends Component {
         );
     }
     _sortRankChart = () => {
-        debugger;
         this.props.dispatch(createAction('map/doSortchartDataAll')()); 
         this._rankChartBar.wrappedInstance._sort();
     }

@@ -117,7 +117,6 @@ export default Model.extend({
           *doSortchartDataAll({payload},{update,put,call,select}){
             let { listRankData:a } = yield select(state => state.map);
             let listRankData = [];
-            debugger;
             if(a){
               for (let i = a.length - 1;i>=0;i--) {
                 listRankData.push(a[i]);

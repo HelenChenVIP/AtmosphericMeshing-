@@ -32,6 +32,7 @@ class AlarmDoneFeed extends PureComponent {
         let nowTime = (new Date()).valueOf();
         let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
         let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
+        debugger;
         this.props.dispatch(createAction('alarm/GetMainAlarm')({
             starttime:initLastDate,
             endtime:initCurrenDate,

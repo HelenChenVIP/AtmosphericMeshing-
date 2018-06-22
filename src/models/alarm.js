@@ -31,6 +31,7 @@ export default Model.extend({
                     RegionCode:'',
                     pointName:'',
                     state:state});
+                    debugger;
             if(mainAlarmData!=null){
               let timeData=[];
               timeData.push({starttime,endtime});
@@ -51,6 +52,7 @@ export default Model.extend({
                       PageIndex:PageIndex,
                       PageSize:PageSize,
                       IsPc:IsPc,});
+                      debugger;
             if(NoAlarmDesData !== null){
               if(PageIndex>1){
                 if(NoAlarmDesData.length>=allTotal){
@@ -70,7 +72,6 @@ export default Model.extend({
           },
 
           * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { callWithSpinning, update, put, call, select }) {
-           
             const result = yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
             if (result&&result.requstresult==='1') {
               let {NoAlarmDesData,mainAlarmData} = yield select(state => state.alarm);

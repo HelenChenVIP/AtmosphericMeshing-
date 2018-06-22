@@ -57,6 +57,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
             latitude: '',
             sceneDescription:'',
             imagelist: [],
+            checkCode:'',
         }
       }
     //选择时间
@@ -128,7 +129,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
         postjson: {
             DGIMN: this.props.navigation.state.params.DGIMN,
             ExceptionProcessingID: paramExceptionProcessingID,
-            WarningReason: WarningReason,
+            WarningReason: this.state.checkCode,
             sceneDescription: this.state.sceneDescription,
             ImageID: paramImageID,
             feedbackTime: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -187,6 +188,11 @@ class AlarmNoFeedbackCheck extends PureComponent {
         });
         CloseToast();
       }
+      onChange = (checkCode) => {
+        this.setState({
+          checkCode:checkCode
+        });
+      };
     render() {
         return (
             <ScrollView> 
@@ -194,18 +200,17 @@ class AlarmNoFeedbackCheck extends PureComponent {
                 <TouchableOpacity style={{width:SCREEN_WIDTH,height:30,justifyContent:'center',alignItems:'center',}} onPress={() => {this.lookMore()}}>
                 <Text style={{fontSize:14,color:'#4782f5',textAlignVertical:'center',textAlign:'center'}}>点击查看已选预警信息</Text>
                 </TouchableOpacity>
-                <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:130,backgroundColor:'#ffffff',alignItems:'center',borderColor:'#dedede',borderWidth:1}}>
-                    <Text style={{fontSize:16,color:'#333333',marginLeft:10,textAlignVertical:'center'}}>预警原因：</Text>
-                    <View style={{flex:1,height:126,}}>
-                    {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
-                            return (
-                              <RadioItem style={{width:200,height:30}} key={item.checkCode} checked={this.state.checkCode === item.checkCode} onChange={() => this.reasonChoose(item)}>
-                              {item.checkReson}
-                              </RadioItem>
-                            );
-                        })}
-                    </View>
-                </View>
+                
+                <View style={{width:SCREEN_WIDTH,height:200,flexDirection:'row'}}>
+                <List style={{flexDirection:'row',width:SCREEN_WIDTH,height:200,backgroundColor:'#ffffff'}} renderHeader={() => '预警原因：'}>
+                {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
+                  return ( 
+                    <RadioItem style={{width:200,height:50}} key={item.checkCode} checked={this.state.checkCode === item.checkCode} onChange={() => this.onChange(item.checkCode)}>
+                  {item.checkReson}
+                 </RadioItem>);
+                })}
+               </List>
+               </View>
                 <DatePicker
                 mode="datetime"
                 extra="请选择(可选)"

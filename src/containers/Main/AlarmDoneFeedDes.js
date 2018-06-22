@@ -6,6 +6,8 @@ import moment from 'moment';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
 import {pollutantUnit} from '../../utils/alarm';
 import NoDataComponent from '../../components/comment/NoDataComponent';
+import LoadingComponent from '../../components/comment/LoadingComponent';
+
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 /**
@@ -14,7 +16,10 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class AlarmDoneFeedDes
  * @extends {Component}
  */
-@connect(({alarm})=>({NoAlarmDesData:alarm.NoAlarmDesData,PageIndex:alarm.PageIndex}))
+@connect(({alarm,loading})=>({NoAlarmDesData:alarm.NoAlarmDesData,
+    PageIndex:alarm.PageIndex,
+    loading:loading.effects['alarm/GetNoAlarmDes'],
+}))
 class AlarmDoneFeedDes extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '反馈详情',
@@ -99,6 +104,8 @@ class AlarmDoneFeedDes extends PureComponent {
     render() {
         return (
             <View style={styles.container}>
+            {this.props.loading?
+                <LoadingComponent Message={'正在加载数据'} /> :
                 <FlatList           
                 ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                 data={this.props.NoAlarmDesData}
@@ -143,6 +150,7 @@ class AlarmDoneFeedDes extends PureComponent {
                       IsPc:'false',
                       }));
                 }}/>
+            }
             </View>
         );
     }

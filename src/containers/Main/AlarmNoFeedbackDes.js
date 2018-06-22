@@ -60,6 +60,7 @@ class AlarmNoFeedbackDes extends PureComponent {
             mEndTime=this.props.navigation.state.params.EndTime;
           }
         this.setState({mBeginTime:mBeginTime,mEndTime:mEndTime});
+        debugger;
         this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
             DGIMN:this.props.navigation.state.params.DGIMN,
             PointName:this.props.navigation.state.params.PointName,
@@ -79,6 +80,7 @@ class AlarmNoFeedbackDes extends PureComponent {
           startDate: moment(startDate).format('YYYY-MM-DD'),
           endDate: moment(endDate).format('YYYY-MM-DD'),
         });
+        debugger;
         this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
             DGIMN:this.props.navigation.state.params.DGIMN,
             PointName:this.props.navigation.state.params.PointName,
@@ -168,12 +170,6 @@ class AlarmNoFeedbackDes extends PureComponent {
       }
     //核实
     _check=()=>{
-        // console.log(this.state.checkboxIndexmap);
-        // let arr = [];
-        // this.state.checkboxIndexmap.forEach((item, key, mapObj)=>{
-        //     arr.push(item);
-        // });
-        // console.log(arr);
         if (this.state.checkboxStatemap.size !== 0) {
             this.props.dispatch(NavigationActions.navigate({
                 routeName: 'AlarmNoFeedbackCheck',                        
@@ -253,6 +249,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                     }else{
                         loadingpage=1;
                     }
+                    debugger;
                   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
                       DGIMN:this.props.navigation.state.params.DGIMN,
                       PointName:this.props.navigation.state.params.PointName,

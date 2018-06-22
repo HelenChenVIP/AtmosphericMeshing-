@@ -39,6 +39,7 @@ export const uploadimage = async (param) => {
       passWord: param.passWord,
     };
     const result = await posturl(api.tool.login, body, null);
+    debugger;
     return result === null ? { data: null } : result;
   };
 

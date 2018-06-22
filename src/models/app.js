@@ -122,6 +122,7 @@ export default Model.extend({
      * @param {any} { call, put } 
      */
     * login({ payload: { userName, passWord } }, { call, put }) {
+      debugger;
       if (userName === '' || passWord === '') {
         ShowToast('用户名，密码不能为空');
       } else {
