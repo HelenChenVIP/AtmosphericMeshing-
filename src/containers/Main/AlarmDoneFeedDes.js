@@ -55,20 +55,22 @@ class AlarmDoneFeedDes extends PureComponent {
           mEndTime=this.props.navigation.state.params.EndTime;
         }
         this.setState({mBeginTime:mBeginTime,mEndTime:mEndTime});
-      let PageIndex=1;
-      this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-          DGIMN:this.props.navigation.state.params.DGIMN,
-          PointName:this.props.navigation.state.params.PointName,
-          RegionCode:'',
-          PolluntCode:'',
-          BeginTime:mBeginTime,
-          EndTime:mEndTime,
-          EarlyWaringType:'',
-          State:'2',
-          PageIndex:PageIndex,
-          PageSize:'8',
-          IsPc:'false',
-          }));
+       this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+        PageIndex:1,}));
+
+    //   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+    //       DGIMN:this.props.navigation.state.params.DGIMN,
+    //       PointName:this.props.navigation.state.params.PointName,
+    //       RegionCode:'',
+    //       PolluntCode:'',
+    //       BeginTime:mBeginTime,
+    //       EndTime:mEndTime,
+    //       EarlyWaringType:'',
+    //       State:'1',
+    //       PageIndex:PageIndex,
+    //       PageSize:'8',
+    //       IsPc:'false',
+    //       }));
     }    
      //FlatList key
      _extraUniqueKey=(item,index)=> `index44${index}${item}`
@@ -115,19 +117,25 @@ class AlarmDoneFeedDes extends PureComponent {
                 initialNumToRender={8}
                 refreshing={false}
                 onRefresh={() => {
-                  this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                      DGIMN:this.props.navigation.state.params.DGIMN,
-                      PointName:this.props.navigation.state.params.PointName,
-                      RegionCode:'',
-                      PolluntCode:'',
-                      BeginTime:this.state.mBeginTime,
-                      EndTime:this.state.mEndTime,
-                      EarlyWaringType:'',
-                      State:'2',
-                      PageIndex:1,
-                      PageSize:'8',
-                      IsPc:'false',
-                      }));
+                    this.props.dispatch(createAction('alarm/updateState')({
+                        BeginTime:this.state.mBeginTime,
+                        EndTime:this.state.mEndTime,}));
+                    this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+                        PageIndex:1,}));
+
+                //   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+                //       DGIMN:this.props.navigation.state.params.DGIMN,
+                //       PointName:this.props.navigation.state.params.PointName,
+                //       RegionCode:'',
+                //       PolluntCode:'',
+                //       BeginTime:this.state.mBeginTime,
+                //       EndTime:this.state.mEndTime,
+                //       EarlyWaringType:'',
+                //       State:'2',
+                //       PageIndex:1,
+                //       PageSize:'8',
+                //       IsPc:'false',
+                //       }));
                 }}
                 onEndReached={(info) => {
                     let loadingpage=1;
@@ -136,19 +144,24 @@ class AlarmDoneFeedDes extends PureComponent {
                     }else{
                         loadingpage=1;
                     }
-                  this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                      DGIMN:this.props.navigation.state.params.DGIMN,
-                      PointName:this.props.navigation.state.params.PointName,
-                      RegionCode:'',
-                      PolluntCode:'',
-                      BeginTime:this.state.mBeginTime,
-                      EndTime:this.state.mEndTime,
-                      EarlyWaringType:'',
-                      State:'2',
-                      PageIndex:loadingpage,
-                      PageSize:'8',
-                      IsPc:'false',
-                      }));
+                    this.props.dispatch(createAction('alarm/updateState')({
+                        BeginTime:this.state.mBeginTime,
+                        EndTime:this.state.mEndTime,}));
+                    this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+                        PageIndex:loadingpage,}));
+                //   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+                //       DGIMN:this.props.navigation.state.params.DGIMN,
+                //       PointName:this.props.navigation.state.params.PointName,
+                //       RegionCode:'',
+                //       PolluntCode:'',
+                //       BeginTime:this.state.mBeginTime,
+                //       EndTime:this.state.mEndTime,
+                //       EarlyWaringType:'',
+                //       State:'2',
+                //       PageIndex:loadingpage,
+                //       PageSize:'8',
+                //       IsPc:'false',
+                //       }));
                 }}/>
             }
             </View>

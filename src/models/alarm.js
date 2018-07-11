@@ -11,8 +11,23 @@ export default Model.extend({
       GetCheckEarlyWarningInfo:[],
       timeData:[],
       PageSize:1,
+      alarmNoDesData:{
+        DGIMN:'',
+        PointName:'',
+        BeginTime:'',
+        EndTime:'',
+        RegionCode:'',
+        PolluntCode:'',
+        EarlyWaringType:'',
+        State:'0',
+        IsPc:'false',
+        PageIndex:1,
+      }
+
     },
-    reducers:{},
+    reducers:{
+      
+    },
     
     subscriptions: {
         setupSubscriber({ dispatch, listen }) {
@@ -39,7 +54,8 @@ export default Model.extend({
             }
           },
           
-          * GetNoAlarmDes({payload:{DGIMN,PointName,RegionCode,PolluntCode,BeginTime,EndTime,EarlyWaringType,State,PageIndex,PageSize,IsPc}}, {update, put, call, select}){
+          * GetNoAlarmDes({payload:{PageIndex}}, {update, put, call, select}){
+            const {DGIMN,PointName,RegionCode,PolluntCode,BeginTime,EndTime,EarlyWaringType,State,PageSize,IsPc} = yield select(state => state.alarm);
             let { data : NoAlarmDesData,total : allTotal}=yield call(alarmService.GetAllAlarmDataList,
                     {DGIMN:DGIMN,
                       PointName:PointName,
@@ -53,7 +69,7 @@ export default Model.extend({
                       PageSize:PageSize,
                       IsPc:IsPc,});
                       debugger;
-            if(NoAlarmDesData !== null){
+            if(NoAlarmDesData){
               if(PageIndex>1){
                 if(NoAlarmDesData.length>=allTotal){
                   ShowToast('没有更多数据...');

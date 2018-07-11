@@ -65,12 +65,27 @@ class AlarmDoneFeed extends PureComponent {
         if(item!=null){
             return(
                 <TouchableOpacity onPress={() => {
+                    this.props.dispatch(createAction('alarm/updateState')({
+                        DGIMN:item.item.dgimn,
+                        PointName:item.item.pointName,
+                        BeginTime:this.state.startDate,
+                        EndTime:this.state.endDate,
+                        RegionCode:'',
+                        PolluntCode:'',
+                        EarlyWaringType:'',
+                        State:'1',
+                        IsPc:'false',
+                        PageSize:'8',}));
                     this.props.dispatch(NavigationActions.navigate({
                         routeName: 'AlarmDoneFeedDes',                        
-                        params: {DGIMN:item.item.dgimn,
-                            PointName:item.item.pointName,
-                            BeginTime:this.state.startDate,
-                            EndTime:this.state.endDate,} }));
+                        params: {} }));
+
+                    // this.props.dispatch(NavigationActions.navigate({
+                    //     routeName: 'AlarmDoneFeedDes',                        
+                    //     params: {DGIMN:item.item.dgimn,
+                    //         PointName:item.item.pointName,
+                    //         BeginTime:this.state.startDate,
+                    //         EndTime:this.state.endDate,} }));
                 }}>
                     <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'row',height:70,marginTop:10,marginLeft:10,marginRight:10}}>
                         <Image source={require('../../images/icon_alarm_point.png')} style={{width:40,height:40,marginLeft:10,alignSelf:'center'}}></Image>

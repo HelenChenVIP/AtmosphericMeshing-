@@ -35,7 +35,7 @@ class MainAlarm extends PureComponent {
           if(i==0){
             mState=0;
           }else{
-            mState=2;
+            mState=1;
           }
         let nowTime = (new Date()).valueOf();
         let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');

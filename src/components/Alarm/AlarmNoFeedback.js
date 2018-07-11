@@ -26,8 +26,8 @@ class AlarmNoFeedback extends PureComponent {
         super(props);
         this.state = {
           isupdate: false,
-          startDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-          endDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+          startDate: moment().add(-3, 'days').format('YYYY-MM-DD'),
+          endDate: moment((new Date()).valueOf()).format('YYYY-MM-DD'),
         };
       }
       componentWillMount(){
@@ -68,12 +68,21 @@ class AlarmNoFeedback extends PureComponent {
         if(item!=null){
             return(
                 <TouchableOpacity onPress={() => {
+                    debugger;
+                    this.props.dispatch(createAction('alarm/updateState')({
+                        DGIMN:item.item.dgimn,
+                        PointName:item.item.pointName,
+                        BeginTime:this.state.startDate,
+                        EndTime:this.state.endDate,
+                        RegionCode:'',
+                        PolluntCode:'',
+                        EarlyWaringType:'',
+                        State:'0',
+                        IsPc:'false',
+                        PageSize:'8',}));
                     this.props.dispatch(NavigationActions.navigate({
                         routeName: 'AlarmNoFeedbackDes',                        
-                        params: {DGIMN:item.item.dgimn,
-                            PointName:item.item.pointName,
-                            BeginTime:this.state.startDate,
-                            EndTime:this.state.endDate,} }));
+                        params: {} }));
                 }}>
                     <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'row',height:70,marginTop:5,marginBottom:5,marginLeft:10,marginRight:10}}>
                         <Image source={require('../../images/icon_alarm_point.png')} style={{width:40,height:40,marginLeft:10,alignSelf:'center'}}></Image>
