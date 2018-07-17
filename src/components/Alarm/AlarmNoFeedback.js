@@ -20,24 +20,21 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 @connect(({alarm,loading})=>({
     mainAlarmData:alarm.mainAlarmData,timeData:alarm.timeData,
     loading:loading.effects['alarm/GetMainAlarm'],
+    alarmNoDesData:alarm.alarmNoDesData,
 }))
 class AlarmNoFeedback extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
           isupdate: false,
-          startDate: moment().add(-3, 'days').format('YYYY-MM-DD'),
-          endDate: moment((new Date()).valueOf()).format('YYYY-MM-DD'),
+          startDate: '',
+          endDate: '',
         };
       }
       componentWillMount(){
-        let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-        debugger;
         this.props.dispatch(createAction('alarm/GetMainAlarm')({
-            starttime:initLastDate,
-            endtime:initCurrenDate,
+            starttime:'',
+            endtime:'',
             polluntCode:'',
             warnReason:'',
             RegionCode:'',
@@ -45,13 +42,20 @@ class AlarmNoFeedback extends PureComponent {
             state:'0'
             }));
        } 
-
+    
       confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
         this.setState({
           startDate: moment(startDate).format('YYYY-MM-DD'),
           endDate: moment(endDate).format('YYYY-MM-DD'),
         });
-        debugger;
+        this.props.dispatch(createAction('alarm/updateState')({
+            alarmNoDesData:{ 
+                ...this.props.alarmNoDesData,
+                BeginTime:moment(startDate).format('YYYY-MM-DD'),
+                EndTime:moment(endDate).format('YYYY-MM-DD'),
+                }
+        }));
+
         this.props.dispatch(createAction('alarm/GetMainAlarm')({
         starttime:moment(startDate).format('YYYY-MM-DD'),
         endtime:moment(endDate).format('YYYY-MM-DD'),
@@ -68,18 +72,21 @@ class AlarmNoFeedback extends PureComponent {
         if(item!=null){
             return(
                 <TouchableOpacity onPress={() => {
-                    debugger;
                     this.props.dispatch(createAction('alarm/updateState')({
-                        DGIMN:item.item.dgimn,
-                        PointName:item.item.pointName,
-                        BeginTime:this.state.startDate,
-                        EndTime:this.state.endDate,
-                        RegionCode:'',
-                        PolluntCode:'',
-                        EarlyWaringType:'',
-                        State:'0',
-                        IsPc:'false',
-                        PageSize:'8',}));
+                        alarmNoDesData:{ 
+                            ...this.props.alarmNoDesData,
+                            DGIMN:item.item.dgimn,
+                            PointName:item.item.pointName,
+                            BeginTime:this.state.startDate,
+                            EndTime:this.state.endDate,
+                            RegionCode:'',
+                            PolluntCode:'',
+                            EarlyWaringType:'',
+                            State:'0',
+                            IsPc:'false',
+                            PageSize:'12',
+                            }
+                       }));
                     this.props.dispatch(NavigationActions.navigate({
                         routeName: 'AlarmNoFeedbackDes',                        
                         params: {} }));
@@ -104,15 +111,19 @@ class AlarmNoFeedback extends PureComponent {
         }
     }
     render() {
+        const color = {
+            subColor: '#fff',
+            mainColor: '#4c68ea'
+          };
+          console.log('==============测试变化======================');
+          console.log(this.props.timeData);
+          console.log(this.props.mainAlarmData);
+          console.log('====================================');
         let CurrenDate=this.props.timeData.length>0 ?this.props.timeData[0].endtime: this.state.endDate;
         let LastDate=this.props.timeData.length>0 ?this.props.timeData[0].starttime:this.state.startDate;
         let nowTime = (new Date()).valueOf();
         let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
         let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-        const color = {
-            subColor: '#fff',
-            mainColor: '#4c68ea'
-          };
         let chooseTime = CurrenDate==LastDate ? '自 '+initLastDate+' 至 '+ initCurrenDate : '自 '+LastDate+' 至 '+CurrenDate;
         return (
             <View style={styles.container}>
@@ -141,7 +152,6 @@ class AlarmNoFeedback extends PureComponent {
                     renderItem={this._renderItemList}
                     keyExtractor={this._extraUniqueKey}/>
                 }
-                
             </View>
         );
     }

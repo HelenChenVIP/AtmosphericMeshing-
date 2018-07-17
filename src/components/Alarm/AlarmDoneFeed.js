@@ -32,7 +32,6 @@ class AlarmDoneFeed extends PureComponent {
         let nowTime = (new Date()).valueOf();
         let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
         let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-        debugger;
         this.props.dispatch(createAction('alarm/GetMainAlarm')({
             starttime:initLastDate,
             endtime:initCurrenDate,
@@ -80,12 +79,6 @@ class AlarmDoneFeed extends PureComponent {
                         routeName: 'AlarmDoneFeedDes',                        
                         params: {} }));
 
-                    // this.props.dispatch(NavigationActions.navigate({
-                    //     routeName: 'AlarmDoneFeedDes',                        
-                    //     params: {DGIMN:item.item.dgimn,
-                    //         PointName:item.item.pointName,
-                    //         BeginTime:this.state.startDate,
-                    //         EndTime:this.state.endDate,} }));
                 }}>
                     <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'row',height:70,marginTop:10,marginLeft:10,marginRight:10}}>
                         <Image source={require('../../images/icon_alarm_point.png')} style={{width:40,height:40,marginLeft:10,alignSelf:'center'}}></Image>

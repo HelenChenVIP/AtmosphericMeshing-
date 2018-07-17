@@ -10,7 +10,8 @@ export default Model.extend({
       NoAlarmDesData:[],
       GetCheckEarlyWarningInfo:[],
       timeData:[],
-      PageSize:1,
+      timeDesData:[],
+      PageSize:12,
       alarmNoDesData:{
         DGIMN:'',
         PointName:'',
@@ -22,6 +23,9 @@ export default Model.extend({
         State:'0',
         IsPc:'false',
         PageIndex:1,
+        checkboxStatemap: '',
+        checkboxIndexmap: '',
+        clearselect: '',
       }
 
     },
@@ -32,12 +36,17 @@ export default Model.extend({
     subscriptions: {
         setupSubscriber({ dispatch, listen }) {
           listen({
-            
           });
         },
       },
     effects:{
+      //报警一级界面数据
         * GetMainAlarm({payload:{starttime,endtime,polluntCode,warnReason,RegionCode,pointName,state}}, {update, put, call}){
+          let nowTime = (new Date()).valueOf();
+          if(starttime==''){
+            starttime=moment().add(-3, 'days').format('YYYY-MM-DD');
+            endtime=moment(nowTime).format('YYYY-MM-DD');
+          }
           const { data : mainAlarmData} = yield call(alarmService.GetMainAlarmService,
                     {starttime:starttime,
                     endtime:endtime,
@@ -46,16 +55,15 @@ export default Model.extend({
                     RegionCode:'',
                     pointName:'',
                     state:state});
-                    debugger;
             if(mainAlarmData!=null){
               let timeData=[];
               timeData.push({starttime,endtime});
               yield update({mainAlarmData,timeData});
             }
           },
-          
+          //报警二级界面数据
           * GetNoAlarmDes({payload:{PageIndex}}, {update, put, call, select}){
-            const {DGIMN,PointName,RegionCode,PolluntCode,BeginTime,EndTime,EarlyWaringType,State,PageSize,IsPc} = yield select(state => state.alarm);
+            const {alarmNoDesData:{DGIMN,PointName,RegionCode,PolluntCode,BeginTime,EndTime,EarlyWaringType,State,PageSize,IsPc}} = yield select(state => state.alarm);
             let { data : NoAlarmDesData,total : allTotal}=yield call(alarmService.GetAllAlarmDataList,
                     {DGIMN:DGIMN,
                       PointName:PointName,
@@ -76,19 +84,24 @@ export default Model.extend({
                 }else{
                   let { NoAlarmDesData:NoAlarmDesDataFirst } = yield select(state => state.alarm);
                   NoAlarmDesData=NoAlarmDesDataFirst.concat(NoAlarmDesData);
-                  yield update({NoAlarmDesData,PageIndex});
+                  let timeDesData=[];
+                  timeDesData.push({BeginTime,EndTime});
+                  yield update({NoAlarmDesData,PageIndex,timeDesData});
                 }
                
               }else{ 
-                yield update({NoAlarmDesData,PageIndex});
+                let timeDesData=[];
+                timeDesData.push({BeginTime,EndTime});
+                yield update({NoAlarmDesData,PageIndex,timeDesData});
               }
             }else{
-              ShowToast('数据为空');
+              ShowToast('暂无数据');
             }
           },
 
           * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { callWithSpinning, update, put, call, select }) {
             const result = yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
+            debugger;
             if (result&&result.requstresult==='1') {
               let {NoAlarmDesData,mainAlarmData} = yield select(state => state.alarm);
               console.log(mainAlarmData);
@@ -108,6 +121,7 @@ export default Model.extend({
                   _NoAlarmDesData.push(item);
                 }
               });
+              debugger;
               yield update({'NoAlarmDesData':_NoAlarmDesData,'mainAlarmData':_mainAlarmData});
               successCallback();
             } else {

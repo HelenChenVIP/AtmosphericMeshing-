@@ -39,7 +39,6 @@ export const uploadimage = async (param) => {
       passWord: param.passWord,
     };
     const result = await posturl(api.tool.login, body, null);
-    debugger;
     return result === null ? { data: null } : result;
   };
 
@@ -99,6 +98,7 @@ export const uploadimage = async (param) => {
       start=initLastDate;
     }
     let dic="{\"MN\":\"" + dgimn + "\",\"BeginTime\":\"" + start + "\",\"EndTime\":\"" + end + "\",\"PageIndex\":\"" + pageIndex + "\",\"PageSize\":\"" + pageSize + "\"}";
+    debugger;
     const body = {
       dic:dic,
     };

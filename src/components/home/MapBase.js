@@ -193,7 +193,7 @@ class MapBase extends PureComponent {
                                 fillIcon: item.fillIcon,
                                 latitude: item.dbo__T_Bas_CommonPoint__Latitude,
                                 longitude: item.dbo__T_Bas_CommonPoint__Longitude,
-                                pointName: item.dbo__T_Bas_CommonPoint__PointName,
+                                pointName_details: item.dbo__T_Bas_CommonPoint__PointName,
                                 pollutantType:item.dbo__T_Cod_PollutantType,
                                 linkman:item.dbo__T_Bas_CommonPoint__Linkman,
                                 region:item.dbo__T_Cod_Region,

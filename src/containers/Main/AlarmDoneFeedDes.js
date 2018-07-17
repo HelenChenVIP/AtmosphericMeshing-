@@ -18,6 +18,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({alarm,loading})=>({NoAlarmDesData:alarm.NoAlarmDesData,
     PageIndex:alarm.PageIndex,
+    alarmNoDesData:alarm.alarmNoDesData,
     loading:loading.effects['alarm/GetNoAlarmDes'],
 }))
 class AlarmDoneFeedDes extends PureComponent {
@@ -38,39 +39,22 @@ class AlarmDoneFeedDes extends PureComponent {
         this.state = {
             mBeginTime:'',
             mEndTime:'',
-
+            isRefreshing:false,
         };
       }
-    componentWillMount(){
-        let mBeginTime;
-        let mEndTime;
-        let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-        if(this.props.navigation.state.params.BeginTime==this.props.navigation.state.params.EndTime){
-            mBeginTime=initLastDate;
-            mEndTime=initCurrenDate;
-        }else{
-          mBeginTime=this.props.navigation.state.params.BeginTime;
-          mEndTime=this.props.navigation.state.params.EndTime;
+      componentWillMount(){
+        this.setState({mBeginTime:this.props.alarmNoDesData.BeginTime,mEndTime:this.props.alarmNoDesData.EndTime});
+        this.props.dispatch(createAction('alarm/updateState')({
+            alarmNoDesData:{
+                ...this.props.alarmNoDesData,
+                        BeginTime:this.props.alarmNoDesData.BeginTime,
+                        EndTime:this.props.alarmNoDesData.EndTime,
+            }
         }
-        this.setState({mBeginTime:mBeginTime,mEndTime:mEndTime});
-       this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-        PageIndex:1,}));
+        ));
+        this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+            PageIndex:1,}));
 
-    //   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-    //       DGIMN:this.props.navigation.state.params.DGIMN,
-    //       PointName:this.props.navigation.state.params.PointName,
-    //       RegionCode:'',
-    //       PolluntCode:'',
-    //       BeginTime:mBeginTime,
-    //       EndTime:mEndTime,
-    //       EarlyWaringType:'',
-    //       State:'1',
-    //       PageIndex:PageIndex,
-    //       PageSize:'8',
-    //       IsPc:'false',
-    //       }));
     }    
      //FlatList key
      _extraUniqueKey=(item,index)=> `index44${index}${item}`
@@ -114,28 +98,19 @@ class AlarmDoneFeedDes extends PureComponent {
                 renderItem={this._renderItemList}
                 keyExtractor={this._extraUniqueKey}
                 onEndReachedThreshold={0.5}
-                initialNumToRender={8}
-                refreshing={false}
+                initialNumToRender={12}
+                refreshing={this.state.isRefreshing}
                 onRefresh={() => {
+                    this.setState({isRefreshing:false});
                     this.props.dispatch(createAction('alarm/updateState')({
-                        BeginTime:this.state.mBeginTime,
-                        EndTime:this.state.mEndTime,}));
+                        alarmNoDesData:{
+                            ...this.props.alarmNoDesData,
+                            BeginTime:this.state.mBeginTime,
+                            EndTime:this.state.mEndTime,
+                        }
+                        }));
                     this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
                         PageIndex:1,}));
-
-                //   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                //       DGIMN:this.props.navigation.state.params.DGIMN,
-                //       PointName:this.props.navigation.state.params.PointName,
-                //       RegionCode:'',
-                //       PolluntCode:'',
-                //       BeginTime:this.state.mBeginTime,
-                //       EndTime:this.state.mEndTime,
-                //       EarlyWaringType:'',
-                //       State:'2',
-                //       PageIndex:1,
-                //       PageSize:'8',
-                //       IsPc:'false',
-                //       }));
                 }}
                 onEndReached={(info) => {
                     let loadingpage=1;
@@ -145,23 +120,13 @@ class AlarmDoneFeedDes extends PureComponent {
                         loadingpage=1;
                     }
                     this.props.dispatch(createAction('alarm/updateState')({
-                        BeginTime:this.state.mBeginTime,
-                        EndTime:this.state.mEndTime,}));
+                        alarmNoDesData:{
+                            ...this.props.alarmNoDesData,
+                            BeginTime:this.state.mBeginTime,
+                            EndTime:this.state.mEndTime,
+                        }}));
                     this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
                         PageIndex:loadingpage,}));
-                //   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                //       DGIMN:this.props.navigation.state.params.DGIMN,
-                //       PointName:this.props.navigation.state.params.PointName,
-                //       RegionCode:'',
-                //       PolluntCode:'',
-                //       BeginTime:this.state.mBeginTime,
-                //       EndTime:this.state.mEndTime,
-                //       EarlyWaringType:'',
-                //       State:'2',
-                //       PageIndex:loadingpage,
-                //       PageSize:'8',
-                //       IsPc:'false',
-                //       }));
                 }}/>
             }
             </View>

@@ -2,6 +2,7 @@ import { post, upload, get ,posturl} from '../dvapack/request';
 // 全局api文件
 import api from '../config/globalapi';
 import { loadToken } from '../dvapack/storage';
+import moment from 'moment';
 
  //获取未核实1级 state:0 未核实 2核实
 export const GetMainAlarmService = async(param) => {
@@ -24,13 +25,24 @@ export const GetMainAlarmService = async(param) => {
   //获取未核实2级
   export const GetAllAlarmDataList = async(param) => {
     //let dic=param.DGIMN+param.PointName+param.RegionCode+param.PolluntCode+param.BeginTime+param.EndTime+param.EarlyWaringType+param.State+param.PageIndex+param.PageSize+param.IsPc;
+    let nowTime = (new Date()).valueOf();
+    let BeginTime;
+    let EndTime;
+    if(param.BeginTime==''){
+      BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD');
+      EndTime=moment(nowTime).format('YYYY-MM-DD');
+    }else{
+      BeginTime=param.BeginTime;
+      EndTime=param.EndTime;
+    }
+
     let dic="{" +
     "\"DGIMN\":\"" + param.DGIMN + "\"," +
     "\"PointName\":\"" + param.PointName + "\"," +
     "\"RegionCode\":\"" + param.RegionCode + "\"," +
     "\"PolluntCode\":\"" + param.PolluntCode + "\"," +
-    "\"BeginTime\":\"" + param.BeginTime + "\"," +
-    "\"EndTime\":\"" + param.EndTime + "\"," +
+    "\"BeginTime\":\"" + BeginTime + "\"," +
+    "\"EndTime\":\"" + EndTime + "\"," +
     "\"EarlyWaringType\":\"" + param.EarlyWaringType + "\"," +
     "\"State\":\"" + param.State + "\"," +
     "\"PageIndex\":\"" + param.PageIndex + "\"," +
@@ -58,6 +70,7 @@ export const GetMainAlarmService = async(param) => {
       latitude: param.latitude,
       isRecord:1
     };
+    debugger;
     const result = await post(api.alarm.AddEarlyWarningFeedback, body, null);
     return result;
   };

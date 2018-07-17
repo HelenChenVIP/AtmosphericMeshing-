@@ -4,14 +4,8 @@ import { View, Text, StyleSheet,Image,Dimensions, TouchableOpacity } from 'react
 import { connect } from 'react-redux';
 import { clearToken,  } from '../../../dvapack/storage';
 import { NavigationActions } from '../../../utils';
-import { List, Radio, Flex, WhiteSpace } from 'antd-mobile';
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
-const RadioItem = Radio.RadioItem;
-const data = [
-    { value: 0, label: 'doctor' },
-    { value: 1, label: 'bachelor' },
-  ];
 /**
  * 主页-我的
  * HelenChen
@@ -48,12 +42,6 @@ class MainMy extends PureComponent {
           // JPushModule.deleteAlias((result) => {});
           this.props.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
     }
-    onChange = (value) => {
-        console.log('checkbox');
-        this.setState({
-          value,
-        });
-      };
     render() {
         return (
             <View style={{flexDirection:'column',backgroundColor:'#efefef'}}>
@@ -69,15 +57,6 @@ class MainMy extends PureComponent {
                 <Image source={require('../../../images/ic_logon.png')} style={styles.itemImageStyle}></Image>
                 <Text style={styles.itemTextView}>退出登录</Text>
             </TouchableOpacity> 
-            <View style={{width:SCREEN_WIDTH,height:500,flexDirection:'row'}}>
-                <List style={{flexDirection:'row',width:SCREEN_WIDTH,height:500,}} renderHeader={() => 'RadioItem demo'}>
-                {data.map(i => (
-                <RadioItem style={{width:200,height:50}} key={i.value} checked={this.state.value === i.value} onChange={() => this.onChange(i.value)}>
-                    {i.label}
-                </RadioItem>
-                ))}
-               </List>
-            </View>
 
             </View>
         );

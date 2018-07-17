@@ -54,8 +54,8 @@ class MainRank extends PureComponent {
     render() {
           return (
             <View style={{flexDirection:'column',flex:1,backgroundColor:'#ffffff'}}>
-                <PollutantcodeBarRank style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}/> 
-                <RankFlatList ref = {ref=>{console.log('ref');console.log(ref);_me._rankFlatList = ref; console.log(_me._rankFlatList);}}/>
+                <PollutantcodeBarRank style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}/>
+                <RankFlatList ref = {ref=>{_me._rankFlatList = ref}}/>
             </View>
             
         ); 

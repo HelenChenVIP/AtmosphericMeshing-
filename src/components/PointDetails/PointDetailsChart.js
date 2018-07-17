@@ -17,10 +17,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({app,loading})=>({
   zxData:app.zxData,
-  // codeClickID:app.codeClickID,
-  // startTime:app.startTime,
-  // endTime:app.endTime,
-  // dgimn:app.dgimn,
   loading:loading.effects['app/GetHourDatas'],}))
 class PointDetailsChart extends PureComponent  {
     constructor() {
@@ -44,10 +40,6 @@ class PointDetailsChart extends PureComponent  {
    
     componentWillReceiveProps(nextProps) {
       if (nextProps.zxData !== this.props.zxData) {
-        let dgimn=this.props.dgimn;
-        let codeClickID=this.props.codeClickID;
-        let startTime=this.props.startTime;
-        let endTime=this.props.endTime;
         let values=[];
         let valueFormatter=[];
         let axisMaximum=nextProps.zxData.length;
@@ -130,9 +122,7 @@ class PointDetailsChart extends PureComponent  {
       console.log(event.nativeEvent)
     }
     render() {
-        let dgimn=this.props.dgimn;
-        let mData=this.state.data;
-        let xAxis=this.state.xAxis;
+      debugger;
         return (
           this.props.loading?
           <LoadingComponent/>

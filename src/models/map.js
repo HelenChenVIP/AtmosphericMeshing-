@@ -19,7 +19,9 @@ export default Model.extend({
         pressPollutantCodeRank:'',
         allPointList:[],
         realTimeDataList:[],
+
         fillIcon:'',latitude:'',longitude:'',pointName_details:'',pollutantType:'',linkman:'',region:'',dgimn:'',equitmentType:'',
+        
         markerRealDatas:[],
         mallPointList:[],
         mkindCode:[],

@@ -9,9 +9,11 @@ import moment from 'moment';
 import ImagePicker from 'react-native-image-picker';
 import NoDataComponent from '../../components/comment/NoDataComponent';
 import { Radio} from 'antd-mobile';
-
+import AlarmNoFeedbackCheckMap from '../../components/Alarm/AlarmNoFeedbackCheckMap';
 const RadioItem = Radio.RadioItem;
 import { createAction,ShowToast,NavigationActions,CloseToast,ShowResult,ShowLoadingToast} from '../../utils'; 
+import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const options = {
@@ -31,7 +33,9 @@ const options = {
  * @class AlarmNoFeedbackCheck
  * @extends {Component}
  */
-@connect(({alarm})=>({NoAlarmDesData:alarm.NoAlarmDesData}))
+@connect(({alarm})=>({NoAlarmDesData:alarm.NoAlarmDesData,
+  alarmNoDesData:alarm.alarmNoDesData,
+  }))
 class AlarmNoFeedbackCheck extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '核实反馈',
@@ -57,7 +61,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
             latitude: '',
             sceneDescription:'',
             imagelist: [],
-            checkCode:'',
+            value:0,
         }
       }
     //选择时间
@@ -68,7 +72,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
    }
   extraUniqueKey=(item, index) => `index15${index}${item}`
   renderItem=({ item }) => {
-    if (this.props.navigation.state.params.checkboxStatemap.get(item.ID)) {
+    if (this.props.alarmNoDesData.checkboxStatemap.get(item.ID)) {
       return (
             <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'column',height:70,marginTop:5,marginBottom:5}}>
                 <View style={{flexDirection:'row',height:40,marginLeft:10,marginRight:10,alignItems:'center'}}> 
@@ -87,29 +91,9 @@ class AlarmNoFeedbackCheck extends PureComponent {
   lookMore=()=>{
       this.setState({modalVisible:true});
   }
-  //选择预警原因
-  reasonChoose=(item)=>{
-    this.setState((state) => {
-      checkCode:item.checkCode;
-        // const reasonStatemap = new Map(state.reasonStatemap);
-        // let aa=reasonStatemap.get(item.checkCode);
-        // if( reasonStatemap.size>0){
-        //   reasonStatemap.delete(item.checkCode);
-        //   reasonStatemap.set(item.checkCode, false); 
-        // }else{
-        //   reasonStatemap.set(item.checkCode, true); 
-        // }
-        // return { reasonStatemap };
-      });
-   }
-   logLocationEvent = ({ nativeEvent }) => {
-    this.setState({
-      longitude: nativeEvent.longitude,
-      latitude: nativeEvent.latitude
-    });
-  }
+  
   feedbackCallback=() => {
-    this.props.navigation.state.params.clearselect;
+    this.props.alarmNoDesData.clearselect;
     this.props.dispatch(NavigationActions.back());
     CloseToast();
     ShowResult(true, '反馈成功');
@@ -119,17 +103,18 @@ class AlarmNoFeedbackCheck extends PureComponent {
     let paramExceptionProcessingID = '';
     let paramImageID = '';
     let WarningReason = '';
-    this.props.navigation.state.params.checkboxStatemap.forEach((item, key, mapObj) => {
+    this.props.alarmNoDesData.checkboxStatemap.forEach((item, key, mapObj) => {
       paramExceptionProcessingID += `${key.toString()},`;
     });
     this.state.reasonStatemap.forEach((item, key)=>{
         WarningReason=key;
     })
+    debugger;
     this.props.dispatch(createAction('alarm/SummitAll')({
         postjson: {
-            DGIMN: this.props.navigation.state.params.DGIMN,
+            DGIMN: this.props.alarmNoDesData.DGIMN,
             ExceptionProcessingID: paramExceptionProcessingID,
-            WarningReason: this.state.checkCode,
+            WarningReason: this.state.value,
             sceneDescription: this.state.sceneDescription,
             ImageID: paramImageID,
             feedbackTime: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -140,12 +125,10 @@ class AlarmNoFeedbackCheck extends PureComponent {
           },
           successCallback: this.feedbackCallback,
           failCallback:()=>{
-            // this.props.navigation.state.params.clearselect;
-            // this.props.dispatch(NavigationActions.back());
             CloseToast();
             ShowResult(false, '提交失败');
           },
-          'checkboxIndexmap':this.props.navigation.state.params.checkboxIndexmap
+          'checkboxIndexmap':this.props.alarmNoDesData.checkboxIndexmap
     }));
   }
   scrollToInput =(reactNode: any) => {
@@ -188,11 +171,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
         });
         CloseToast();
       }
-      onChange = (checkCode) => {
-        this.setState({
-          checkCode:checkCode
-        });
-      };
+     
     render() {
         return (
             <ScrollView> 
@@ -200,17 +179,18 @@ class AlarmNoFeedbackCheck extends PureComponent {
                 <TouchableOpacity style={{width:SCREEN_WIDTH,height:30,justifyContent:'center',alignItems:'center',}} onPress={() => {this.lookMore()}}>
                 <Text style={{fontSize:14,color:'#4782f5',textAlignVertical:'center',textAlign:'center'}}>点击查看已选预警信息</Text>
                 </TouchableOpacity>
-                
-                <View style={{width:SCREEN_WIDTH,height:200,flexDirection:'row'}}>
-                <List style={{flexDirection:'row',width:SCREEN_WIDTH,height:200,backgroundColor:'#ffffff'}} renderHeader={() => '预警原因：'}>
-                {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
-                  return ( 
-                    <RadioItem style={{width:200,height:50}} key={item.checkCode} checked={this.state.checkCode === item.checkCode} onChange={() => this.onChange(item.checkCode)}>
-                  {item.checkReson}
-                 </RadioItem>);
-                })}
-               </List>
-               </View>
+                <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:120,marginTop:1,marginBottom:1,backgroundColor:'#ffffff'}}>
+                <Text style={{fontSize:16,marginLeft:10,marginRight:10,color:'#333333',textAlignVertical:'center'}}>预警原因:</Text>
+                <View style={{width:SCREEN_WIDTH/2,height:120,backgroundColor:'#ffffff'}}>
+                <RadioForm
+                  radio_props={alarmJson.data[0].alarmCheckReasons}
+                  formHorizontal={true}
+                  labelColor={'#7b7b7b'}
+                  initial={0}
+                  style={{flex:1,height:120,backgroundColor:'#ffffff',flexWrap:'wrap',marginTop:6,marginBottom:6}}
+                  onPress={(value) => {this.setState({value:value})}}/>
+                </View>
+                </View>
                 <DatePicker
                 mode="datetime"
                 extra="请选择(可选)"
@@ -260,24 +240,12 @@ class AlarmNoFeedbackCheck extends PureComponent {
                     <Image source={require('../../images/ic_point.png')} style={{ width: 17, height: 17, marginRight:5,marginLeft:10 }} />
                     <Text style={{fontSize:16,color:'#333333',marginLeft:10,flex:1}}>定位</Text>
               </View>
-              <MapView 
-                zoomLevel={13} 
-                locationEnabled={true}
-                showsLocationButton={true}
-                rotateEnabled={this.state.rotateEnabled}    
-                onLocation={({ nativeEvent }) =>
-                {
-                  this.setState({
-                    longitude: nativeEvent.longitude,
-                    latitude: nativeEvent.latitude
-                  });
-                }}   
-                coordinate={{
-                  latitude: this.state.latitude ? this.state.latitude : 35.103663,
-                  longitude: this.state.longitude ? this.state.longitude : 118.356618,
-                }}
-                style={{width:SCREEN_WIDTH,height:150,borderColor:'#dedede',borderWidth:1}}>
-              </MapView>
+              <AlarmNoFeedbackCheckMap onstateChange={(longitude,latitude)=>{
+               this.setState({
+                longitude: longitude,
+                latitude: latitude
+              });
+              }}/>              
               <TouchableOpacity style={{width: SCREEN_WIDTH-60,height:40,backgroundColor:'#40a0ff',alignSelf:'center',justifyContent:'center',alignItems:'center',marginTop:20,borderRadius:10,marginBottom:30}} onPress={()=>{this.summitAll()}}>
               <Text style={{ textAlign:'center',color:'#ffffff',fontSize:20,textAlignVertical:'center'}}>提交</Text> 
               </TouchableOpacity>

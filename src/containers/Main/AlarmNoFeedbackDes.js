@@ -20,7 +20,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     NoAlarmDesData:alarm.NoAlarmDesData,
     PageIndex:alarm.PageIndex,
     alarmNoDesData:alarm.alarmNoDesData,
-    loading:loading.effects['alarm/GetNoAlarmDes'],}))
+    loading:loading.effects['alarm/GetNoAlarmDes'],
+    }))
 class AlarmNoFeedbackDes extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         title: '预警反馈',
@@ -48,73 +49,38 @@ class AlarmNoFeedbackDes extends PureComponent {
           mEndTime:'',
           isRefreshing:false,
         };
-      }
-      componentWillMount(){
-          let mBeginTime;
-          let mEndTime;
-          let nowTime = (new Date()).valueOf();
-          let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
-          let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-          if(this.props.navigation.state.params.BeginTime==this.props.navigation.state.params.EndTime){
-              mBeginTime=initLastDate;
-              mEndTime=initCurrenDate;
-          }else{
-            mBeginTime=this.props.navigation.state.params.BeginTime;
-            mEndTime=this.props.navigation.state.params.EndTime;
-          }
-        this.setState({mBeginTime:mBeginTime,mEndTime:mEndTime});
-        
-        debugger;
+    }
+    componentWillMount(){
+        this.setState({mBeginTime:this.props.alarmNoDesData.BeginTime,mEndTime:this.props.alarmNoDesData.EndTime});
+        this.props.dispatch(createAction('alarm/updateState')({
+            alarmNoDesData:{
+                ...this.props.alarmNoDesData,
+                        BeginTime:this.props.alarmNoDesData.BeginTime,
+                        EndTime:this.props.alarmNoDesData.EndTime,
+            }
+        }
+        ));
+        console.log('=============测试。。。componentWillMount=======================');
         this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
             PageIndex:1,}));
 
-        // this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-        //     DGIMN:this.props.navigation.state.params.DGIMN,
-        //     PointName:this.props.navigation.state.params.PointName,
-        //     RegionCode:'',
-        //     PolluntCode:'',
-        //     BeginTime:mBeginTime,
-        //     EndTime:mEndTime,
-        //     EarlyWaringType:'',
-        //     State:'0',
-        //     PageIndex:this.props.PageIndex,
-        //     PageSize:'8',
-        //     IsPc:'false',
-        //     }));
-      }
-      componentWillUpdate(nextProps, nextState){
-          if(nextProps.NoAlarmDesData==this.props.NoAlarmDesData){
-              return false;
-          }else{
-              return true;
-          }
-      }
+    }
       confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
         this.setState({
             mBeginTime: moment(startDate).format('YYYY-MM-DD'),
             mEndTime: moment(endDate).format('YYYY-MM-DD'),
         });
-        
-        debugger;
+       
         this.props.dispatch(createAction('alarm/updateState')({
-            BeginTime:moment(startDate).format('YYYY-MM-DD'),
-            EndTime:moment(endDate).format('YYYY-MM-DD'),}));
+            alarmNoDesData:{
+                ...this.props.alarmNoDesData,
+                BeginTime:moment(startDate).format('YYYY-MM-DD'),
+                EndTime:moment(endDate).format('YYYY-MM-DD'),
+            }
+           }));
+        console.log('=============测试。。。confirmDate=======================');
         this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
             PageIndex:1,}));
-
-        // this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-        //     DGIMN:this.props.navigation.state.params.DGIMN,
-        //     PointName:this.props.navigation.state.params.PointName,
-        //     RegionCode:'',
-        //     PolluntCode:'',
-        //     BeginTime:moment(startDate).format('YYYY-MM-DD'),
-        //     EndTime:moment(endDate).format('YYYY-MM-DD'),
-        //     EarlyWaringType:'',
-        //     State:'0',
-        //     PageIndex:this.props.PageIndex,
-        //     PageSize:'8',
-        //     IsPc:'false',
-        // }));
       }
       //FlatList key
     _extraUniqueKey=(item,index)=> `index22${index}${item}`
@@ -192,35 +158,40 @@ class AlarmNoFeedbackDes extends PureComponent {
     //核实
     _check=()=>{
         if (this.state.checkboxStatemap.size !== 0) {
-            this.props.dispatch(NavigationActions.navigate({
-                routeName: 'AlarmNoFeedbackCheck',                        
-                params: {
+            this.props.dispatch(createAction('alarm/updateState')({
+                alarmNoDesData:{ 
+                    ...this.props.alarmNoDesData,
                     checkboxStatemap: this.state.checkboxStatemap,
                     checkboxIndexmap: this.state.checkboxIndexmap,
-                    DGIMN: this.props.navigation.state.params.DGIMN,
                     clearselect: this.clearselect
-                } }));
+                    }
+               }));
+            this.props.dispatch(NavigationActions.navigate({
+                routeName: 'AlarmNoFeedbackCheck',                        
+                params: { }}));
           } else {
             ShowToast('请选择报警记录进行核实');
           }
     }
     render() {
-        // let nowTime = (new Date()).valueOf();
-        // let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
-        // let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
         const color = {
             subColor: '#fff',
             mainColor: '#4c68ea'
           };
-        // if(this.props.navigation.state.params.BeginTime==this.props.navigation.state.params.EndTime){
-        //     mBeginTime=initLastDate;
-        //     mEndTime=initCurrenDate;
-        // }else{
-        //   mBeginTime=this.props.navigation.state.params.BeginTime;
-        //   mEndTime=this.props.navigation.state.params.EndTime;
-        // }
-        debugger;
-        let chooseTime = '自 '+this.props.alarmNoDesData.BeginTime+' 至 '+ this.props.alarmNoDesData.EndTime;
+        let BeginTime;
+        let EndTime;
+        let nowTime = (new Date()).valueOf();
+        if(this.props.alarmNoDesData.BeginTime!==''){
+            BeginTime=this.props.alarmNoDesData.BeginTime;
+            EndTime=this.props.alarmNoDesData.EndTime;  
+        }else if(this.state.mBeginTime!==''){
+            BeginTime=this.state.mBeginTime;
+            EndTime=this.state.mEndTime;  
+        }else{
+            BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD');
+            EndTime=moment(nowTime).format('YYYY-MM-DD');
+        }
+        let chooseTime = '自 '+BeginTime+' 至 '+ EndTime;
         return (
             <View style={styles.container}>
                 <Calendar
@@ -240,35 +211,27 @@ class AlarmNoFeedbackDes extends PureComponent {
                     </View>
                 </TouchableOpacity>
                 {this.props.loading?
-                <LoadingComponent Message={'正在加载数据'} /> :
+                <LoadingComponent Message={'正在加载数据...'} /> :
                 <FlatList           
                 ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                 data={this.props.NoAlarmDesData}
                 renderItem={this._renderItemList}
                 keyExtractor={this._extraUniqueKey}
                 onEndReachedThreshold={0.5}
-                initialNumToRender={8}
+                initialNumToRender={12}
                 refreshing={this.state.isRefreshing}
                 onRefresh={() => {
-                    this.setState({isRefreshing:true});
+                    this.setState({isRefreshing:false});
                     this.props.dispatch(createAction('alarm/updateState')({
-                        BeginTime:this.state.mBeginTime,
-                        EndTime:this.state.mEndTime,}));
+                        alarmNoDesData:{
+                            ...this.props.alarmNoDesData,
+                            BeginTime:this.state.mBeginTime,
+                            EndTime:this.state.mEndTime,
+                        }
+                        }));
+                    console.log('=============测试。。。onRefresh=======================');
                     this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
                         PageIndex:1,}));
-                //   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                //       DGIMN:this.props.navigation.state.params.DGIMN,
-                //       PointName:this.props.navigation.state.params.PointName,
-                //       RegionCode:'',
-                //       PolluntCode:'',
-                //       BeginTime:this.state.mBeginTime,
-                //       EndTime:this.state.mEndTime,
-                //       EarlyWaringType:'',
-                //       State:'0',
-                //       PageIndex:1,
-                //       PageSize:'8',
-                //       IsPc:'false',
-                //       }));
                 }}
                 onEndReached={(info) => {
                     let loadingpage=1;
@@ -277,26 +240,17 @@ class AlarmNoFeedbackDes extends PureComponent {
                     }else{
                         loadingpage=1;
                     }
-                    debugger; 
                     this.props.dispatch(createAction('alarm/updateState')({
-                        BeginTime:this.state.mBeginTime,
-                        EndTime:this.state.mEndTime,}));
+                        alarmNoDesData:{
+                            ...this.props.alarmNoDesData,
+                            BeginTime:this.state.mBeginTime,
+                            EndTime:this.state.mEndTime,
+                        }}));
+                    console.log('=============测试。。。onEndReached=======================');
                     this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
                         PageIndex:loadingpage,}));
-                //   this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                //       DGIMN:this.props.navigation.state.params.DGIMN,
-                //       PointName:this.props.navigation.state.params.PointName,
-                //       RegionCode:'',
-                //       PolluntCode:'',
-                //       BeginTime:this.state.mBeginTime,
-                //       EndTime:this.state.mEndTime,
-                //       EarlyWaringType:'',
-                //       State:'0',
-                //       PageIndex:loadingpage,
-                //       PageSize:'8',
-                //       IsPc:'false',
-                //       }));
-                }}/>}
+                }}/>
+            }
                 <View style={{width:SCREEN_WIDTH,height:50,flexDirection:'row',alignItems:'center'}}>
                     <TouchableOpacity style={{height:50,backgroundColor:'#ffffff',flex:1,alignItems:'center', justifyContent: 'center',}} onPress={() => {this._allChoose()}}>
                         <Text style={{fontSize:18,color:'#333333',textAlign:'center',textAlignVertical:'center'}}>{this.state.checkboxAlltv}</Text>

@@ -18,15 +18,16 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsShow
  * @extends {Component}
  */
-@connect(({app})=>({fillIcon:app.fillIcon,
-    latitude:app.latitude,
-    longitude:app.longitude,
-    pointName:app.pointName,
-    pollutantType:app.pollutantType,
-    linkman:app.linkman,
-    region:app.region,
-    dgimn:app.dgimn,
-    equitmentType:app.equitmentType,
+@connect(({map})=>({
+    fillIcon:map.fillIcon,
+    latitude:map.latitude,
+    longitude:map.longitude,
+    pointName_details:map.pointName_details,
+    pollutantType:map.pollutantType,
+    linkman:map.linkman,
+    region:map.region,
+    equitmentType:map.equitmentType,
+    dgimn:map.dgimn
     }))
 class PointDetailsShow extends PureComponent  {
     static navigationOptions = ({ navigation }) => ({
@@ -58,7 +59,7 @@ class PointDetailsShow extends PureComponent  {
         let region=this.props.region ? this.props.region : '-- --';
         let pollutantType=this.props.pollutantType ? this.props.pollutantType : '-- --';
         let linkman=this.props.linkman ? this.props.linkman : '-- --';
-        //let dgimn=this.props.pointDetails.dgimn ? this.props.pointDetails.dgimn : '-- --';
+        let dgimn=this.props.dgimn ? this.props.dgimn : '-- --';
         let equitmentType=this.props.equitmentType ? this.props.equitmentType : '-- --';
        
         let mkindCode=kindAndCode(equitmentType);
@@ -152,6 +153,7 @@ class PointDetailsShow extends PureComponent  {
                         codeClickID: codeClickID,
                         startTime: startTime,
                         endTime: endTime,
+                        dgimn:dgimn,
                          }))
                 }
                 </PointDetailsFlatList>
