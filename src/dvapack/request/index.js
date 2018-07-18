@@ -1,6 +1,10 @@
 import URI from 'urijs';
 import { getUseNetConfig, loadToken } from '../storage';
 import { ShowToast } from '../../utils';
+import {
+  Platform,
+} from 'react-native';
+
 
 async function geturl(url, tooken) {
   const user = await loadToken();
@@ -31,9 +35,20 @@ const fetchtimeout = (requestPromise, timeout = 30000) => {
 
 
 async function request(url, _options) {
-  // const { neturl } = await getUseNetConfig();
-  const neturl = 'https://api.chsdl.cn/GridWebApi';
-  const uri = new URI(neturl + url);
+  let neturl;
+  let uri;
+  if(Platform.OS==='android'){ 
+     neturl  = await getUseNetConfig();
+     if(url=='/rest/AtmosphereApi/PointAndData/GetPointList?authorCode=1b1994ec-538f-4d2f-b4f9-3c0e6950a806'){
+      uri = new URI(neturl.neturl + '/WebGrid_Api' + url);
+     }else{
+      uri = new URI(neturl.neturl  + url);
+     }
+     
+  }else{
+     neturl = 'https://api.chsdl.cn/GridWebApi';
+     uri = new URI(neturl + url);
+  }
   const options = _options || {};
   options.method = options.method || 'GET';
   options.headers = options.headers || {};
@@ -169,7 +184,9 @@ export async function post(url, data, options, tooken) {
     ...options,
   });
 }
+
 export async function posturl(url, params, options, tooken) {
+ 
   if (params) {
     const paramsArray = [];
     // encodeURIComponent

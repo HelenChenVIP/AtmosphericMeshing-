@@ -39,6 +39,7 @@ class PointDetailsChart extends PureComponent  {
       }    
    
     componentWillReceiveProps(nextProps) {
+      debugger;
       if (nextProps.zxData !== this.props.zxData) {
         let values=[];
         let valueFormatter=[];
@@ -122,7 +123,6 @@ class PointDetailsChart extends PureComponent  {
       console.log(event.nativeEvent)
     }
     render() {
-      debugger;
         return (
           this.props.loading?
           <LoadingComponent/>

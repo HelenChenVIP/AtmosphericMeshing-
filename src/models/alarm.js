@@ -76,7 +76,6 @@ export default Model.extend({
                       PageIndex:PageIndex,
                       PageSize:PageSize,
                       IsPc:IsPc,});
-                      debugger;
             if(NoAlarmDesData){
               if(PageIndex>1){
                 if(NoAlarmDesData.length>=allTotal){
@@ -101,7 +100,6 @@ export default Model.extend({
 
           * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { callWithSpinning, update, put, call, select }) {
             const result = yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
-            debugger;
             if (result&&result.requstresult==='1') {
               let {NoAlarmDesData,mainAlarmData} = yield select(state => state.alarm);
               console.log(mainAlarmData);
@@ -121,7 +119,6 @@ export default Model.extend({
                   _NoAlarmDesData.push(item);
                 }
               });
-              debugger;
               yield update({'NoAlarmDesData':_NoAlarmDesData,'mainAlarmData':_mainAlarmData});
               successCallback();
             } else {

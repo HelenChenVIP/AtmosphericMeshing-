@@ -19,8 +19,10 @@ export default Model.extend({
         pressPollutantCodeRank:'',
         allPointList:[],
         realTimeDataList:[],
-
-        fillIcon:'',latitude:'',longitude:'',pointName_details:'',pollutantType:'',linkman:'',region:'',dgimn:'',equitmentType:'',
+        
+        mapRankData:{
+            fillIcon:'',latitude:'',longitude:'',pointName_details:'',pollutantType:'',linkman:'',region:'',dgimn:'',equitmentType:'',
+        },
         
         markerRealDatas:[],
         mallPointList:[],
@@ -29,7 +31,7 @@ export default Model.extend({
         pressPollutantCode:'',
         chartData:[],
         listRankData:[],
-       
+        activecode:'',
     },
     subscriptions:{
         setupSubscriber({dispatch,listen}){
@@ -129,6 +131,21 @@ export default Model.extend({
     
           *setActivecode({payload:{activecode}},{update,put,call,select}){
             yield update({activecode});
+          },
+  /**
+         * 获取监测点基本信息
+         * HelenChen
+         * @param {any} {payload} 
+         * @param {any} {update,call} 
+         */
+        * GetPointList({payload:{dgimn}},{update,put,call}){
+            debugger;
+            const {data:pointData}=yield call(homeService.GetPointList,{dgimn});
+            if(pointData!==null){
+              yield update( {pointData} ); 
+            }else{
+              ShowToast('数据为空');
+            }
           },
 
     },

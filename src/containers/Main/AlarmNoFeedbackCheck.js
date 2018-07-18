@@ -109,7 +109,6 @@ class AlarmNoFeedbackCheck extends PureComponent {
     this.state.reasonStatemap.forEach((item, key)=>{
         WarningReason=key;
     })
-    debugger;
     this.props.dispatch(createAction('alarm/SummitAll')({
         postjson: {
             DGIMN: this.props.alarmNoDesData.DGIMN,

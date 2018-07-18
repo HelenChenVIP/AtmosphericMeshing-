@@ -23,6 +23,7 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
     let listtv='';
     let listtv_new='';
     let kk=-1;
+    let point_DGMIN='';
     //全部实时数据
     realTimeDataList.map((mitem,key1)=>{
         let real_DGMIN=mitem.DGIMN;
@@ -32,7 +33,7 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
               //全部站点
               allPointList.map((item,key2)=>{
                 mtime=mitem.MonitorTime;
-                let point_DGMIN=item.dbo__T_Bas_CommonPoint__DGIMN;
+                point_DGMIN=item.dbo__T_Bas_CommonPoint__DGIMN;
                 let pointName=item.dbo__T_Bas_CommonPoint__PointName;
                 if(point_DGMIN!=null && point_DGMIN!='' && real_DGMIN!=null && real_DGMIN!=''){
                   if(point_DGMIN==real_DGMIN){
@@ -123,7 +124,7 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                         } 
                           XValueList.push(kk);
                           chartData.push({chartXValue,chartYValue,chartColor,listtv});
-                          listRankData.push({chartXValue,chartYValue_new,chartColor,listtv});
+                          listRankData.push({chartXValue,chartYValue_new,chartColor,listtv,point_DGMIN});
                          
                       }else{
                         

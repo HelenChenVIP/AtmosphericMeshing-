@@ -23,6 +23,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     realTimeDataList:map.realTimeDataList,
     mkindCode:map.mkindCode,
     markerRealDatas:map.markerRealDatas,
+    mapRankData:map.mapRankData,
+    activecode:map.activecode,
     loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],}))
 class MapBase extends PureComponent {
     constructor(props) {
@@ -34,7 +36,6 @@ class MapBase extends PureComponent {
             avglong:118.356618,
             czlat:0.1,
             czlong:0.1,
-            activecode:'',
             monitorTime:''
         }
       }
@@ -190,15 +191,18 @@ class MapBase extends PureComponent {
                         <TouchableOpacity
                         onPress={() => {
                             this.props.dispatch(createAction('map/updateState')({
-                                fillIcon: item.fillIcon,
-                                latitude: item.dbo__T_Bas_CommonPoint__Latitude,
-                                longitude: item.dbo__T_Bas_CommonPoint__Longitude,
-                                pointName_details: item.dbo__T_Bas_CommonPoint__PointName,
-                                pollutantType:item.dbo__T_Cod_PollutantType,
-                                linkman:item.dbo__T_Bas_CommonPoint__Linkman,
-                                region:item.dbo__T_Cod_Region,
-                                dgimn:item.dbo__T_Bas_CommonPoint__DGIMN,
-                                equitmentType:item.dbo__T_Bas_CommonPoint__PollutantType,
+                                mapRankData:{
+                                    ...this.props.mapRankData,
+                                    fillIcon: item.fillIcon,
+                                    latitude: item.dbo__T_Bas_CommonPoint__Latitude,
+                                    longitude: item.dbo__T_Bas_CommonPoint__Longitude,
+                                    pointName_details: item.dbo__T_Bas_CommonPoint__PointName,
+                                    pollutantType:item.dbo__T_Cod_PollutantType,
+                                    linkman:item.dbo__T_Bas_CommonPoint__Linkman,
+                                    region:item.dbo__T_Cod_Region,
+                                    dgimn:item.dbo__T_Bas_CommonPoint__DGIMN,
+                                    equitmentType:item.dbo__T_Bas_CommonPoint__PollutantType,
+                                }
                                  }));
                                  this.props.dispatch(NavigationActions.navigate({routeName: 'PointDetailsShow', params: { }}))        
                         }}

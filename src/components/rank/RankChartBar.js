@@ -33,22 +33,11 @@ class RankChartBar extends Component {
               label: '实时排名',
               config: {
                 drawValues: false,  
-                colors: [],
-                barSpacePercent: 40,
-                barShadowColor: processColor('lightgrey'),
-                highlightAlpha: 90,
-                highlightColor: processColor('red'),
               }
             }],
           },
           xAxis: {
-            drawGridLines: false,
-            valueFormatter: [],
-            granularityEnabled: false,
-            granularity : 1,
-            centerAxisLabels: true, 
-            position: 'BOTTOM' ,
-            drawLabels: true,
+            drawLabels: false,
           },
           yAxis:{
             drawGridLines: false,
@@ -59,25 +48,15 @@ class RankChartBar extends Component {
               axisMinimum: 0,
               drawLabels: true,
               drawValueAboveBar:false,
-              zeroLine: {
-                enabled: true,
-                lineWidth: 1
-              }
+              gridColor: processColor('white')
             },
             right: {
-              enabled: false
+              enabled: false,
+              gridColor: processColor('white')
             }
           },
           legend: {
             enabled: false,
-            textSize: 14,
-            form: 'SQUARE',
-            formSize: 14,
-            xEntrySpace: 10,
-            yEntrySpace: 5,
-            formToTextSpace: 5,
-            wordWrapEnabled: true,
-            maxSizePercent: 0.5,
           },
           marker: {
             enabled: true,
@@ -87,7 +66,6 @@ class RankChartBar extends Component {
             textColor: processColor('#666666'),
             markerFontSize: 14,
           },
-          highlights: [{x: 0}],
         };
       }
       componentWillReceiveProps(nextProps) {
@@ -182,23 +160,18 @@ class RankChartBar extends Component {
     render() {
         return (
           this.props.loading?
-          <LoadingComponent/>
+          <LoadingComponent Message={'正在加载数据...'} /> 
           :<BarChart
                style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT/3}}
                   data={this.state.data}
                   xAxis={this.state.xAxis}
                   yAxis={this.state.yAxis}
-                  animation={{durationX: 3000}}
+                  animation={{durationX: 2000}}
+                  chartDescription={{text: ""}}
                   legend={this.state.legend}
-                  gridBackgroundColor={processColor('#ffffff')}
-                  drawBarShadow={false}
-                  drawValueAboveBar={false}
-                  drawHighlightArrow={false}
-                  drawGridBackground={false}
                   onSelect={this.handleSelect.bind(this)}
-                  highlights={this.state.highlights}
-                  onChange={(event) => console.log(event.nativeEvent)}
-                  marker={this.state.marker}/>
+                  marker={this.state.marker}
+                  />
         );
     }
 }

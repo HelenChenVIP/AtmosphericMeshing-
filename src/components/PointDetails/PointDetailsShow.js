@@ -9,6 +9,8 @@ import {kindCode,kindAndCode} from '../../utils/mapconfig';
 import NoDataComponent from '../../components/comment/NoDataComponent';
 import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
+import LoadingComponent from '../../components/comment/LoadingComponent'
+
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -18,17 +20,10 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsShow
  * @extends {Component}
  */
-@connect(({map})=>({
-    fillIcon:map.fillIcon,
-    latitude:map.latitude,
-    longitude:map.longitude,
-    pointName_details:map.pointName_details,
-    pollutantType:map.pollutantType,
-    linkman:map.linkman,
-    region:map.region,
-    equitmentType:map.equitmentType,
-    dgimn:map.dgimn
-    }))
+@connect(({map,loading})=>({
+    mapRankData:map.mapRankData,
+    pointData:map.pointData,
+    loading:loading.effects['map/GetPointList'],}))
 class PointDetailsShow extends PureComponent  {
     static navigationOptions = ({ navigation }) => ({
         title: '站点详情',
@@ -52,32 +47,49 @@ class PointDetailsShow extends PureComponent  {
             codeClickID:'',
             codeClickName:'',
         }
-      }
-    
+    }
+    componentWillMount(){
+        this.props.dispatch(createAction('map/GetPointList')({
+            dgimn:this.props.mapRankData.dgimn}));
+
+    }
     render() {
-        let pointName=this.props.pointName_details ? this.props.pointName_details : '-- --';
-        let region=this.props.region ? this.props.region : '-- --';
-        let pollutantType=this.props.pollutantType ? this.props.pollutantType : '-- --';
-        let linkman=this.props.linkman ? this.props.linkman : '-- --';
-        let dgimn=this.props.dgimn ? this.props.dgimn : '-- --';
-        let equitmentType=this.props.equitmentType ? this.props.equitmentType : '-- --';
-       
-        let mkindCode=kindAndCode(equitmentType);
-        let showIndex=this.state.PagerIndex;
+        let pointName;
+        let region;
+        let pollutantType;
+        let linkman;
+        let dgimn;
+        let equitmentType;
+        let mkindCode;
+        let showIndex;
+        let startTime;
+        let endTime;
+        let chooseTime;
+        let codeClickID;
         const color = {
             subColor: '#fff',
             mainColor: '#4c68ea'
           };
-        let startTime=this.state.startDate;
-        let endTime=this.state.endDate;
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-        startTime=(startTime==endTime ? initLastDate : startTime);
-        let mstartTime;
-        let mendTime;
-        this.state.PagerIndex==0 ? mstartTime=startTime+' 00:00' : mstartTime=startTime;
-        this.state.PagerIndex==0 ? mendTime=endTime.substring(0,13)+':00': mendTime=endTime.substring(0,10);
-        let chooseTime = mstartTime + '至' + mendTime;
-        let codeClickID=this.state.codeClickID;
+          debugger;
+        if(this.props.pointData!=null){
+            pointName=this.props.pointData[0].pointName;
+            region=this.props.pointData[0].regionName;
+            pollutantType=this.props.pointData[0].pollutantTypeName;
+            linkman=this.props.pointData[0].linkman;
+            dgimn=this.props.pointData[0].DGIMN;
+            equitmentType=this.props.pointData[0].pollutantType;
+            mkindCode=kindAndCode(equitmentType);
+            showIndex=this.state.PagerIndex;
+            startTime=this.state.startDate;
+            endTime=this.state.endDate;
+            initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
+            startTime=(startTime==endTime ? initLastDate : startTime);
+            let mstartTime;
+            let mendTime;
+            this.state.PagerIndex==0 ? mstartTime=startTime+' 00:00' : mstartTime=startTime;
+            this.state.PagerIndex==0 ? mendTime=endTime.substring(0,13)+':00': mendTime=endTime.substring(0,10);
+            chooseTime = mstartTime + '至' + mendTime;
+            codeClickID=this.state.codeClickID;
         return (
             <View style={styles.container}>
                 <View style={{flexDirection:'row',height:40,marginTop:1,backgroundColor:'#ffffff',alignItems:'center',justifyContent: 'center',}}>
@@ -159,7 +171,16 @@ class PointDetailsShow extends PureComponent  {
                 </PointDetailsFlatList>
             </View>
         );
+    }else{
+            return (<View style={{alignItems:'center',}}><NoDataComponent Message={'暂无数据'} /></View>);
+
+        }
+            
     }
+           
+       
+      
+    
     onChange = (e) => {
         const i = e.nativeEvent.selectedSegmentIndex;
         //小时数据 日数据

@@ -17,6 +17,7 @@ const api = {
       GetGridRealTimeImgDataAndroid:'/rest/RealTime/GetGridRealTimeImgDataAndroid',//获取实时数据
       GethourAQIDatasColumn:'/rest/APQI/GethourAQIDatasColumn',//站点-小时数据
       GetDayAQIDatasColumn:'/rest/APQI/GetDayAQIDatasColumn',//站点-日数据
+      GetPointList:'/rest/AtmosphereApi/PointAndData/GetPointList',//获取监测点基本信息
     },
     alarm:{
       GetEarlyWarningGroupByDGIMN:'/rest/AlarmDealInfoApi/GetEarlyWarningGroupByDGIMN',//获取未反馈 反馈1级

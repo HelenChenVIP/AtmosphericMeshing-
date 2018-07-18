@@ -1,6 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, FlatList,Dimensions } from 'react-native';
+import { View, Text, StyleSheet, FlatList,Dimensions,TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import RankChartBar from '../rank/RankChartBar';
 import mainmap from '../../config/configjson/mainmap.json';
@@ -16,6 +16,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  */
 @connect(({map})=>({listRankData:map.listRankData,
     pressPollutantCode:map.pressPollutantCode,
+    mapRankData:map.mapRankData
     }),null,null,{withRef:true})
 class RankFlatList extends Component {
     render() {
@@ -45,19 +46,30 @@ class RankFlatList extends Component {
      if(item.item.listtv!=undefined)
      {
          return (
-             <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
-                 <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10}}>{item.item.chartXValue}</Text> 
-                 <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20}}>{item.item.listtv}</Text> 
-                 <Text style={{fontSize: 14,color:item.item.chartColor,padding:3,width:SCREEN_WIDTH/6}}>{item.item.chartYValue_new}</Text> 
-             </View>
+            <TouchableOpacity
+                onPress={()=>{
+                    this.props.dispatch(createAction('map/updateState')({
+                        mapRankData:{
+                            ...this.props.mapRankData,
+                            dgimn:item.item.point_DGMIN,
+                        }
+                         }));
+                this.props.dispatch(NavigationActions.navigate({routeName: 'PointDetailsShow', params: { }}))         
+            }}>
+                <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
+                    <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.item.chartXValue}</Text> 
+                    <Text style={{marginLeft:10,fontSize: 14,color:'#333333',width:40}}>{item.item.listtv}</Text> 
+                    <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:30}}>{item.item.chartYValue_new}</Text> 
+                </View>
+            </TouchableOpacity>
          )
      }
      else{
          return (
-             <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,marginLeft:10,marginRight:20,justifyContent:'space-between'}}>
-                 <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10}}>{item.chartXValue}</Text> 
-                 <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20}}>  </Text> 
-                 <Text style={{fontSize: 14,color:item.item.chartColor,padding:3,width:SCREEN_WIDTH/6}}>{item.chartYValue_new}</Text> 
+             <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
+                 <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.chartXValue}</Text> 
+                 <Text style={{marginLeft:10,fontSize: 14,color:'#333333',width:40}}>  </Text> 
+                 <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:30}}>{item.chartYValue_new}</Text> 
              </View>
          )
      }

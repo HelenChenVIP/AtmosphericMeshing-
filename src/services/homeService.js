@@ -1,4 +1,4 @@
-import { post, upload, get ,posturl} from '../dvapack/request';
+import { post,upload, get ,posturl} from '../dvapack/request';
 // 全局api文件
 import api from '../config/globalapi';
 import moment from 'moment';
@@ -98,7 +98,6 @@ export const uploadimage = async (param) => {
       start=initLastDate;
     }
     let dic="{\"MN\":\"" + dgimn + "\",\"BeginTime\":\"" + start + "\",\"EndTime\":\"" + end + "\",\"PageIndex\":\"" + pageIndex + "\",\"PageSize\":\"" + pageSize + "\"}";
-    debugger;
     const body = {
       dic:dic,
     };
@@ -127,4 +126,16 @@ export const GetDayAQIDatasColumn = async(param) => {
   const result = await get(api.tool.GetDayAQIDatasColumn,body,null);
   return result === null ? { data: null } : result;
 }
+
+   /**
+   * 获取监测点基本信息
+   * @param {*} param 
+   */
+  export const GetPointList = async(param) => {
+    const body = {
+      DGIMNs: param.dgimn,
+    };
+    const result = await post(api.tool.GetPointList,body,null);
+    return result === null ? { data: null } : result;
+  }
 
