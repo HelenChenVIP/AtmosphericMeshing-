@@ -8,6 +8,7 @@ import coordinate from '../../utils/coordinate';
 import mainmap from '../../config/configjson/mainmap.json';
 import {AQIorIAQI,IAQIColorLevel} from '../../utils/mapconfig';
 import LoadingComponent from '../../components/comment/LoadingComponent'
+import SuspensionLoadingComponent from '../../components/comment/SuspensionLoadingComponent';
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -97,30 +98,32 @@ class MapBase extends PureComponent {
         console.log('activecode');
         console.log(this.state.activecode);
         return (
-            this.props.loading?
-            <LoadingComponent/>
-            :<MapView 
-            zoomLevel={11} 
-            rotateEnabled={this.state.rotateEnabled}      
-            style={{flex: 1,
-                width:SCREEN_WIDTH,height:SCREEN_HEIGHT}}
-                coordinate={{
-                    latitude: this.state.avglat,
-                    longitude: this.state.avglong,
-                  }}
-          >
-            {   this.props.mallPointList ? 
-                //循环渲染Marker 
-                this._renderMarker() :<Marker 
-                coordinate={{latitude: 34.3776250003,
-                    longitude: 116.70123,}}
-                icon={() =><View >
-                    <Text>{}</Text>      
-                </View>}
-            />
-            }
-            </MapView>
-          
+            <View style={styles.container}>
+                {this.props.loading?
+                <SuspensionLoadingComponent/>
+                :(null)}
+                <MapView 
+                zoomLevel={11} 
+                rotateEnabled={this.state.rotateEnabled}      
+                style={{flex: 1,
+                    width:SCREEN_WIDTH,height:SCREEN_HEIGHT}}
+                    coordinate={{
+                        latitude: this.state.avglat,
+                        longitude: this.state.avglong,
+                    }}
+            >
+                {   this.props.mallPointList ? 
+                    //循环渲染Marker 
+                    this._renderMarker() :<Marker 
+                    coordinate={{latitude: 34.3776250003,
+                        longitude: 116.70123,}}
+                    icon={() =><View >
+                        <Text>{}</Text>      
+                    </View>}
+                />
+                }
+                </MapView>
+            </View>
         );
     }
      //循环渲染Marker
