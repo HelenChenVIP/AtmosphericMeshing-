@@ -40,21 +40,21 @@ export default Model.extend({
   },
   reducers: {
    
-    //站点详情 小时数据 hourData:'hour',
-    getchooseHourData(state,{payload:{hourData,choosePollutantCode}}){
-      if(choosePollutantCode==''){
-        choosePollutantCode='AQI';
-      }
-      debugger;
-      if(hourData=='hour'){
-        let hourVaule=PointDeatilsHourData(state.hourDataList,choosePollutantCode);
-        state = {...state,...{zxData:hourVaule}};
-      }else{
-        let dayVaule=PointDeatilsHourData(state.dayDataList,choosePollutantCode);
-        state = {...state,...{zxData:dayVaule}};
-      }
-      return state;
-    },
+    // //站点详情 小时数据 hourData:'hour',
+    // getchooseHourData(state,{payload:{hourData,choosePollutantCode}}){
+    //   if(choosePollutantCode==''){
+    //     choosePollutantCode='AQI';
+    //   }
+    //   debugger;
+    //   if(hourData=='hour'){
+    //     let hourVaule=PointDeatilsHourData(state.hourDataList,choosePollutantCode);
+    //     state = {...state,...{zxData:hourVaule}};
+    //   }else{
+    //     let dayVaule=PointDeatilsHourData(state.dayDataList,choosePollutantCode);
+    //     state = {...state,...{zxData:dayVaule}};
+    //   }
+    //   return state;
+    // },
 
 
   },
@@ -177,7 +177,7 @@ export default Model.extend({
    */
   * GetHourDatas({payload},{update,put,call,select}){
     const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.app);
-    const hourDataList=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
+    const {data:hourDataList}=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
     debugger;
     if(hourDataList!==null){
       yield update( {hourDataList} ); 

@@ -53,20 +53,45 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                         if(statusImage(equitmentStatus)!=-1){
                           //离线 异常
                           fillIcon=imageList[statusImage(equitmentStatus)];
+                          //离线
+                          if(statusImage(equitmentStatus)==1){
+                            mValue='----';
+                            chartYValue_new=mValue;
+                            chartColor='#ababab';
+                            if(pressPollutantCode=='AQI'){
+                              listtv='离线';
+                            }
+                          }else{
+                            mValue='0';
+                            chartYValue_new=mValue;
+                            chartColor='#489ae3';
+                            if(pressPollutantCode=='AQI'){
+                              listtv='异常';
+                            }
+                          }
+                          
                         }else{
                           //在线 超标
                           //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值
                           if(pressPollutantCode=='AQI'){                                                                               
                               mValue=mitem.AQI;
+                              chartYValue_new=mValue;
+                              
                           }else if(pressPollutantCode=='a99054'){
                             if(mitem.a99054!=undefined){
                               mValue=mitem.a99054;
+                            chartYValue_new=mValue;
+                            
                             }else{
                               mValue='';
+                            chartYValue_new=mValue;
+                            
                             }
                           }else{
                             let mCode=pressPollutantCode+'_IAQI';
                             mValue=mitem[mCode];
+                            chartYValue_new=mValue;
+                            
                           }
                           //数值 颜色渲染
                           if(mValue!=null && mValue!=''){
@@ -117,10 +142,10 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                         chartXValue=pointName;
                         if(mitem[pressPollutantCode]!=undefined && mitem[pressPollutantCode]!=''){
                           chartYValue=parseFloat(mitem[pressPollutantCode]);
-                          chartYValue_new=parseFloat(mitem[pressPollutantCode]);
+                          // chartYValue_new=parseFloat(mitem[pressPollutantCode]);
                         }else{
                           chartYValue=0;
-                          chartYValue_new='---';
+                          // chartYValue_new='---';
                         } 
                           XValueList.push(kk);
                           chartData.push({chartXValue,chartYValue,chartColor,listtv});
@@ -148,6 +173,7 @@ export const RankAscDescData=(chartData,listRankData)=>{
     let sortListRankDataAll=[];
     sortchartData=selectionSort(chartData);
     sortListRankData=selectionSortNew(listRankData);
+    debugger;
     let zz=-1;
     let keyAll='';
     sortchartData.forEach((key)=>{
@@ -161,6 +187,7 @@ export const RankAscDescData=(chartData,listRankData)=>{
        key.zz=zz;
        sortListRankDataAll.push(key);
     });
+    debugger;
     return {sortchartDataAll,sortListRankDataAll};
 }
 //站点详情-折线图data

@@ -60,6 +60,7 @@ export default Model.extend({
              let kindData=MapRankData(state.realTimeDataList,state.allPointList,pressPollutantCode);
              //排名Data排序
              if(kindData.chartData!=null && kindData.chartData.length>0){
+                 debugger;
                  let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
                  if(whitchPage=='Map'){
                      if(kindData.changeAllPointList.length>0){
