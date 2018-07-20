@@ -212,12 +212,13 @@ class AlarmNoFeedbackDes extends PureComponent {
                 </TouchableOpacity>
                 {this.props.loading?
                 <LoadingComponent Message={'正在加载数据...'} /> :
-                <FlatList           
+                <FlatList   
+                style={[{height:SCREEN_HEIGHT-125,width:SCREEN_WIDTH}]}
                 ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                 data={this.props.NoAlarmDesData}
                 renderItem={this._renderItemList}
                 keyExtractor={this._extraUniqueKey}
-                onEndReachedThreshold={0.5}
+                onEndReachedThreshold={0.1}
                 initialNumToRender={12}
                 refreshing={this.state.isRefreshing}
                 onRefresh={() => {

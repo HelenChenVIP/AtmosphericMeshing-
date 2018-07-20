@@ -45,6 +45,7 @@ export default Model.extend({
       if(choosePollutantCode==''){
         choosePollutantCode='AQI';
       }
+      debugger;
       if(hourData=='hour'){
         let hourVaule=PointDeatilsHourData(state.hourDataList,choosePollutantCode);
         state = {...state,...{zxData:hourVaule}};
@@ -176,13 +177,14 @@ export default Model.extend({
    */
   * GetHourDatas({payload},{update,put,call,select}){
     const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.app);
-    const {data:hourDataList}=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
+    const hourDataList=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
     debugger;
     if(hourDataList!==null){
       yield update( {hourDataList} ); 
-      yield put('getchooseHourData',{
+      yield put('HourDayDatas',{
         hourData:'hour',
         choosePollutantCode:codeClickID,
+        mData:hourDataList,
       })
     }else{
       ShowToast('数据为空');
@@ -196,20 +198,35 @@ export default Model.extend({
   * GetDayDatas({payload},{update,put,call,select}){
     const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.app);
     const {data:dayDataList}=yield call(homeService.GetDayAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
-    debugger;
     if(dayDataList!==null){
       yield update( {dayDataList} ); 
-      yield put('getchooseHourData',{
+      yield put('HourDayDatas',{
         hourData:'day',
         choosePollutantCode:codeClickID,
+        mData:dayDataList,
       })
-    }else{
-      ShowToast('数据为空');
-    }
-  },
+      }else{
+        ShowToast('数据为空');
+      }
+    },
+
+    * HourDayDatas({payload:{hourData,choosePollutantCode,mData}},{update}){
+      if(choosePollutantCode==''){
+        choosePollutantCode='AQI';
+      }
+      if(hourData=='hour'){
+        let hourVaule=PointDeatilsHourData(mData,choosePollutantCode);
+        yield update( {hourVaule} ); 
+      }else{
+        let dayVaule=PointDeatilsHourData(mData,choosePollutantCode);
+        yield update( {dayVaule} ); 
+      }
+    },
+
+
 
  
-  }
+  },
 
 });
 

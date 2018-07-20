@@ -16,10 +16,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({app,loading})=>({
   zxData:app.zxData,
-  // codeClickID:app.codeClickID,
-  // startTime:app.startTime,
-  // endTime:app.endTime,
-  // dgimn:app.dgimn,
   loading:loading.effects['app/GetDayDatas'],}))
 class PointDetailsBar extends PureComponent  {
     constructor() {
@@ -90,29 +86,12 @@ class PointDetailsBar extends PureComponent  {
         };
       }
       componentWillMount(){
-        // let dgimn=this.props.dgimn;
-        // let codeClickID=this.props.codeClickID;
-        // let startTime=this.props.startTime;
-        // let endTime=this.props.endTime;
         this.props.dispatch(createAction('app/GetDayDatas')({
-          // dgimn:dgimn,
-          // codeClickID:codeClickID,
-          // startTime:startTime,
-          // endTime:endTime
            }));
       } 
       componentWillReceiveProps(nextProps) {
         if (nextProps.zxData !== this.props.zxData) {
-          // let dgimn=this.props.dgimn;
-          // let codeClickID=this.props.codeClickID;
-          // let startTime=this.props.startTime;
-          // let endTime=this.props.endTime;
-          // this.props.dispatch(createAction('app/GetDayDatas')({
-          //   dgimn:dgimn,
-          //   codeClickID:codeClickID,
-          //   startTime:startTime,
-          //   endTime:endTime
-          //    }));
+        
           let values=[];
           let valueFormatter=[];
           let colors=[];
@@ -167,7 +146,7 @@ class PointDetailsBar extends PureComponent  {
             data={this.state.data}
             xAxis={this.state.xAxis}
             yAxis={this.state.yAxis}
-            animation={{durationX: 3000}}
+            animation={{durationX: 2000}}
             legend={this.state.legend}
             gridBackgroundColor={processColor('#ffffff')}
             drawBarShadow={false}

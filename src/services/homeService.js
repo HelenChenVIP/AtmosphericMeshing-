@@ -94,6 +94,7 @@ export const uploadimage = async (param) => {
     let pageIndex=1;
     let pageSize=10;
     let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
+
     if(start==end){
       start=initLastDate;
     }
@@ -102,6 +103,7 @@ export const uploadimage = async (param) => {
       dic:dic,
     };
     const result = await get(api.tool.GethourAQIDatasColumn,body,null);
+    debugger;
     return result === null ? { data: null } : result;
   }
 

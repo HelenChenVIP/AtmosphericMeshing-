@@ -39,7 +39,6 @@ class PointDetailsChart extends PureComponent  {
       }    
    
     componentWillReceiveProps(nextProps) {
-      debugger;
       if (nextProps.zxData !== this.props.zxData) {
         let values=[];
         let valueFormatter=[];
@@ -134,14 +133,12 @@ class PointDetailsChart extends PureComponent  {
             chartDescription={{text: ''}}
             drawGridBackground={false}
             borderColor={processColor('teal')}
-            animation={{durationX: 3000}}
+            animation={{durationX: 2000}}
             borderWidth={1}
             scaleXEnabled={true}
             onSelect={this.handleSelect.bind(this)}
             onChange={(event) => console.log(event.nativeEvent)}
           />
-         
-         
         );
     }
 }

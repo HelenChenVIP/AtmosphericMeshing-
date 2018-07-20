@@ -70,45 +70,45 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                           }
                           //数值 颜色渲染
                           if(mValue!=null && mValue!=''){
-                            if(pressPollutantCode=='a99054'){
-                              if(TVOCLevel(mValue)!=undefined){
-                                pollutantindex=TVOCLevel(mValue);
-                                fillIcon=imageList[pollutantindex];
-                                chartColor=valueTVOCColor(mValue);
-                                if(mValue==0){
-                                  listtv='异常';
-                                }else if(mValue>0){
-                                  listtv='';
+                              if(pressPollutantCode=='a99054'){
+                                if(TVOCLevel(mValue)!=undefined){
+                                  pollutantindex=TVOCLevel(mValue);
+                                  fillIcon=imageList[pollutantindex];
+                                  chartColor=valueTVOCColor(mValue);
+                                  // if(mValue==0){
+                                  //   listtv='异常';
+                                  // }else if(mValue>0){
+                                  //   listtv='';
+                                  // }else{
+                                  //   listtv='离线';
+                                  // }
+                                  
                                 }else{
-                                  listtv='无数据';
-                                }
-                                
-                              }else{
-                                fillIcon=imageList[2];
-                                chartColor='#333333';
-                                listtv='无数据';
-                              }
-                            }else{
-                              if(IAQILevel(mValue)!=undefined){
-                                pollutantindex=IAQILevel(mValue);
-                                fillIcon=imageList[pollutantindex];
-                                if(pressPollutantCode=='AQI'){
-                                  chartColor=valueAQIColor(mValue);
-                                  listtv=valueAQIText(mValue);
-                                }else{
-                                  chartColor=valueAQIColor(mValue);
-                                  listtv=valueAQIText(mValue);
+                                  fillIcon=imageList[2];
+                                  chartColor='#333333';
+                                  // listtv='离线';
                                 }
                               }else{
-                                fillIcon=imageList[2];
-                                chartColor='#333333';
-                                listtv='无数据';
+                                if(IAQILevel(mValue)!=undefined){
+                                  pollutantindex=IAQILevel(mValue);
+                                  fillIcon=imageList[pollutantindex];
+                                  if(pressPollutantCode=='AQI'){
+                                    chartColor=valueAQIColor(mValue);
+                                    listtv=valueAQIText(mValue);
+                                  }else{
+                                    chartColor=valueAQIColor(mValue);
+                                    // listtv=valueAQIText(mValue);
+                                  }
+                                }else{
+                                  fillIcon=imageList[2];
+                                  chartColor='#333333';
+                                  // listtv='离线';
+                                }
                               }
-                            }
                           }else{
                             fillIcon=imageList[1];
                             chartColor='#333333';
-                            listtv='无数据';
+                            // listtv='离线';
                           }
                         
                         } 
@@ -125,7 +125,6 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                           XValueList.push(kk);
                           chartData.push({chartXValue,chartYValue,chartColor,listtv});
                           listRankData.push({chartXValue,chartYValue_new,chartColor,listtv,point_DGMIN});
-                         
                       }else{
                         
                       }
@@ -200,16 +199,16 @@ export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
       if(choosePollutantCode=='a99054'){
         if(TVOCLevel(mValue)!=undefined){
           chartColor=valueTVOCColor(mValue);
-          if(mValue==0){
-            listtv='异常';
-          }else if(mValue>0){
-            listtv='';
-          }else{
-            listtv='无数据';
-          }
+          // if(mValue==0){
+          //   listtv='异常';
+          // }else if(mValue>0){
+          //   listtv='';
+          // }else{
+          //   listtv='无数据';
+          // }
         }else{
           chartColor='#ffffff';
-          listtv='无数据';
+          // listtv='无数据';
         }
       }else{
         if(IAQILevel(mValue)!=undefined){
@@ -222,12 +221,12 @@ export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
           }
         }else{
           chartColor='#ffffff';
-          listtv='无数据';
+          // listtv='无数据';
         }
       }
     }else{
       chartColor='#ffffff';
-      listtv='无数据';
+      // listtv='无数据';
     }
     let choosePollutantName=CodeForName(choosePollutantCode);
     ZXvaule.push({XValue,YValue,YValue_new,chartColor,listtv,choosePollutantName});

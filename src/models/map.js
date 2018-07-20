@@ -20,7 +20,7 @@ export default Model.extend({
         allPointList:[],
         realTimeDataList:[],
         
-        mapRankData:{
+        mapRankDatas:{
             fillIcon:'',latitude:'',longitude:'',pointName_details:'',pollutantType:'',linkman:'',region:'',dgimn:'',equitmentType:'',
         },
         
@@ -38,13 +38,13 @@ export default Model.extend({
             listen({
                  //监测地图、排名界面 获取所有站点信息
                 MainMap: ({ params }) => {
-                   console.log('===========地图111=========================');
-                   console.log('MainMap');
-                   console.log('====================================');
                     dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Map'},});
                 },
                 MainRank: ({ params }) => {
                     dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Rank'},});
+                },
+                PointDetailsShow: ({ params }) => {
+                    dispatch({ type: 'PointBaseMsg',payload: {},});
                 },
             })
         }
@@ -132,14 +132,17 @@ export default Model.extend({
           *setActivecode({payload:{activecode}},{update,put,call,select}){
             yield update({activecode});
           },
-  /**
+          
+
+        /**
          * 获取监测点基本信息
          * HelenChen
          * @param {any} {payload} 
-         * @param {any} {update,call} 
+         * @param {any} {update,call} mapRankDatas:map.mapRankDatas,
          */
-        * GetPointList({payload:{dgimn}},{update,put,call}){
-            debugger;
+        *PointBaseMsg({payload},{update,put,call,select}){
+            const {mapRankDatas} = yield select(state => state.map);
+            let dgimn=mapRankDatas.dgimn;
             const {data:pointData}=yield call(homeService.GetPointList,{dgimn});
             if(pointData!==null){
               yield update( {pointData} ); 
@@ -147,6 +150,7 @@ export default Model.extend({
               ShowToast('数据为空');
             }
           },
+          
 
     },
 

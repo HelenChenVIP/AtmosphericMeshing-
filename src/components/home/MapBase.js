@@ -23,7 +23,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     realTimeDataList:map.realTimeDataList,
     mkindCode:map.mkindCode,
     markerRealDatas:map.markerRealDatas,
-    mapRankData:map.mapRankData,
+    mapRankDatas:map.mapRankDatas,
     activecode:map.activecode,
     loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],}))
 class MapBase extends PureComponent {
@@ -191,8 +191,8 @@ class MapBase extends PureComponent {
                         <TouchableOpacity
                         onPress={() => {
                             this.props.dispatch(createAction('map/updateState')({
-                                mapRankData:{
-                                    ...this.props.mapRankData,
+                                mapRankDatas:{
+                                    ...this.props.mapRankDatas,
                                     fillIcon: item.fillIcon,
                                     latitude: item.dbo__T_Bas_CommonPoint__Latitude,
                                     longitude: item.dbo__T_Bas_CommonPoint__Longitude,

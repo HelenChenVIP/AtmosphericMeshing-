@@ -21,7 +21,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
    }))
 class PointDetailsFlatList extends PureComponent  {
     render() {
-        debugger;
         let showIndex=this.props.showIndex;
         return (
             <FlatList   

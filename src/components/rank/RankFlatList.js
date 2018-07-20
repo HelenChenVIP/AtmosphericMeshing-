@@ -16,7 +16,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  */
 @connect(({map})=>({listRankData:map.listRankData,
     pressPollutantCode:map.pressPollutantCode,
-    mapRankData:map.mapRankData
+    mapRankDatas:map.mapRankDatas
     }),null,null,{withRef:true})
 class RankFlatList extends Component {
     render() {
@@ -49,8 +49,8 @@ class RankFlatList extends Component {
             <TouchableOpacity
                 onPress={()=>{
                     this.props.dispatch(createAction('map/updateState')({
-                        mapRankData:{
-                            ...this.props.mapRankData,
+                        mapRankDatas:{
+                            ...this.props.mapRankDatas,
                             dgimn:item.item.point_DGMIN,
                         }
                          }));
@@ -63,8 +63,7 @@ class RankFlatList extends Component {
                 </View>
             </TouchableOpacity>
          )
-     }
-     else{
+     }else{
          return (
              <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
                  <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.chartXValue}</Text> 
