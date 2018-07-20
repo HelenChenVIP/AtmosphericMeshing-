@@ -20,9 +20,9 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsShow
  * @extends {Component}
  */
-@connect(({map,loading})=>({
-    pointData:map.pointData,
-    loading:loading.effects['map/PointBaseMsg'],}))
+@connect(({pointdetails,loading})=>({
+    pointData:pointdetails.pointData,
+    loading:loading.effects['pointdetails/PointBaseMsg'],}))
 class PointDetailsShow extends PureComponent  {
     static navigationOptions = ({ navigation }) => ({
         title: '站点详情',
@@ -59,6 +59,7 @@ class PointDetailsShow extends PureComponent  {
     }
   
     componentWillReceiveProps(nextProps) {
+        debugger;
         if (nextProps.pointData !== this.props.pointData) {
             let pointName=nextProps.pointData[0].pointName;
             let region=nextProps.pointData[0].regionName;
@@ -80,7 +81,7 @@ class PointDetailsShow extends PureComponent  {
                 linkman:linkman,dgimn:dgimn,equitmentType:equitmentType,
                 mkindCode:mkindCode,startTime:startTime,chooseTime:chooseTime},
                 ()=>{
-                    this.props.dispatch(createAction('app/updateState')({
+                    this.props.dispatch(createAction('pointdetails/updateState')({
                         showIndex: this.state.PagerIndex,
                         codeClickID: this.state.codeClickID,
                         startTime: this.state.startTime,
@@ -89,7 +90,6 @@ class PointDetailsShow extends PureComponent  {
                     }))
                 }
             );
-           
         }
     }
    
@@ -186,7 +186,21 @@ class PointDetailsShow extends PureComponent  {
         }else{
             this.setState({PagerIndex:'1'});
         }
+        debugger;
+        this.props.dispatch(createAction('pointdetails/updateState')({
+            showIndex: e.nativeEvent.selectedSegmentIndex,
+           
+        }))
+
+        if(e.nativeEvent.selectedSegmentIndex=='0'){
+            this.props.dispatch(createAction('pointdetails/GetHourDatas')({
+            }));
+        }else{
+            this.props.dispatch(createAction('pointdetails/GetDayDatas')({
+            }));
+        }
     }
+
     onValueChange = (value) => {
         console.log('=============站点详情onValueChange=======================');
     }
@@ -204,11 +218,15 @@ class PointDetailsShow extends PureComponent  {
           startDate: moment(startDate).format('YYYY-MM-DD'),
           endDate: moment(endDate).format('YYYY-MM-DD'),
         });
+        this.props.dispatch(createAction('pointdetails/updateState')({
+            startTime:  moment(startDate).format('YYYY-MM-DD'),
+            endTime: moment(endDate).format('YYYY-MM-DD'),
+        }))
         if(this.state.PagerIndex=='0'){
-            this.props.dispatch(createAction('app/GetHourDatas')({
+            this.props.dispatch(createAction('pointdetails/GetHourDatas')({
             }));
         }else{
-            this.props.dispatch(createAction('app/GetDayDatas')({
+            this.props.dispatch(createAction('pointdetails/GetDayDatas')({
             }));
         }
       }
@@ -236,14 +254,14 @@ class PointDetailsShow extends PureComponent  {
             modalVisible:false
         },
         ()=>{
-            this.props.dispatch(createAction('app/updateState')({
+            this.props.dispatch(createAction('pointdetails/updateState')({
                 codeClickID: this.state.codeClickID,
             }))
             if(this.state.PagerIndex=='0'){
-                this.props.dispatch(createAction('app/GetHourDatas')({
+                this.props.dispatch(createAction('pointdetails/GetHourDatas')({
                 }));
             }else{
-                this.props.dispatch(createAction('app/GetDayDatas')({
+                this.props.dispatch(createAction('pointdetails/GetDayDatas')({
                 }));
             }
         });

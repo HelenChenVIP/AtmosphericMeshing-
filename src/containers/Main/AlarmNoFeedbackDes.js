@@ -8,6 +8,8 @@ import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import {Checkbox} from 'antd-mobile';
+import SuspensionLoadingComponent from '../../components/comment/SuspensionLoadingComponent';
+
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -212,8 +214,8 @@ class AlarmNoFeedbackDes extends PureComponent {
                         <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{chooseTime}</Text>
                     </View>
                 </TouchableOpacity>
-                {this.props.loading?
-                <LoadingComponent Message={'正在加载数据...'} /> :
+                {this.props.loading ?
+                <SuspensionLoadingComponent/> :
                 <FlatList
                 ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                 data={this.props.NoAlarmDesData}
@@ -231,7 +233,6 @@ class AlarmNoFeedbackDes extends PureComponent {
                             EndTime:this.state.mEndTime,
                         }
                         }));
-                    console.log('=============测试。。。onRefresh=======================');
                     this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
                         PageIndex:1,}));
                 }}
@@ -248,7 +249,6 @@ class AlarmNoFeedbackDes extends PureComponent {
                             BeginTime:this.state.mBeginTime,
                             EndTime:this.state.mEndTime,
                         }}));
-                    console.log('=============测试。。。onEndReached=======================');
                     this.props.dispatch(createAction('alarm/EndReached')({
                         PageIndex:loadingpage,}));
                 }}/>

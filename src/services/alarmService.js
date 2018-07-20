@@ -16,10 +16,9 @@ export const GetMainAlarmService = async(param) => {
         state:param.state,
     };
     const result=await get(api.alarm.GetEarlyWarningGroupByDGIMN,body,null);
-    console.log(result);
-    if (!result.data) {
-      return{'data':[]};
-    }
+    // if (!result.data) {
+    //   return{'data':[]};
+    // }
     return result;
   }
   //获取未核实2级

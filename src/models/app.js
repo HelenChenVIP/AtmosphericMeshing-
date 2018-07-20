@@ -17,17 +17,11 @@ export default Model.extend({
   state: {
     pointTypeList:[],
     choosePollutantCode:'',
-    hourDataList:[],
-    dayDataList:[],
-    zxData:[],
+
     pointName:'',
     latitude:'',
     longitude:'',
-    dgimn:'',
-    showIndex:'',
-    codeClickID:'',
-    startTime:'',
-    endTime:'',
+
   },
   
   subscriptions: {
@@ -45,7 +39,6 @@ export default Model.extend({
     //   if(choosePollutantCode==''){
     //     choosePollutantCode='AQI';
     //   }
-    //   debugger;
     //   if(hourData=='hour'){
     //     let hourVaule=PointDeatilsHourData(state.hourDataList,choosePollutantCode);
     //     state = {...state,...{zxData:hourVaule}};
@@ -170,60 +163,6 @@ export default Model.extend({
       }
     },
   
-  /**
-   * 站点详情-小时数据
-   * @param {*} param0 
-   * @param {*} param1 
-   */
-  * GetHourDatas({payload},{update,put,call,select}){
-    const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.app);
-    const {data:hourDataList}=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
-    debugger;
-    if(hourDataList!==null){
-      yield update( {hourDataList} ); 
-      yield put('HourDayDatas',{
-        hourData:'hour',
-        choosePollutantCode:codeClickID,
-        mData:hourDataList,
-      })
-    }else{
-      ShowToast('数据为空');
-    }
-  },
- /**
-   * 站点详情-日数据
-   * @param {*} param0 
-   * @param {*} param1 
-   */
-  * GetDayDatas({payload},{update,put,call,select}){
-    const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.app);
-    const {data:dayDataList}=yield call(homeService.GetDayAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
-    if(dayDataList!==null){
-      yield update( {dayDataList} ); 
-      yield put('HourDayDatas',{
-        hourData:'day',
-        choosePollutantCode:codeClickID,
-        mData:dayDataList,
-      })
-      }else{
-        ShowToast('数据为空');
-      }
-    },
-
-    * HourDayDatas({payload:{hourData,choosePollutantCode,mData}},{update}){
-      if(choosePollutantCode==''){
-        choosePollutantCode='AQI';
-      }
-      if(hourData=='hour'){
-        let hourVaule=PointDeatilsHourData(mData,choosePollutantCode);
-        yield update( {hourVaule} ); 
-      }else{
-        let dayVaule=PointDeatilsHourData(mData,choosePollutantCode);
-        yield update( {dayVaule} ); 
-      }
-    },
-
-
 
  
   },

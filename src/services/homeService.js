@@ -126,6 +126,7 @@ export const GetDayAQIDatasColumn = async(param) => {
     dic:dic,
   };
   const result = await get(api.tool.GetDayAQIDatasColumn,body,null);
+  debugger;
   return result === null ? { data: null } : result;
 }
 

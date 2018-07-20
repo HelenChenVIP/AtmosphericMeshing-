@@ -18,14 +18,14 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class MapBase
  * @extends {Component}
  */
-@connect(({map,loading})=>({mallPointList:map.mallPointList,
+@connect(({map,loading,pointdetails})=>({
+    mallPointList:map.mallPointList,
     mTime:map.mTime,
     pressPollutantCode:map.pressPollutantCode,
-    realTimeDataList:map.realTimeDataList,
     mkindCode:map.mkindCode,
     markerRealDatas:map.markerRealDatas,
-    mapRankDatas:map.mapRankDatas,
     activecode:map.activecode,
+    mapRankDatas:pointdetails.mapRankDatas,
     loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],}))
 class MapBase extends PureComponent {
     constructor(props) {
@@ -95,8 +95,6 @@ class MapBase extends PureComponent {
     }
   
     render() {
-        console.log('activecode');
-        console.log(this.state.activecode);
         return (
             <View style={styles.container}>
                 {this.props.loading?
@@ -133,7 +131,6 @@ class MapBase extends PureComponent {
             rtnVal.splice(0,rtnVal.length);
         }
         this.props.mallPointList ? this.props.mallPointList.map((item,key)=>{
-            // this.state.activecode==item.dbo__T_Bas_CommonPoint__DGIMN;
             if(item.fillIcon!=null && item.fillIcon!=''){
                 let mLat;
                 let mLon;
@@ -155,7 +152,6 @@ class MapBase extends PureComponent {
                 image={
                     item.fillIcon
                 }
-                
                 onPress={()=>{
                     this.setState({
                         avglat:item.dbo__T_Bas_CommonPoint__Latitude,
@@ -193,18 +189,11 @@ class MapBase extends PureComponent {
                     {
                         <TouchableOpacity
                         onPress={() => {
-                            this.props.dispatch(createAction('map/updateState')({
+                            debugger;
+                            this.props.dispatch(createAction('pointdetails/updateState')({
                                 mapRankDatas:{
                                     ...this.props.mapRankDatas,
-                                    fillIcon: item.fillIcon,
-                                    latitude: item.dbo__T_Bas_CommonPoint__Latitude,
-                                    longitude: item.dbo__T_Bas_CommonPoint__Longitude,
-                                    pointName_details: item.dbo__T_Bas_CommonPoint__PointName,
-                                    pollutantType:item.dbo__T_Cod_PollutantType,
-                                    linkman:item.dbo__T_Bas_CommonPoint__Linkman,
-                                    region:item.dbo__T_Cod_Region,
                                     dgimn:item.dbo__T_Bas_CommonPoint__DGIMN,
-                                    equitmentType:item.dbo__T_Bas_CommonPoint__PollutantType,
                                 }
                                  }));
                                  this.props.dispatch(NavigationActions.navigate({routeName: 'PointDetailsShow', params: { }}))        

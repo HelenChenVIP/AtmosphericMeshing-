@@ -20,9 +20,7 @@ export default Model.extend({
         allPointList:[],
         realTimeDataList:[],
         
-        mapRankDatas:{
-            fillIcon:'',latitude:'',longitude:'',pointName_details:'',pollutantType:'',linkman:'',region:'',dgimn:'',equitmentType:'',
-        },
+       
         
         markerRealDatas:[],
         mallPointList:[],
@@ -43,9 +41,7 @@ export default Model.extend({
                 MainRank: ({ params }) => {
                     dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Rank'},});
                 },
-                PointDetailsShow: ({ params }) => {
-                    dispatch({ type: 'PointBaseMsg',payload: {},});
-                },
+              
             })
         }
     },
@@ -60,7 +56,6 @@ export default Model.extend({
              let kindData=MapRankData(state.realTimeDataList,state.allPointList,pressPollutantCode);
              //排名Data排序
              if(kindData.chartData!=null && kindData.chartData.length>0){
-                 debugger;
                  let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
                  if(whitchPage=='Map'){
                      if(kindData.changeAllPointList.length>0){
@@ -135,22 +130,6 @@ export default Model.extend({
           },
           
 
-        /**
-         * 获取监测点基本信息
-         * HelenChen
-         * @param {any} {payload} 
-         * @param {any} {update,call} mapRankDatas:map.mapRankDatas,
-         */
-        *PointBaseMsg({payload},{update,put,call,select}){
-            const {mapRankDatas} = yield select(state => state.map);
-            let dgimn=mapRankDatas.dgimn;
-            const {data:pointData}=yield call(homeService.GetPointList,{dgimn});
-            if(pointData!==null){
-              yield update( {pointData} ); 
-            }else{
-              ShowToast('数据为空');
-            }
-          },
           
 
     },

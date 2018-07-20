@@ -84,15 +84,16 @@ class Login extends Component {
     render() {
         return (
             <ScrollView style={styles.container} onLayout={this._scrollViewLayout.bind(this)}>
-                <Image source={require('../images/bg_login.jpg')} style={[styles.launchImageStyle,{height:this.state.contentHeight,}]}/>
+                <View  style={[styles.launchImageStyle,{height:this.state.contentHeight,}]}/>
                 <StatusBar
                     barStyle="light-content"
                 />
                 <View style={[styles.LoginForm,{height:this.state.contentHeight,}]}>
-                    <Image source={require('../images/bg_logo.png')} style={[{height:40,width:104,marginTop:120,}]}/>
-                    <Text style={[{color:globalcolor.whiteFontColor, marginTop:21,fontSize:20,marginBottom:40,}]}>大气环境网格化监管系统</Text>
-                    <View style={[styles.TextInputStyle, { marginBottom: 10 }]}>
-                        <Image source={require('../images/ueser_icon.png')} style={{ width: 20, height: 20, marginBottom: 8 }} />
+                <Text style={[{color:globalcolor.whiteFontColor, marginTop:30,fontSize:15,marginBottom:40,}]}>用户登录</Text>
+                    <Image source={require('../images/login_person.png')} style={[{height:60,width:104,marginTop:20,}]}/>
+                    
+                    <View style={[styles.TextInputStyle, { marginTop: 30,marginBottom: 10 }]}>
+                       
                         <TextInput
                         ref={ref => this.userNameInput = ref}
                         keyboardType={'default'}
@@ -103,7 +104,7 @@ class Login extends Component {
                         autoCapitalize={'none'}
                         autoCorrect={false}
                         underlineColorAndroid={'transparent'}
-                        clearButtonMode={'always'}
+                        
                         onChangeText={(text) => {
                             // 动态更新组件内State记录用户名
                             this.setState({
@@ -112,17 +113,18 @@ class Login extends Component {
                         }}
                         value={this.state.username}
                         style={{
-                            width: SCREEN_WIDTH - 120,
+                            width: SCREEN_WIDTH - 70,
                             marginLeft: 10,
                             paddingTop: 1,
                             paddingBottom: 1,
                             color: 'white',
                             height: 20,
+                            textAlign :'center',
                         }}
                         />
                     </View>
-                    <View style={[styles.TextInputStyle, { marginBottom: 20 }]}>
-                        <Image source={require('../images/password_icon.png')} style={{ width: 20, height: 20, marginBottom: 8 }} />
+                    <View style={[styles.TextInputStyle, { marginBottom: 20,marginTop :15 }]}>
+                       
                         <TextInput
                         ref={ref => this.passWordInput = ref}
                         clearTextOnFocus={false}
@@ -133,7 +135,7 @@ class Login extends Component {
                         autoCapitalize={'none'}
                         autoCorrect={false}
                         underlineColorAndroid={'transparent'}
-                        clearButtonMode={'always'}
+                        
                         secureTextEntry
                         onChangeText={(text) => {
                             // 动态更新组件内State记录密码
@@ -142,11 +144,12 @@ class Login extends Component {
                             });
                         }}
                         value={this.state.password}
-                        style={{ width: SCREEN_WIDTH - 120,
+                        style={{ width: SCREEN_WIDTH - 70,
                             marginLeft: 10,
                             paddingTop: 1,
                             paddingBottom: 1,
-                            marginBottom: 8,
+                            marginBottom: 2,
+                            textAlign :'center',
                             height: 21,
                             color: 'white' }}
                         />
@@ -174,13 +177,13 @@ class Login extends Component {
                     {
                         this.props.loginLoading
                         || this.props.loadglobalvariable ?
-                            <Button type="primary" inline style={{width: SCREEN_WIDTH - 100,}} loading>正在登录</Button>:
-                            <Button type="primary" inline style={{width: SCREEN_WIDTH - 100,}} onClick={this.login}>登录</Button>
+                            <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:30,backgroundColor:'white',borderRadius:15,marginTop : 30}} loading>正在登录</Button>:
+                            <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:30,backgroundColor:'white',borderRadius:15,marginTop : 30}} onClick={this.login}>登录</Button>
                     }
-                    <View style={{flex:1,}}></View>
-                    <Text style={{ fontSize: 8, color: 'white',marginBottom:4,}}>{'v 1.0.2'}</Text>
-                    <Text style={{ fontSize: 8, color: 'white',marginBottom:4,}}>{'北京雪迪龙科技股份有限公司'}</Text>
-                    <Text style={{ fontSize: 8, color: 'white',marginBottom:8,}}>{'Copyright@2017 SDL.All Rights Reserved'}</Text>
+                   
+                    <Text style={{ fontSize: 8, color: 'white',marginTop:10,}}>{'v 1.0.2'}</Text>
+                    <Text style={{ fontSize: 8, color: 'white',marginTop:2,}}>{'北京雪迪龙科技股份有限公司'}</Text>
+                    <Text style={{ fontSize: 8, color: 'white',marginTop:2,}}>{'Copyright@2017 SDL.All Rights Reserved'}</Text>
                 </View>
             </ScrollView>
         );
@@ -194,6 +197,7 @@ const styles = StyleSheet.create({
     },
     launchImageStyle:{
         width:SCREEN_WIDTH,
+        backgroundColor: 'rgba(93,128,241,1.0)',
     },
     LoginForm: {
         alignItems: 'center',
@@ -203,7 +207,7 @@ const styles = StyleSheet.create({
       },
       TextInputStyle: {
         flexDirection: 'row',
-        width: SCREEN_WIDTH - 100,
+        width: SCREEN_WIDTH - 50,
         borderBottomWidth: 0.5,
         borderBottomColor: 'white',
       },
@@ -211,12 +215,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        width: SCREEN_WIDTH - 100,
+        width: SCREEN_WIDTH ,
+        marginTop:20
       },
       checkStyleDetail: {
         flexDirection: 'row',
         width: SCREEN_WIDTH - 100,
-        paddingBottom:20,
+        paddingBottom:50,
+        marginLeft : 25
       },
 });
 

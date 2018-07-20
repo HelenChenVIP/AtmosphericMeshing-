@@ -14,7 +14,7 @@ const SCREEN_WIDTH=Dimensions.get('window').width;
  * @class RankFlatList
  * @extends {Component}
  */
-@connect(({map})=>({listRankData:map.listRankData,
+@connect(({map,pointdetails})=>({listRankData:map.listRankData,
     pressPollutantCode:map.pressPollutantCode,
     mapRankDatas:map.mapRankDatas
     }),null,null,{withRef:true})
@@ -48,7 +48,8 @@ class RankFlatList extends Component {
          return (
             <TouchableOpacity
                 onPress={()=>{
-                    this.props.dispatch(createAction('map/updateState')({
+                    debugger;
+                    this.props.dispatch(createAction('pointdetails/updateState')({
                         mapRankDatas:{
                             ...this.props.mapRankDatas,
                             dgimn:item.item.point_DGMIN,
@@ -59,7 +60,7 @@ class RankFlatList extends Component {
                 <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
                     <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.item.chartXValue}</Text> 
                     <Text style={{marginLeft:10,fontSize: 14,color:'#333333',width:40}}>{item.item.listtv}</Text> 
-                    <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:30}}>{item.item.chartYValue_new}</Text> 
+                    <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:40}}>{item.item.chartYValue_new}</Text> 
                 </View>
             </TouchableOpacity>
          )
@@ -68,7 +69,7 @@ class RankFlatList extends Component {
              <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
                  <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.chartXValue}</Text> 
                  <Text style={{marginLeft:10,fontSize: 14,color:'#333333',width:40}}>  </Text> 
-                 <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:30}}>{item.chartYValue_new}</Text> 
+                 <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:40}}>{item.chartYValue_new}</Text> 
              </View>
          )
      }

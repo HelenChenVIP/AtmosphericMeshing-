@@ -13,10 +13,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class RankChartBar
  * @extends {Component}
  */
-@connect(({map,loading})=>({chartData:map.chartData,
-    YZhou:map.YZhou,
-    listRankData:map.listRankData,
-    ishow:map.ishow,
+@connect(({map,loading})=>({
+    chartData:map.chartData,
     loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],
     }),null,null,{withRef:true})
 class RankChartBar extends Component {
@@ -37,18 +35,22 @@ class RankChartBar extends Component {
             }],
           },
           xAxis: {
-            drawLabels: false,
+            drawLabels: true,
+            granularityEnabled: true,
+            granularity : 1,
+            axisMinimum: 0, 
+            drawGridLines: false,
           },
           yAxis:{
             drawGridLines: false,
             position: 'LEFT' ,
             left: {
-              drawAxisLine: false,
               drawGridLines: false,
               axisMinimum: 0,
-              drawLabels: true,
-              drawValueAboveBar:false,
-              gridColor: processColor('white')
+              // drawAxisLine: false,
+              // drawLabels: true,
+              // drawValueAboveBar:false,
+              // gridColor: processColor('white')
             },
             right: {
               enabled: false,
@@ -65,6 +67,7 @@ class RankChartBar extends Component {
             markerColor: processColor('rgba(240, 240, 240, 0.8)'),
             textColor: processColor('#666666'),
             markerFontSize: 14,
+            borderWidth: 1,
           },
         };
       }
@@ -76,7 +79,7 @@ class RankChartBar extends Component {
           let axisMaximum=nextProps.chartData.length;
           nextProps.chartData.map((item,key)=>{
           values.push({y:item.chartYValue,marker:`时间:${item.chartXValue}\n值:${item.chartYValue}`});
-          valueFormatter.push(item.chartXValue);
+          item.chartXValue.length>= valueFormatter.push(item.chartXValue.substring(0,4));
           colors.push(processColor(item.chartColor));
           })
           
@@ -96,7 +99,9 @@ class RankChartBar extends Component {
             ...this.state.xAxis.valueFormatter,
             valueFormatter,
             axisMaximum,
-            axisMaximum
+            axisMaximum,
+            position: 'BOTTOM',
+            drawGridLines: false,
           },
         })
         }
@@ -146,12 +151,17 @@ class RankChartBar extends Component {
                     colors
                   }
               }],
+              config: {
+                barWidth: 0.2,
+                barSpace: 0.2,
+              },
           },
         xAxis: {
           ...this.state.xAxis.valueFormatter,
           valueFormatter,
           axisMaximum,
-          axisMaximum
+          axisMaximum,
+          position: 'BOTTOM',
         },
       })
       }
@@ -171,6 +181,9 @@ class RankChartBar extends Component {
                   legend={this.state.legend}
                   onSelect={this.handleSelect.bind(this)}
                   marker={this.state.marker}
+                  drawBarShadow={false}
+                  drawValueAboveBar={true}
+                  zoom=  {{scaleX:1, scaleY: 1, xValue: 0, yValue: 0}}
                   />
         );
     }

@@ -27,7 +27,7 @@ class knowledgeBase extends PureComponent {
             scalingEnabled:true,
         }
       }
-    
+     
     render() {
         return (
             <View style={styles.container}>

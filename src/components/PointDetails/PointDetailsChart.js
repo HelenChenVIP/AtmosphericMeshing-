@@ -15,9 +15,9 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsChart
  * @extends {Component}
  */
-@connect(({app,loading})=>({
-  zxData:app.zxData,
-  loading:loading.effects['app/GetHourDatas'],}))
+@connect(({pointdetails,loading})=>({
+  zxData:pointdetails.zxData,
+  loading:loading.effects['pointdetails/HourDayDatas'],}))
 class PointDetailsChart extends PureComponent  {
     constructor() {
         super();
@@ -34,7 +34,7 @@ class PointDetailsChart extends PureComponent  {
         };
       }
       componentWillMount(){
-        this.props.dispatch(createAction('app/GetHourDatas')({
+        this.props.dispatch(createAction('pointdetails/GetHourDatas')({
            }));
       }    
    

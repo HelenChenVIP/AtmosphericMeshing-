@@ -15,9 +15,9 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class PointDetailsFlatList
  * @extends {Component}
  */
-@connect(({app})=>({
-    zxData:app.zxData,
-    showIndex:app.showIndex,
+@connect(({pointdetails})=>({
+    zxData:pointdetails.zxData,
+    showIndex:pointdetails.showIndex,
    }))
 class PointDetailsFlatList extends PureComponent  {
     render() {

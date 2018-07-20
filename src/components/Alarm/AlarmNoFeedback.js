@@ -18,7 +18,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @extends {Component}
  */
 @connect(({alarm,loading})=>({
-    mainAlarmData:alarm.mainAlarmData,timeData:alarm.timeData,
+    mainAlarmData:alarm.mainAlarmData,
+    timeData:alarm.timeData,
     loading:loading.effects['alarm/GetMainAlarm'],
     alarmNoDesData:alarm.alarmNoDesData,
 }))
@@ -69,7 +70,6 @@ class AlarmNoFeedback extends PureComponent {
       //FlatList key
     _extraUniqueKey=(item,index)=> `index22${index}${item}`
     _renderItemList = (item) => {
-        if(item!=null){
             return(
                 <TouchableOpacity onPress={() => {
                     this.props.dispatch(createAction('alarm/updateState')({
@@ -99,26 +99,20 @@ class AlarmNoFeedback extends PureComponent {
                         </View>
                         <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{fontSize:12,color:'#969696'}}>{'未反馈'}</Text>
-                            <View style={{backgroundColor:'red',width:30,height:20,borderColor:'red',borderRadius:10,marginTop:5,}}>
+                            <View style={{backgroundColor:'red',width:30,height:20,borderColor:'red',borderRadius:10,marginTop:5,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{fontSize:12,color:'white',textAlign:'center',textAlignVertical:'center'}}>{item.item.count}</Text>
                             </View>
                         </View>
                     </View>
                 </TouchableOpacity>
             )
-        }{
-            return(<NoDataComponent Message={'没有查询到数据'} />);
-        }
+        
     }
     render() {
         const color = {
             subColor: '#fff',
             mainColor: '#4c68ea'
           };
-          console.log('==============测试变化======================');
-          console.log(this.props.timeData);
-          console.log(this.props.mainAlarmData);
-          console.log('====================================');
         let CurrenDate=this.props.timeData.length>0 ?this.props.timeData[0].endtime: this.state.endDate;
         let LastDate=this.props.timeData.length>0 ?this.props.timeData[0].starttime:this.state.startDate;
         let nowTime = (new Date()).valueOf();
@@ -147,7 +141,7 @@ class AlarmNoFeedback extends PureComponent {
                     this.props.loading ? 
                     <LoadingComponent Message={'正在加载数据'} /> :
                     <FlatList           
-                    ListEmptyComponent={() => (this.props.mainAlarmData.length ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+                    ListEmptyComponent={() => (this.props.mainAlarmData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                     data={this.props.mainAlarmData}
                     renderItem={this._renderItemList}
                     keyExtractor={this._extraUniqueKey}/>

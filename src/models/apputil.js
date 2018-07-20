@@ -173,7 +173,6 @@ export const RankAscDescData=(chartData,listRankData)=>{
     let sortListRankDataAll=[];
     sortchartData=selectionSort(chartData);
     sortListRankData=selectionSortNew(listRankData);
-    debugger;
     let zz=-1;
     let keyAll='';
     sortchartData.forEach((key)=>{
@@ -187,7 +186,6 @@ export const RankAscDescData=(chartData,listRankData)=>{
        key.zz=zz;
        sortListRankDataAll.push(key);
     });
-    debugger;
     return {sortchartDataAll,sortListRankDataAll};
 }
 //站点详情-折线图data

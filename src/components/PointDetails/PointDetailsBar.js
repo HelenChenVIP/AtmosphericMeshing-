@@ -11,12 +11,12 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
  * 站点详情 柱状图表
  * Helenchen
- * @class PointDetailsChart
+ * @class PointDetailsBar
  * @extends {Component}
  */
-@connect(({app,loading})=>({
-  zxData:app.zxData,
-  loading:loading.effects['app/GetDayDatas'],}))
+@connect(({pointdetails,loading})=>({
+  zxData:pointdetails.zxData,
+  loading:loading.effects['pointdetails/HourDayDatas'],}))
 class PointDetailsBar extends PureComponent  {
     constructor() {
         super();
@@ -86,7 +86,7 @@ class PointDetailsBar extends PureComponent  {
         };
       }
       componentWillMount(){
-        this.props.dispatch(createAction('app/GetDayDatas')({
+        this.props.dispatch(createAction('pointdetails/GetDayDatas')({
            }));
       } 
       componentWillReceiveProps(nextProps) {
