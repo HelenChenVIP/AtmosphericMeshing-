@@ -1,6 +1,6 @@
 //import liraries
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList } from 'react-native';
+import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList,StatusBar } from 'react-native';
 import NoDataComponent from '../../components/comment/NoDataComponent';
 import LoadingComponent from '../../components/comment/LoadingComponent';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
@@ -194,6 +194,8 @@ class AlarmNoFeedbackDes extends PureComponent {
         let chooseTime = '自 '+BeginTime+' 至 '+ EndTime;
         return (
             <View style={styles.container}>
+                <StatusBar backgroundColor="#5688f6"
+                    barStyle="light-content"/>
                 <Calendar
                 i18n="zh"
                 ref={(calendar) => { this.calendar = calendar; }}
