@@ -2,8 +2,10 @@
 import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Image,Dimensions, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
+import CodePush from "react-native-code-push";
 import { clearToken,  } from '../../../dvapack/storage';
 import { NavigationActions } from '../../../utils';
+import {doUpdate} from '../../../utils/CodePushUtil'
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 /**
@@ -31,6 +33,7 @@ class MainMy extends PureComponent {
         super();
         this.state = {
                 value: 0,
+                syncMessage:'',
         }
        
         
@@ -42,6 +45,41 @@ class MainMy extends PureComponent {
           // JPushModule.deleteAlias((result) => {});
           this.props.dispatch(NavigationActions.navigate({ routeName: 'Login' }));
     }
+
+    _update = () => {
+        doUpdate((syncStatus)=>{
+            switch(syncStatus) {
+                case CodePush.SyncStatus.CHECKING_FOR_UPDATE:
+                  this.setState({ syncMessage: "正在检测更新内容." });
+                  break;
+                case CodePush.SyncStatus.DOWNLOADING_PACKAGE:
+                  this.setState({ syncMessage: "正在下载更新包." });
+                  break;
+                case CodePush.SyncStatus.AWAITING_USER_ACTION:
+                  // this.setState({ syncMessage: "Awaiting user action." });
+                  break;
+                case CodePush.SyncStatus.INSTALLING_UPDATE:
+                  this.setState({ syncMessage: "正在安装更新包." });
+                  break;
+                case CodePush.SyncStatus.UP_TO_DATE:
+                  this.setState({ syncMessage: "当前版本为最新版本.", progress: false });
+                  
+                  break;
+                case CodePush.SyncStatus.UPDATE_IGNORED:
+                //   this.setState({ syncMessage: "Update cancelled by user.", progress: false });
+                  break;
+                case CodePush.SyncStatus.UPDATE_INSTALLED:
+                //   this.setState({ syncMessage: "Update installed and will be applied on restart.", progress: false });
+                  break;
+                case CodePush.SyncStatus.UNKNOWN_ERROR:
+                //   this.setState({ syncMessage: "An unknown error occurred.", progress: false });
+                  break;
+              }
+        },(progress)=>{
+            //下载进度
+        });
+    } 
+
     render() {
         return (
             <View style={{flexDirection:'column',backgroundColor:'#efefef'}}>
@@ -50,6 +88,14 @@ class MainMy extends PureComponent {
                  <Image source={require('../../../images/userlogo.png')} style={{width:70,height:70}}></Image>
                  <Text style={{fontSize:17,color:'#ffffff',marginTop:10}}>管理员</Text>
             </View>
+            <TouchableOpacity style={{flexDirection:'row',height:40,backgroundColor:'#ffffff',alignItems:'center',marginTop:20}} 
+            onPress={()=>{
+                this._update()
+            }}>
+                <Image source={require('../../../images/ic_logon.png')} style={styles.itemImageStyle}></Image>
+                <Text style={styles.itemTextView}>检查更新</Text>
+                <Text style={styles.itemTextView}>{this.state.syncMessage}</Text>
+            </TouchableOpacity> 
             <TouchableOpacity style={{flexDirection:'row',height:40,backgroundColor:'#ffffff',alignItems:'center',marginTop:20}} 
             onPress={()=>{
                 this.doLogout()

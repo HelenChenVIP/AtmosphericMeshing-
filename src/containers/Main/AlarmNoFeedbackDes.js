@@ -1,6 +1,6 @@
 //import liraries
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList } from 'react-native';
+import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList,StatusBar } from 'react-native';
 import NoDataComponent from '../../components/comment/NoDataComponent';
 import LoadingComponent from '../../components/comment/LoadingComponent';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
@@ -194,6 +194,8 @@ class AlarmNoFeedbackDes extends PureComponent {
         let chooseTime = '自 '+BeginTime+' 至 '+ EndTime;
         return (
             <View style={styles.container}>
+                <StatusBar backgroundColor="#5688f6"
+                    barStyle="light-content"/>
                 <Calendar
                 i18n="zh"
                 ref={(calendar) => { this.calendar = calendar; }}
@@ -212,8 +214,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                 </TouchableOpacity>
                 {this.props.loading?
                 <LoadingComponent Message={'正在加载数据...'} /> :
-                <FlatList   
-                style={[{height:SCREEN_HEIGHT-125,width:SCREEN_WIDTH}]}
+                <FlatList
                 ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                 data={this.props.NoAlarmDesData}
                 renderItem={this._renderItemList}
@@ -248,7 +249,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                             EndTime:this.state.mEndTime,
                         }}));
                     console.log('=============测试。。。onEndReached=======================');
-                    this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+                    this.props.dispatch(createAction('alarm/EndReached')({
                         PageIndex:loadingpage,}));
                 }}/>
             }

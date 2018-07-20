@@ -26,6 +26,7 @@ export default Model.extend({
         checkboxStatemap: '',
         checkboxIndexmap: '',
         clearselect: '',
+        allTotal:0,
       }
 
     },
@@ -61,6 +62,14 @@ export default Model.extend({
               yield update({mainAlarmData,timeData});
             }
           },
+          *EndReached({payload:{PageIndex}}, {update, put, call, select}){
+            const {NoAlarmDesData,allTotal} = yield select(state => state.alarm);
+            if (allTotal === 0) {
+              yield put('GetNoAlarmDes',{'PageIndex':1});
+            } else if (NoAlarmDesData.length<allTotal) {
+              yield put('GetNoAlarmDes',{PageIndex});
+            }
+          },
           //报警二级界面数据
           * GetNoAlarmDes({payload:{PageIndex}}, {update, put, call, select}){
             const {alarmNoDesData:{DGIMN,PointName,RegionCode,PolluntCode,BeginTime,EndTime,EarlyWaringType,State,PageSize,IsPc}} = yield select(state => state.alarm);
@@ -85,13 +94,12 @@ export default Model.extend({
                   NoAlarmDesData=NoAlarmDesDataFirst.concat(NoAlarmDesData);
                   let timeDesData=[];
                   timeDesData.push({BeginTime,EndTime});
-                  yield update({NoAlarmDesData,PageIndex,timeDesData});
+                  yield update({NoAlarmDesData,PageIndex,timeDesData,allTotal});
                 }
-               
               }else{ 
                 let timeDesData=[];
                 timeDesData.push({BeginTime,EndTime});
-                yield update({NoAlarmDesData,PageIndex,timeDesData});
+                yield update({NoAlarmDesData,PageIndex,timeDesData,allTotal});
               }
             }else{
               ShowToast('暂无数据');
