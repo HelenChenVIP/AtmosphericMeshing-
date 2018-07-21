@@ -102,21 +102,21 @@ export const timeAdd=(time)=>{
 export const timeZC=(DayendTime,DaystartTime)=>{
     let lastTime;
     if(DayendTime=='' || DaystartTime==''){
-        lastTime=moment().add(-30, 'days').format('YYYY-MM-DD')+' 00:00:00';
+        lastTime=moment().add(-30, 'days').format('YYYY-MM-DD HH:mm:ss');
     }else{
         //当前时间
         let currdate=new Date(DaystartTime);
         let nowTimes = currdate.valueOf();
         //之前时间
         let lastdate=new Date(DayendTime);
-        let lastTimes = currdate.valueOf();
+        let lastTimes = lastdate.valueOf();
         //差值
-        let czTime=nowTimes-lastTimes;
+        let czTime=lastTimes-nowTimes;
         let ctHour=czTime/24*3600*1000;
         if(ctHour<48){
-            lastTime=moment().add(-30, 'days').format('YYYY-MM-DD')+' 00:00:00';
+            lastTime=moment().add(-30, 'days').format('YYYY-MM-DD HH:mm:ss');
         }else{
-            lastTime=lastTime;
+            lastTime=DaystartTime;
         }
     }
     return lastTime;

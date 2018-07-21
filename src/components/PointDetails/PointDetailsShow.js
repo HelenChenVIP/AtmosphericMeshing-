@@ -92,7 +92,6 @@ class PointDetailsShow extends PureComponent  {
                             dgimn:this.state.dgimn,
                         }))
                     }
-                   
                 }
             );
         }
@@ -106,7 +105,6 @@ class PointDetailsShow extends PureComponent  {
         };
         let chooseTime;
         if(this.state.PagerIndex=='0'){
-            //startTime=timeCalculate(this.state.currentDate);
             if(this.state.HourStartTime==''){
                 chooseTime='最近24h'
             }else{
@@ -150,8 +148,8 @@ class PointDetailsShow extends PureComponent  {
                     ref={(calendar) => { this.calendar = calendar; }}
                     color={color}
                     format="YYYYMMDD"
-                    startDate={this.state.HourStartTime}
-                    endDate={this.state.HourendTime}
+                    startDate={'2018-01-01'}
+                    endDate={'2018-12-31'}
                     minDate={moment().format('YYYY0101')}
                     maxDate={moment().format('YYYYMMDD')}
                     onConfirm={this.confirmDate}/>
@@ -240,8 +238,8 @@ class PointDetailsShow extends PureComponent  {
                 HourendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),},
                 ()=>{
                 this.props.dispatch(createAction('pointdetails/updateState')({
-                    HourStartTime:  this.state.HourStartTime,
-                    HourendTime: this.state.HourendTime,
+                    HourStartTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+                    HourendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
                 }))
             });
             this.props.dispatch(createAction('pointdetails/GetHourDatas')({}));
@@ -251,8 +249,8 @@ class PointDetailsShow extends PureComponent  {
                 DayendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),},
                 ()=>{
                 this.props.dispatch(createAction('pointdetails/updateState')({
-                    DaystartTime:  this.state.DaystartTime,
-                    DayendTime: this.state.DayendTime,
+                    DaystartTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+                    DayendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
                 }))
             });
             this.props.dispatch(createAction('pointdetails/GetDayDatas')({}));

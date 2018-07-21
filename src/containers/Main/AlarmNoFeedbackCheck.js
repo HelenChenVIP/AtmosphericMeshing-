@@ -100,6 +100,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
   }
   //提交全部
   summitAll=()=>{
+    
     let paramExceptionProcessingID = '';
     let paramImageID = '';
     let WarningReason = '';

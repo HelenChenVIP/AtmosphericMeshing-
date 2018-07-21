@@ -101,8 +101,8 @@ class PointDetailsBar extends PureComponent  {
           let values=[];
           let valueFormatter=[];
           let colors=[];
-          let axisMaximum=nextProps.zxData.length;
-          nextProps.zxData.map((item,key)=>{
+          let axisMaximum=nextProps.zxData.ZXvaule.length;
+          nextProps.zxData.ZXvaule.map((item,key)=>{
           values.push({y:item.YValue,marker:`时间:${(item.XValue).substring(0,5)}\n值:${item.YValue}`});
           valueFormatter.push((item.XValue).substring(0,5));
           colors.push(processColor(item.chartColor));
@@ -162,7 +162,8 @@ class PointDetailsBar extends PureComponent  {
             onSelect={this.handleSelect.bind(this)}
             highlights={this.state.highlights}
             onChange={(event) => console.log(event.nativeEvent)}
-            marker={this.state.marker}/>
+            marker={this.state.marker}
+            chartDescription={{text: ""}}/>
         );
     }
 }

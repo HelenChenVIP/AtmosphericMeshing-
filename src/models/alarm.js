@@ -45,8 +45,8 @@ export default Model.extend({
         * GetMainAlarm({payload:{starttime,endtime,polluntCode,warnReason,RegionCode,pointName,state}}, {update, put, call}){
           let nowTime = (new Date()).valueOf();
           if(starttime==''){
-            starttime=moment().add(-3, 'days').format('YYYY-MM-DD');
-            endtime=moment(nowTime).format('YYYY-MM-DD');
+            starttime=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+            endtime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
           }
           const { data : mainAlarmData} = yield call(alarmService.GetMainAlarmService,
                     {starttime:starttime,
@@ -114,7 +114,6 @@ export default Model.extend({
               const index=mainAlarmData.findIndex((item)=>{
                 return item.dgimn==postjson.DGIMN;
               })
-              
               let arr = [];
               checkboxIndexmap.forEach((item, key, mapObj)=>{
                   arr.push(item);

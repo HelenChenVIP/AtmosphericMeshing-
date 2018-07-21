@@ -65,8 +65,6 @@ export default Model.extend({
             const {data:pointData}=yield call(homeService.GetPointList,{dgimn});
             if(pointData!==null){
               yield update( {pointData} ); 
-            }else{
-              ShowToast('数据为空');
             }
           },
 
@@ -85,8 +83,6 @@ export default Model.extend({
               choosePollutantCode:codeClickID,
               mData:hourDataList,
         })
-        }else{
-          ShowToast('数据为空');
         }
     },
     /**
@@ -104,8 +100,6 @@ export default Model.extend({
             choosePollutantCode:codeClickID,
             mData:dayDataList,
         })
-        }else{
-            ShowToast('数据为空');
         }
     },
 

@@ -26,7 +26,7 @@ class PointDetailsFlatList extends PureComponent  {
             <FlatList   
             style={{height:SCREEN_HEIGHT,width:SCREEN_WIDTH,backgroundColor:'#ffffff',flex: 1,}}
             ListEmptyComponent={() => (this.props.zxData ? null : <View style={{ height: SCREEN_HEIGHT - 600 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
-            data={this.props.zxData}
+            data={this.props.zxData.ZXvaule}
             ListHeaderComponent={<View style={{height:SCREEN_HEIGHT/3,width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}>
             {
                 showIndex=='0' ? <PointDetailsChart/> : <PointDetailsBar/>
