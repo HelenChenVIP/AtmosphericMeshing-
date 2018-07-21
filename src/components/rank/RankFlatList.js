@@ -48,7 +48,9 @@ class RankFlatList extends Component {
          return (
             <TouchableOpacity
                 onPress={()=>{
-                    debugger;
+                    console.log('=============断数=======================');
+                    console.log(item.item.point_DGMIN);
+                    console.log('====================================');
                     this.props.dispatch(createAction('pointdetails/updateState')({
                         mapRankDatas:{
                             ...this.props.mapRankDatas,

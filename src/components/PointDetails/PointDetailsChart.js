@@ -17,7 +17,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({pointdetails,loading})=>({
   zxData:pointdetails.zxData,
-  loading:loading.effects['pointdetails/HourDayDatas'],}))
+  loading:loading.effects['pointdetails/GetDayDatas'],}))
 class PointDetailsChart extends PureComponent  {
     constructor() {
         super();

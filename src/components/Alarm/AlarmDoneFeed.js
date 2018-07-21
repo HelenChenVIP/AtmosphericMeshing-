@@ -31,7 +31,6 @@ class AlarmDoneFeed extends PureComponent {
         };
       }
       componentWillMount(){
-          debugger;
         this.props.dispatch(createAction('alarm/GetMainAlarm')({
             starttime:'',
             endtime:'',
@@ -122,7 +121,6 @@ class AlarmDoneFeed extends PureComponent {
         let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
         let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
         let chooseTime = CurrenDate==LastDate ? '自 '+initLastDate+' 至 '+ initCurrenDate : '自 '+LastDate+' 至 '+CurrenDate;
-        debugger;
         return (
             <View style={styles.container}>
                 <Calendar

@@ -1,4 +1,5 @@
 import { post,upload, get ,posturl} from '../dvapack/request';
+import {timeZC} from '../utils/mathUtils';
 // 全局api文件
 import api from '../config/globalapi';
 import moment from 'moment';
@@ -87,22 +88,48 @@ export const uploadimage = async (param) => {
  * 站点详情-小时数据
  * @param {*} param 
  */
+  // export const GethourAQIDatasColumn = async(param) => {
+  //   let dgimn=param.dgimn;
+  //   let start=param.startTime;
+  //   let end=param.endTime;
+  //   let pageIndex=1;
+  //   let pageSize=30;
+  //   let initLastDate=moment().add(-1, 'days').format('YYYY-MM-DD');
+
+  //   if(start==end){
+  //     start=initLastDate;
+  //   }
+  //   let dic="{\"MN\":\"" + dgimn + "\",\"BeginTime\":\"" + start + "\",\"EndTime\":\"" + end + "\",\"PageIndex\":\"" + pageIndex + "\",\"PageSize\":\"" + pageSize + "\"}";
+  //   const body = {
+  //     dic:dic,
+  //   };
+  //   const result = await get(api.tool.GethourAQIDatasColumn,body,null);
+  //   return result === null ? { data: null } : result;
+  // }
   export const GethourAQIDatasColumn = async(param) => {
-    let dgimn=param.dgimn;
     let start=param.startTime;
     let end=param.endTime;
     let pageIndex=1;
-    let pageSize=10;
-    let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
+    let pageSize=30;
+    let initLastDate=moment().add(-1, 'days').format('YYYY-MM-DD');
 
     if(start==end){
       start=initLastDate;
     }
-    let dic="{\"MN\":\"" + dgimn + "\",\"BeginTime\":\"" + start + "\",\"EndTime\":\"" + end + "\",\"PageIndex\":\"" + pageIndex + "\",\"PageSize\":\"" + pageSize + "\"}";
+    // let dic="{\"MN\":\"" + dgimn + "\",\"BeginTime\":\"" + start + "\",\"EndTime\":\"" + end + "\",\"PageIndex\":\"" + pageIndex + "\",\"PageSize\":\"" + pageSize + "\"}";
+    // const body = {
+    //   dic:dic,
+    // };
     const body = {
-      dic:dic,
+      IsSupplyData:true,
+      DGIMNs: param.dgimn,
+      beginTime:start,
+      endTime:end,
+      pageIndex:pageIndex,
+      pageSize:pageSize,
+      isAsc:true
     };
-    const result = await get(api.tool.GethourAQIDatasColumn,body,null);
+    const result = await post(api.tool.GetHourData,body,null);
     debugger;
     return result === null ? { data: null } : result;
   }
@@ -116,17 +143,13 @@ export const GetDayAQIDatasColumn = async(param) => {
   let start=param.startTime;
   let end=param.endTime;
   let pageIndex=1;
-  let pageSize=10;
-  let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-  if(start==end){
-    start=initLastDate;
-  }
+  let pageSize=30;
+  start=timeZC(end,start);
   let dic="{\"MN\":\"" + param.dgimn + "\",\"BeginTime\":\"" + start + "\",\"EndTime\":\"" + end + "\",\"PageIndex\":\"" + pageIndex + "\",\"PageSize\":\"" + pageSize + "\"}";
   const body = {
     dic:dic,
   };
   const result = await get(api.tool.GetDayAQIDatasColumn,body,null);
-  debugger;
   return result === null ? { data: null } : result;
 }
 

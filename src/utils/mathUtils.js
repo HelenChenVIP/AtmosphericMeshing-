@@ -98,3 +98,26 @@ export const timeAdd=(time)=>{
     return time;
 }
 
+//比较两个时间只差
+export const timeZC=(currTime,lastTime)=>{
+    //当前时间
+    let currdate=new Date(currTime);
+    let nowTimes = currdate.valueOf();
+    //之前时间
+    let lastdate=new Date(lastTime);
+    let lastTimes = currdate.valueOf();
+    //差值
+    let czTime=nowTimes-lastTimes;
+
+    let ctHour=czTime/24*3600*1000;
+    
+    if(ctHour<48){
+        lastTime=moment().add(-30, 'days').format('YYYY-MM-DD');
+    }
+    return lastTime;
+}
+
+
+
+
+

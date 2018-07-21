@@ -34,21 +34,6 @@ export default Model.extend({
   },
   reducers: {
    
-    // //站点详情 小时数据 hourData:'hour',
-    // getchooseHourData(state,{payload:{hourData,choosePollutantCode}}){
-    //   if(choosePollutantCode==''){
-    //     choosePollutantCode='AQI';
-    //   }
-    //   if(hourData=='hour'){
-    //     let hourVaule=PointDeatilsHourData(state.hourDataList,choosePollutantCode);
-    //     state = {...state,...{zxData:hourVaule}};
-    //   }else{
-    //     let dayVaule=PointDeatilsHourData(state.dayDataList,choosePollutantCode);
-    //     state = {...state,...{zxData:dayVaule}};
-    //   }
-    //   return state;
-    // },
-
 
   },
 

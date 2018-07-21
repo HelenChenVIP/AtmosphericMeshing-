@@ -39,7 +39,8 @@ async function request(url, _options) {
   let uri;
   if(Platform.OS==='android'){ 
      neturl  = await getUseNetConfig();
-     if(url=='/rest/AtmosphereApi/PointAndData/GetPointList?authorCode=1b1994ec-538f-4d2f-b4f9-3c0e6950a806'){
+     if(url=='/rest/AtmosphereApi/PointAndData/GetPointList?authorCode=1b1994ec-538f-4d2f-b4f9-3c0e6950a806'||
+        url=='/rest/AtmosphereApi/Hour/GetHourData?authorCode=1b1994ec-538f-4d2f-b4f9-3c0e6950a806'){
       uri = new URI(neturl.neturl + '/WebGrid_Api' + url);
      }else{
       uri = new URI(neturl.neturl  + url);

@@ -59,7 +59,6 @@ class PointDetailsShow extends PureComponent  {
     }
   
     componentWillReceiveProps(nextProps) {
-        debugger;
         if (nextProps.pointData !== this.props.pointData) {
             let pointName=nextProps.pointData[0].pointName;
             let region=nextProps.pointData[0].regionName;
@@ -169,14 +168,10 @@ class PointDetailsShow extends PureComponent  {
                 <Text style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',fontSize:13,color:'#818181',textAlign:'center',alignSelf:'center'}}>{this.state.chooseTime}</Text>
                 <PointDetailsFlatList/>
             </View>
-          
         );
-   
             
     }
            
-       
-      
     
     onChange = (e) => {
         const i = e.nativeEvent.selectedSegmentIndex;
@@ -186,7 +181,6 @@ class PointDetailsShow extends PureComponent  {
         }else{
             this.setState({PagerIndex:'1'});
         }
-        debugger;
         this.props.dispatch(createAction('pointdetails/updateState')({
             showIndex: e.nativeEvent.selectedSegmentIndex,
            

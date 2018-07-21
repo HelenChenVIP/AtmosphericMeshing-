@@ -77,7 +77,6 @@ export default Model.extend({
     * GetHourDatas({payload},{update,put,call,select}){
         const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.pointdetails);
         const {data:hourDataList}=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
-        debugger;
         if(hourDataList.length>0){
           yield update( {hourDataList} ); 
           yield put('HourDayDatas',{
@@ -97,7 +96,6 @@ export default Model.extend({
     * GetDayDatas({payload},{update,put,call,select}){
         const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.pointdetails);
         const {data:dayDataList}=yield call(homeService.GetDayAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
-        debugger;
         if(dayDataList.length>0){
         yield update( {dayDataList} ); 
         yield put('HourDayDatas',{

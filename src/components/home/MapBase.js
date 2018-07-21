@@ -93,13 +93,11 @@ class MapBase extends PureComponent {
           } 
           return rtnVal;
     }
-  
+   
     render() {
         return (
             <View style={styles.container}>
-                {this.props.loading?
-                <SuspensionLoadingComponent/>
-                :(null)}
+                
                 <MapView 
                 zoomLevel={11} 
                 rotateEnabled={this.state.rotateEnabled}      
@@ -189,7 +187,6 @@ class MapBase extends PureComponent {
                     {
                         <TouchableOpacity
                         onPress={() => {
-                            debugger;
                             this.props.dispatch(createAction('pointdetails/updateState')({
                                 mapRankDatas:{
                                     ...this.props.mapRankDatas,
