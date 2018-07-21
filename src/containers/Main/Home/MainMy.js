@@ -92,7 +92,7 @@ class MainMy extends PureComponent {
             onPress={()=>{
                 this._update()
             }}>
-                <Image source={require('../../../images/ic_logon.png')} style={styles.itemImageStyle}></Image>
+                <Image source={require('../../../images/updata_icon.png')} style={styles.itemImageStyle}></Image>
                 <Text style={styles.itemTextView}>检查更新</Text>
                 <Text style={styles.itemTextView}>{this.state.syncMessage}</Text>
             </TouchableOpacity> 
