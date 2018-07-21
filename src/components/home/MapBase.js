@@ -87,7 +87,6 @@ class MapBase extends PureComponent {
                                 );
                         }
                     }
-                    
                 }
                 });
           } 
@@ -97,7 +96,6 @@ class MapBase extends PureComponent {
     render() {
         return (
             <View style={styles.container}>
-                
                 <MapView 
                 zoomLevel={11} 
                 rotateEnabled={this.state.rotateEnabled}      

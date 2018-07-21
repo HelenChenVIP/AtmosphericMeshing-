@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import {BarChart} from 'react-native-charts-wrapper';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
 import LoadingComponent from '../../components/comment/LoadingComponent'
-
+import moment from 'moment';
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -16,7 +16,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({pointdetails,loading})=>({
   zxData:pointdetails.zxData,
-  loading:loading.effects['pointdetails/HourDayDatas'],}))
+  loading:loading.effects['pointdetails/GetDayDatas'],}))
 class PointDetailsBar extends PureComponent  {
     constructor() {
         super();
@@ -86,6 +86,12 @@ class PointDetailsBar extends PureComponent  {
         };
       }
       componentWillMount(){
+        this.props.dispatch(createAction('pointdetails/updateState')({
+          showIndex: '1',
+          HourStartTime:'',
+          HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
+      }))
+
         this.props.dispatch(createAction('pointdetails/GetDayDatas')({
            }));
       } 

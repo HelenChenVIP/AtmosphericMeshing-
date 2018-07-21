@@ -16,9 +16,10 @@ const api = {
       GetAllPointList:'/rest/AutoForm/GetAllPointList',//获取全部站点
       GetGridRealTimeImgDataAndroid:'/rest/RealTime/GetGridRealTimeImgDataAndroid',//获取实时数据
       // GethourAQIDatasColumn:'/rest/APQI/GethourAQIDatasColumn',//站点-小时数据
-      GetDayAQIDatasColumn:'/rest/APQI/GetDayAQIDatasColumn',//站点-日数据
+      // GetDayAQIDatasColumn:'/rest/APQI/GetDayAQIDatasColumn',//站点-日数据
       GetPointList:'/rest/AtmosphereApi/PointAndData/GetPointList',//新接口-获取监测点基本信息
       GetHourData:'/rest/AtmosphereApi/Hour/GetHourData',//新接口-站点详情-小时数据
+      GetDayData:'/rest/AtmosphereApi/Day/GetDayData',//新接口-站点详情-日数据
     },
     alarm:{
       GetEarlyWarningGroupByDGIMN:'/rest/AlarmDealInfoApi/GetEarlyWarningGroupByDGIMN',//获取未反馈 反馈1级

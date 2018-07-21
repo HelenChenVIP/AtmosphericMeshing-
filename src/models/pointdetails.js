@@ -17,11 +17,12 @@ export default Model.extend({
     dayDataList:[],
     zxData:[],
     dgimn:'',
-    showIndex: '',
+    showIndex: '0',
     codeClickID:'',
-    startTime:'',
-    endTime:'',
-    
+    HourStartTime:'',
+    HourendTime:'',
+    DaystartTime:'',
+    DayendTime:'',
     mapRankDatas:{
         fillIcon:'',
         latitude:'',
@@ -32,6 +33,7 @@ export default Model.extend({
         region:'',
         dgimn:'',
         equitmentType:'',
+        
     },
   },
   
@@ -48,7 +50,6 @@ export default Model.extend({
   },
   reducers: {
   },
-
 
   effects: {
       
@@ -75,9 +76,9 @@ export default Model.extend({
      * @param {*} param1 
      */
     * GetHourDatas({payload},{update,put,call,select}){
-        const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.pointdetails);
-        const {data:hourDataList}=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
-        if(hourDataList.length>0){
+        const {dgimn,codeClickID,HourStartTime,HourendTime} = yield select(state => state.pointdetails);
+        const {data:hourDataList}=yield call(homeService.GethourAQIDatasColumn,{dgimn,codeClickID,HourStartTime,HourendTime});
+        if(hourDataList!=null&&hourDataList.length>0){
           yield update( {hourDataList} ); 
           yield put('HourDayDatas',{
               hourData:'hour',
@@ -94,9 +95,9 @@ export default Model.extend({
      * @param {*} param1 
      */
     * GetDayDatas({payload},{update,put,call,select}){
-        const {dgimn,codeClickID,startTime,endTime} = yield select(state => state.pointdetails);
-        const {data:dayDataList}=yield call(homeService.GetDayAQIDatasColumn,{dgimn,codeClickID,startTime,endTime});
-        if(dayDataList.length>0){
+        const {dgimn,codeClickID,DaystartTime,DayendTime} = yield select(state => state.pointdetails);
+        const {data:dayDataList}=yield call(homeService.GetDayAQIDatasColumn,{dgimn,codeClickID,DaystartTime,DayendTime});
+        if(dayDataList!=null&&dayDataList.length>0){
         yield update( {dayDataList} ); 
         yield put('HourDayDatas',{
             hourData:'day',

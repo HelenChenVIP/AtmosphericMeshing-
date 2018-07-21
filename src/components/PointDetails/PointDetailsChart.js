@@ -6,7 +6,7 @@ import update from 'immutability-helper';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
 import { connect } from 'react-redux';
 import LoadingComponent from '../../components/comment/LoadingComponent'
-
+import moment from 'moment';
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -17,7 +17,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({pointdetails,loading})=>({
   zxData:pointdetails.zxData,
-  loading:loading.effects['pointdetails/GetDayDatas'],}))
+  loading:loading.effects['pointdetails/GetHourDatas'],}))
 class PointDetailsChart extends PureComponent  {
     constructor() {
         super();
@@ -34,6 +34,11 @@ class PointDetailsChart extends PureComponent  {
         };
       }
       componentWillMount(){
+        this.props.dispatch(createAction('pointdetails/updateState')({
+          showIndex: '0',
+          HourStartTime:'',
+          HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
+      }))
         this.props.dispatch(createAction('pointdetails/GetHourDatas')({
            }));
       }    

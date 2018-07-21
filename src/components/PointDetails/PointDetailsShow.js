@@ -40,7 +40,6 @@ class PointDetailsShow extends PureComponent  {
         super(props); 
         this.state = {        
             modalVisible:false,
-            currentDate: moment().format('YYYY-MM-DD HH:mm:ss'),
             PagerIndex:'0',
             codeClickID:'',
             codeClickName:'',
@@ -52,8 +51,13 @@ class PointDetailsShow extends PureComponent  {
             dgimn:'----',
             equitmentType:'----',
             mkindCode:'----',
-            startTime:'----',
-            chooseTime:'----'
+            chooseTime:'----',
+
+            HourStartTime:'',
+            HourendTime:moment().format('YYYY-MM-DD HH:mm:ss'),
+
+            DaystartTime:'',
+            DayendTime:moment().format('YYYY-MM-DD HH:mm:ss'),
 
         }
     }
@@ -67,26 +71,28 @@ class PointDetailsShow extends PureComponent  {
             let dgimn=nextProps.pointData[0].DGIMN;
             let equitmentType=nextProps.pointData[0].pollutantType;
             let mkindCode=kindAndCode(equitmentType);
-            let startTime;
-            let chooseTime;
-            if(this.state.PagerIndex=='0'){
-                startTime=timeCalculate(this.state.currentDate);
-                chooseTime='最近24h'
-            }else{
-                startTime=moment().add(-3, 'days').format('YYYY-MM-DD');
-                chooseTime= (startTime + '至' + this.state.currentDate);
-            }
             this.setState({pointName:pointName,region:region,pollutantType:pollutantType,
                 linkman:linkman,dgimn:dgimn,equitmentType:equitmentType,
-                mkindCode:mkindCode,startTime:startTime,chooseTime:chooseTime},
+                mkindCode:mkindCode},
                 ()=>{
-                    this.props.dispatch(createAction('pointdetails/updateState')({
-                        showIndex: this.state.PagerIndex,
-                        codeClickID: this.state.codeClickID,
-                        startTime: this.state.startTime,
-                        endTime: this.state.currentDate,
-                        dgimn:this.state.dgimn,
-                    }))
+                    if(this.state.PagerIndex=='0'){
+                        this.props.dispatch(createAction('pointdetails/updateState')({
+                            showIndex: this.state.PagerIndex,
+                            codeClickID: this.state.codeClickID,
+                            HourStartTime: this.state.HourStartTime,
+                            HourendTime: this.state.HourendTime,
+                            dgimn:this.state.dgimn,
+                        }))
+                    }else{
+                        this.props.dispatch(createAction('pointdetails/updateState')({
+                            showIndex: this.state.PagerIndex,
+                            codeClickID: this.state.codeClickID,
+                            DaystartTime: this.state.DaystartTime,
+                            DayendTime: this.state.DayendTime,
+                            dgimn:this.state.dgimn,
+                        }))
+                    }
+                   
                 }
             );
         }
@@ -98,6 +104,21 @@ class PointDetailsShow extends PureComponent  {
             subColor: '#fff',
             mainColor: '#4c68ea'
         };
+        let chooseTime;
+        if(this.state.PagerIndex=='0'){
+            //startTime=timeCalculate(this.state.currentDate);
+            if(this.state.HourStartTime==''){
+                chooseTime='最近24h'
+            }else{
+                chooseTime=this.state.HourStartTime+'至'+this.state.HourendTime;
+            }
+        }else{
+            if(this.state.DaystartTime==''){
+                chooseTime='最近30天'
+            }else{
+                chooseTime=this.state.DaystartTime+'至'+this.state.DayendTime;
+            }
+        }
         return (
             this.props.loading ? <LoadingComponent Message={'正在加载数据...'} /> 
             :
@@ -110,7 +131,7 @@ class PointDetailsShow extends PureComponent  {
                     <Text style={{fontSize:16,color:'#4b66e4',marginRight:10,textAlignVertical:'center'}}>{this.state.pollutantType}</Text>
                 </View>
                 <View style={{flexDirection:'row',height:40,marginTop:1,backgroundColor:'#ffffff',alignItems:'center',justifyContent: 'center',}}>
-                    <Text style={{fontSize:14,color:'#818181',marginLeft:10,flex:1,textAlignVertical:'center'}}>管理人员</Text>
+                    <Text style={{fontSize:14,color:'#818181',marginLeft:10,flex:1,textAlignVertical:'center'}}>管理人员：</Text>
                     <Text style={{fontSize:16,color:'#4b66e4',marginRight:10,textAlignVertical:'center'}}>{this.state.linkman}</Text>
                 </View>
                 <SegmentedControl
@@ -129,8 +150,8 @@ class PointDetailsShow extends PureComponent  {
                     ref={(calendar) => { this.calendar = calendar; }}
                     color={color}
                     format="YYYYMMDD"
-                    startDate={this.state.currentDate}
-                    endDate={this.state.currentDate}
+                    startDate={this.state.HourStartTime}
+                    endDate={this.state.HourendTime}
                     minDate={moment().format('YYYY0101')}
                     maxDate={moment().format('YYYYMMDD')}
                     onConfirm={this.confirmDate}/>
@@ -165,7 +186,7 @@ class PointDetailsShow extends PureComponent  {
                     </View>
                     </Modal>
                 </View>
-                <Text style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',fontSize:13,color:'#818181',textAlign:'center',alignSelf:'center'}}>{this.state.chooseTime}</Text>
+                <Text style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',fontSize:13,color:'#818181',textAlign:'center',alignSelf:'center'}}>{chooseTime}</Text>
                 <PointDetailsFlatList/>
             </View>
         );
@@ -181,15 +202,20 @@ class PointDetailsShow extends PureComponent  {
         }else{
             this.setState({PagerIndex:'1'});
         }
-        this.props.dispatch(createAction('pointdetails/updateState')({
-            showIndex: e.nativeEvent.selectedSegmentIndex,
-           
-        }))
-
         if(e.nativeEvent.selectedSegmentIndex=='0'){
+            this.props.dispatch(createAction('pointdetails/updateState')({
+                HourStartTime:this.state.HourStartTime,
+                HourendTime: this.state.HourendTime,
+                showIndex: e.nativeEvent.selectedSegmentIndex,
+            }))
             this.props.dispatch(createAction('pointdetails/GetHourDatas')({
             }));
         }else{
+            this.props.dispatch(createAction('pointdetails/updateState')({
+                DaystartTime:this.state.DaystartTime,
+                DayendTime: this.state.DayendTime,
+                showIndex: e.nativeEvent.selectedSegmentIndex,
+            }))
             this.props.dispatch(createAction('pointdetails/GetDayDatas')({
             }));
         }
@@ -208,20 +234,28 @@ class PointDetailsShow extends PureComponent  {
     }
     //选中时间
     confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
-        this.setState({
-          startDate: moment(startDate).format('YYYY-MM-DD'),
-          endDate: moment(endDate).format('YYYY-MM-DD'),
-        });
-        this.props.dispatch(createAction('pointdetails/updateState')({
-            startTime:  moment(startDate).format('YYYY-MM-DD'),
-            endTime: moment(endDate).format('YYYY-MM-DD'),
-        }))
         if(this.state.PagerIndex=='0'){
-            this.props.dispatch(createAction('pointdetails/GetHourDatas')({
-            }));
+            this.setState({
+                HourStartTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+                HourendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),},
+                ()=>{
+                this.props.dispatch(createAction('pointdetails/updateState')({
+                    HourStartTime:  this.state.HourStartTime,
+                    HourendTime: this.state.HourendTime,
+                }))
+            });
+            this.props.dispatch(createAction('pointdetails/GetHourDatas')({}));
         }else{
-            this.props.dispatch(createAction('pointdetails/GetDayDatas')({
-            }));
+            this.setState({
+                DaystartTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+                DayendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),},
+                ()=>{
+                this.props.dispatch(createAction('pointdetails/updateState')({
+                    DaystartTime:  this.state.DaystartTime,
+                    DayendTime: this.state.DayendTime,
+                }))
+            });
+            this.props.dispatch(createAction('pointdetails/GetDayDatas')({}));
         }
       }
 
