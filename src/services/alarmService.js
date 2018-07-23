@@ -16,9 +16,10 @@ export const GetMainAlarmService = async(param) => {
         state:param.state,
     };
     const result=await get(api.alarm.GetEarlyWarningGroupByDGIMN,body,null);
-    // if (!result.data) {
-    //   return{'data':[]};
-    // }
+    console.log(result);
+    if (!result.data) {
+      return{'data':[]};
+    }
     return result;
   }
   //获取未核实2级
@@ -28,8 +29,8 @@ export const GetMainAlarmService = async(param) => {
     let BeginTime;
     let EndTime;
     if(param.BeginTime==''){
-      BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD');
-      EndTime=moment(nowTime).format('YYYY-MM-DD');
+      BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+      EndTime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
     }else{
       BeginTime=param.BeginTime;
       EndTime=param.EndTime;

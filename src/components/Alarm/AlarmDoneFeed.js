@@ -118,8 +118,8 @@ class AlarmDoneFeed extends PureComponent {
         let CurrenDate=this.props.timeData.length>0 ?this.props.timeData[0].endtime: this.state.endDate;
         let LastDate=this.props.timeData.length>0 ?this.props.timeData[0].starttime:this.state.startDate;
         let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
+        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
+        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
         let chooseTime = CurrenDate==LastDate ? '自 '+initLastDate+' 至 '+ initCurrenDate : '自 '+LastDate+' 至 '+CurrenDate;
         return (
             <View style={styles.container}>

@@ -8,8 +8,6 @@ import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import {Checkbox} from 'antd-mobile';
-import SuspensionLoadingComponent from '../../components/comment/SuspensionLoadingComponent';
-
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -188,7 +186,7 @@ class AlarmNoFeedbackDes extends PureComponent {
             BeginTime=this.state.mBeginTime;
             EndTime=this.state.mEndTime;  
         }else{
-            BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD');
+            BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
             EndTime=moment(nowTime).format('YYYY-MM-DD');
         }
         let chooseTime = '自 '+BeginTime+' 至 '+ EndTime;
@@ -231,6 +229,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                             EndTime:this.state.mEndTime,
                         }
                         }));
+                    console.log('=============测试。。。onRefresh=======================');
                     this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
                         PageIndex:1,}));
                 }}
@@ -247,6 +246,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                             BeginTime:this.state.mBeginTime,
                             EndTime:this.state.mEndTime,
                         }}));
+                    console.log('=============测试。。。onEndReached=======================');
                     this.props.dispatch(createAction('alarm/EndReached')({
                         PageIndex:loadingpage,}));
                 }}/>

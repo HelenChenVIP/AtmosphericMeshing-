@@ -7,8 +7,8 @@ export const selectionSort=(arr)=>{
     for (let i = 0; i < len - 1; i++) {
         minIndex = i;
         for (let j = i + 1; j < len; j++) {
-            if ((arr[j].chartYValue)*1 > (arr[minIndex].chartYValue)*1) {    
-                minIndex = j;                 
+            if (arr[j].chartYValue > arr[minIndex].chartYValue) {     //寻找最大的数
+                minIndex = j;                 //将最大数的索引保存
             }
         }
         temp = arr[i];
@@ -19,45 +19,20 @@ export const selectionSort=(arr)=>{
 }
 //排序
 export const selectionSortNew=(arr)=>{
-    arr.sort(function(a, b) {
-        if(a.chartYValue_new=='----'){
-            return 1;
-        }else if (b.chartYValue_new=='----'){
-            return -1;
-        }else{
-            return b.chartYValue_new - a.chartYValue_new;
+    let len = arr.length;
+    let minIndex, temp;
+    for (let i = 0; i < len - 1; i++) {
+        minIndex = i;
+        for (let j = i + 1; j < len; j++) {
+            if (arr[j].chartYValue_new > arr[minIndex].chartYValue_new) {     //寻找最大的数
+                minIndex = j;                 //将最大数的索引保存
+            }
         }
-      });
+        temp = arr[i];
+        arr[i] = arr[minIndex];
+        arr[minIndex] = temp;
+    }
     return arr;
-
-    // let nullList=[];
-    // let numArr=[];
-    // let arrAll=[];
-    // arr.map((item,i)=>{
-    //     if(item.chartYValue_new=='----'){
-    //         nullList.push(item.chartYValue_new);
-    //     }else{
-    //         let len = arr.length;
-    //         let minIndex, temp;
-          
-    //         for (let i = 0; i < len - 1; i++) {
-    //             minIndex = i;
-    //             for (let j = i + 1; j < len; j++) {
-    //                 if ((arr[j].chartYValue_new)*1 > (arr[minIndex].chartYValue_new)*1) {    
-    //                     minIndex = j;                 
-    //                 }
-    //             }
-    //             temp = arr[i];
-    //             arr[i] = arr[minIndex];
-    //             arr[minIndex] = temp;
-    //         }
-    //         numArr=arr;
-            
-    //     }
-    //     arrAll=numArr.concat(nullList);
-       
-    // })
-    // return arrAll;
 }
 //隔5个随机取数
 export const random5=(arr)=>{
