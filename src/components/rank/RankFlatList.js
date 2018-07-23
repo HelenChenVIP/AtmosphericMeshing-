@@ -40,6 +40,9 @@ class RankFlatList extends Component {
         this.props.dispatch(createAction('map/doSortchartDataAll')()); 
         this._rankChartBar.wrappedInstance._sort();
     }
+    _resetReversedOrder = () => {
+        this._rankChartBar.wrappedInstance.resetReversedOrder();
+    }
     //FlatList key
    _extraUniqueKey=(item,index)=> `index11${index}${item}`
    _renderItemList = (item) => {

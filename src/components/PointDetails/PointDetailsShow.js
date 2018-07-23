@@ -1,6 +1,6 @@
 //import liraries
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Dimensions,Image,TouchableOpacity,Modal,FlatList } from 'react-native';
+import { View, Text, StyleSheet, Dimensions,Image,TouchableOpacity,Modal,FlatList,TouchableWithoutFeedback } from 'react-native';
 import { SegmentedControl } from 'antd-mobile';
 import PointDetailsFlatList from '../PointDetails/PointDetailsFlatList';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
@@ -157,35 +157,39 @@ class PointDetailsShow extends PureComponent  {
                         <TouchableOpacity onPress={()=>{this.chooseCode()}}>
                         <Image source={require('../../images/pollution_type_on.png')} style={{width:26,height:26,marginRight:10}}/>
                         </TouchableOpacity>
-                    <Modal
+                </View>
+                <Text style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',fontSize:13,color:'#818181',textAlign:'center',alignSelf:'center'}}>{chooseTime}</Text>
+                <PointDetailsFlatList/>
+                <Modal
                     animationType={"slide"}
                     transparent={true}
                     visible={this.state.modalVisible}
                     onRequestClose={() => {alert("Modal has been closed.")}}>
-                    <View style={{backgroundColor:"#383838",opacity:0.8,position:"absolute",alignSelf:'center',flex:1,width:SCREEN_WIDTH-40,marginTop:150,borderRadius:10}}>
-                        <View style={{flex:1,width:SCREEN_WIDTH-40,flexDirection:'column',backgroundColor:'#ffffff',borderRadius:10,alignItems:'center',justifyContent: 'center', }}>
-                            <View style={{width:SCREEN_WIDTH-40,height:40,alignSelf:'center'}}>
-                                <View style={{alignItems:'center',justifyContent: 'center',width:SCREEN_WIDTH-40,height:40,backgroundColor:'#5a78ed',borderTopLeftRadius:10,borderTopRightRadius:10  }}>
-                                <Text style={{fontSize:17,color:'#ffffff',textAlignVertical:'center'}}>监测因子选择</Text>
+                    <TouchableWithoutFeedback
+                        onPress={()=>{this.setState({modalVisible:false})}}>
+                        <View style={{backgroundColor:"#383838",opacity:0.8,position:"absolute",alignSelf:'center',flex:1,height:SCREEN_HEIGHT,width:SCREEN_WIDTH,alignItems:'center',justifyContent:'center',}}>
+                            <View style={{minHeight: SCREEN_HEIGHT/3,width:SCREEN_WIDTH-40,flexDirection:'column',backgroundColor:'#ffffff',borderRadius:10,alignItems:'center',justifyContent: 'center', }}>
+                                <View style={{width:SCREEN_WIDTH-40,height:40,alignSelf:'center'}}>
+                                    <View style={{alignItems:'center',justifyContent: 'center',width:SCREEN_WIDTH-40,height:40,backgroundColor:'#5a78ed',borderTopLeftRadius:10,borderTopRightRadius:10  }}>
+                                    <Text style={{fontSize:17,color:'#ffffff',textAlignVertical:'center'}}>监测因子选择</Text>
+                                    </View>
+                                    <TouchableOpacity style={{position:'absolute',right:2}} onPress={() => {this.setState({modalVisible:false})}}>
+                                    <Image source={require('../../images/icon_close_red.png') } style={{width:25,height:25}} />
+                                    </TouchableOpacity>
                                 </View>
-                                <TouchableOpacity style={{position:'absolute',right:2}} onPress={() => {this.setState({modalVisible:false})}}>
-                                <Image source={require('../../images/icon_close_red.png') } style={{width:25,height:25}} />
-                                </TouchableOpacity>
+                                <View style={{minHeight: SCREEN_HEIGHT/3-40,width:SCREEN_WIDTH-40,flexDirection:'row',justifyContent:'space-between'
+                                    ,flexWrap:'wrap',backgroundColor:'#ffffff',borderBottomLeftRadius:10,borderBottomRightRadius:10,}}>
+                                    <FlatList
+                                    ListEmptyComponent={() => (this.state.mkindCode ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+                                    keyExtractor={this.extraUniqueKey}
+                                    data={this.state.mkindCode}
+                                    renderItem={this.renderItem}
+                                    numColumns={2}/>
+                                </View>
                             </View>
-                            <View style={{width:SCREEN_WIDTH-40,flexDirection:'row',justifyContent:'space-between',flexWrap:'wrap',backgroundColor:'#ffffff'}}>
-                                <FlatList
-                                ListEmptyComponent={() => (this.state.mkindCode ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
-                                keyExtractor={this.extraUniqueKey}
-                                data={this.state.mkindCode}
-                                renderItem={this.renderItem}
-                                numColumns={2}/>
-                           </View>
                         </View>
-                    </View>
-                    </Modal>
-                </View>
-                <Text style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',fontSize:13,color:'#818181',textAlign:'center',alignSelf:'center'}}>{chooseTime}</Text>
-                <PointDetailsFlatList/>
+                    </TouchableWithoutFeedback>
+                </Modal>
             </View>
         );
             

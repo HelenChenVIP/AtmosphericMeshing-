@@ -18,13 +18,15 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({pointdetails,loading})=>({
   zxData:pointdetails.zxData,
-  loading:loading.effects['pointdetails/GetHourDatas'],}))
+  // loading:loading.effects['pointdetails/GetHourDatas'],
+}))
 class PointDetailsChart extends PureComponent  {
     constructor() {
         super();
         this.state = {
           data: {},
           xAxis:{},
+          yAxis: {},
           marker: {
             enabled: true,
             digits: 2,
@@ -35,13 +37,13 @@ class PointDetailsChart extends PureComponent  {
         };
       }
       componentWillMount(){
-        this.props.dispatch(createAction('pointdetails/updateState')({
-          showIndex: '0',
-          HourStartTime:'',
-          HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
-      }))
-        this.props.dispatch(createAction('pointdetails/GetHourDatas')({
-           }));
+      //   this.props.dispatch(createAction('pointdetails/updateState')({
+      //     showIndex: '0',
+      //     HourStartTime:'',
+      //     HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
+      // }))
+      //   this.props.dispatch(createAction('pointdetails/GetHourDatas')({
+      //      }));
       }    
    
     componentWillReceiveProps(nextProps) {
@@ -79,6 +81,18 @@ class PointDetailsChart extends PureComponent  {
                 }],
               }
             },
+            marker: {
+              $set:{
+                enabled: true,
+            digits: 2,
+            backgroundTint: processColor('#ef3344'),
+            markerColor: processColor('rgba(240, 240, 240, 0.8)'),
+            textColor: processColor('#666666'),
+            markerFontSize: 14,
+            borderWidth: 1,
+              }
+             
+            },
             xAxis: {
               $set: {
                 textSize: 12,
@@ -95,18 +109,8 @@ class PointDetailsChart extends PureComponent  {
             },
             yAxis: {
               $set: {
-                left:{axisMinimum: 0},
-                // drawGridLines: false,
-                position: 'LEFT' ,
                 left: {
-                  // drawLabels: true,
-                  // drawAxisLine: true,
-                  // drawGridLines: false,
-                  // drawValueAboveBar:false,
-                  zeroLine: {
-                    enabled: true,
-                    lineWidth: 1
-                  }
+                  drawGridLines: false
                 },
                 right: {
                   enabled: false
@@ -129,13 +133,15 @@ class PointDetailsChart extends PureComponent  {
       console.log(event.nativeEvent)
     }
     render() {
+      // this.props.loading?
+      // <LoadingComponent Message={'正在加载数据...'} /> 
+      //   : 
         return (
-          this.props.loading?
-          <LoadingComponent Message={'正在加载数据...'} /> 
-            : <LineChart
+          <LineChart
             style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT/3,marginBottom:10}}
             data={this.state.data}
             xAxis={this.state.xAxis}
+            yAxis={this.state.yAxis}
             marker={this.state.marker}
             drawGridBackground={false}
             borderColor={processColor('teal')}
