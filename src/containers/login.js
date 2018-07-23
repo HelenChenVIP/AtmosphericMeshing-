@@ -89,10 +89,11 @@ class Login extends Component {
                     barStyle="light-content"
                 />
                 <View style={[styles.LoginForm,{height:this.state.contentHeight,}]}>
-                    <Image source={require('../images/bg_logo.png')} style={[{height:40,width:104,marginTop:120,}]}/>
-                    <Text style={[{color:globalcolor.whiteFontColor, marginTop:21,fontSize:20,marginBottom:40,}]}>大气环境网格化监管系统</Text>
-                    <View style={[styles.TextInputStyle, { marginBottom: 10 }]}>
-                        <Image source={require('../images/ueser_icon.png')} style={{ width: 20, height: 20, marginBottom: 8 }} />
+                <Text style={[{color:globalcolor.whiteFontColor, marginTop:35,fontSize:15,marginBottom:40,}]}>用户登录</Text>
+                    <Image source={require('../images/login_person.png')} style={[{height:60,width:104,marginTop:20,}]}/>
+                    
+                    <View style={[styles.TextInputStyle, { marginTop: 30,marginBottom: 10 }]}>
+                       
                         <TextInput
                         ref={ref => this.userNameInput = ref}
                         keyboardType={'default'}
@@ -174,13 +175,13 @@ class Login extends Component {
                     {
                         this.props.loginLoading
                         || this.props.loadglobalvariable ?
-                            <Button type="primary" inline style={{width: SCREEN_WIDTH - 100,}} loading>正在登录</Button>:
-                            <Button type="primary" inline style={{width: SCREEN_WIDTH - 100,}} onClick={this.login}>登录</Button>
+                            <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:50,backgroundColor:'white',borderRadius:25,marginTop : 30}} loading>正在登录</Button>:
+                            <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:50,backgroundColor:'white',borderRadius:25,marginTop : 30}} onClick={this.login}>登录</Button>
                     }
-                    <View style={{flex:1,}}></View>
-                    <Text style={{ fontSize: 8, color: 'white',marginBottom:4,}}>{'v 1.0.2'}</Text>
-                    <Text style={{ fontSize: 8, color: 'white',marginBottom:4,}}>{'北京雪迪龙科技股份有限公司'}</Text>
-                    <Text style={{ fontSize: 8, color: 'white',marginBottom:8,}}>{'Copyright@2017 SDL.All Rights Reserved'}</Text>
+                   
+                    <Text style={{ fontSize: 8, color: 'white',marginTop:15,}}>{'v 1.0.2'}</Text>
+                    <Text style={{ fontSize: 8, color: 'white',marginTop:2,}}>{'北京雪迪龙科技股份有限公司'}</Text>
+                    <Text style={{ fontSize: 8, color: 'white',marginTop:2,}}>{'Copyright@2017 SDL.All Rights Reserved'}</Text>
                 </View>
             </ScrollView>
         );
