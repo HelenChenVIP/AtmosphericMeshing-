@@ -17,24 +17,23 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @extends {Component}
  */
 @connect(({alarm,loading})=>({
-    mainAlarmData:alarm.mainAlarmData,timeData:alarm.timeData,
-    loading:loading.effects['alarm/GetMainAlarm'],}))
+    mainAlarmData:alarm.mainAlarmData,
+    timeData:alarm.timeData,
+    loading:loading.effects['alarm/GetMainAlarm'],
+    alarmNoDesData:alarm.alarmNoDesData,}))
 class AlarmDoneFeed extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
           isupdate: false,
-          startDate: moment().format('YYYY-MM-DD HH:mm:ss'),
-          endDate: moment().format('YYYY-MM-DD HH:mm:ss'),
+          startDate: '',
+          endDate: '',
         };
       }
       componentWillMount(){
-        let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
         this.props.dispatch(createAction('alarm/GetMainAlarm')({
-            starttime:initLastDate,
-            endtime:initCurrenDate,
+            starttime:'',
+            endtime:'',
             polluntCode:'',
             warnReason:'',
             RegionCode:'',
@@ -45,36 +44,46 @@ class AlarmDoneFeed extends PureComponent {
 
       confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
         this.setState({
-          startDate: moment(startDate).format('YYYY-MM-DD'),
-          endDate: moment(endDate).format('YYYY-MM-DD'),
-        });
-        this.props.dispatch(createAction('alarm/GetMainAlarm')({
-        starttime:moment(startDate).format('YYYY-MM-DD'),
-        endtime:moment(endDate).format('YYYY-MM-DD'),
-        polluntCode:'',
-        warnReason:'',
-        RegionCode:'',
-        pointName:'',
-        state:'2'
-        }));
+            startDate: moment(startDate).format('YYYY-MM-DD'),
+            endDate: moment(endDate).format('YYYY-MM-DD'),
+          });
+          this.props.dispatch(createAction('alarm/updateState')({
+              alarmNoDesData:{ 
+                  ...this.props.alarmNoDesData,
+                  BeginTime:moment(startDate).format('YYYY-MM-DD'),
+                  EndTime:moment(endDate).format('YYYY-MM-DD'),
+                  }
+          }));
+          this.props.dispatch(createAction('alarm/GetMainAlarm')({
+          starttime:moment(startDate).format('YYYY-MM-DD'),
+          endtime:moment(endDate).format('YYYY-MM-DD'),
+          polluntCode:'',
+          warnReason:'',
+          RegionCode:'',
+          pointName:'',
+          state:'2'
+          }));
       }
       //FlatList key
     _extraUniqueKey=(item,index)=> `index22${index}${item}`
     _renderItemList = (item) => {
-        if(item!=null){
             return(
                 <TouchableOpacity onPress={() => {
                     this.props.dispatch(createAction('alarm/updateState')({
-                        DGIMN:item.item.dgimn,
-                        PointName:item.item.pointName,
-                        BeginTime:this.state.startDate,
-                        EndTime:this.state.endDate,
-                        RegionCode:'',
-                        PolluntCode:'',
-                        EarlyWaringType:'',
-                        State:'1',
-                        IsPc:'false',
-                        PageSize:'8',}));
+                        alarmNoDesData:{ 
+                            ...this.props.alarmNoDesData,
+                            DGIMN:item.item.dgimn,
+                            PointName:item.item.pointName,
+                            BeginTime:this.state.startDate,
+                            EndTime:this.state.endDate,
+                            RegionCode:'',
+                            PolluntCode:'',
+                            EarlyWaringType:'',
+                            State:'0',
+                            IsPc:'false',
+                            PageSize:'12',
+                            }
+                       }));
                     this.props.dispatch(NavigationActions.navigate({
                         routeName: 'AlarmDoneFeedDes',                        
                         params: {} }));
@@ -89,7 +98,7 @@ class AlarmDoneFeed extends PureComponent {
                         <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
                             <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
                                 <Text style={{fontSize:12,color:'#969696'}}>{'已反馈'}</Text>
-                                <View style={{backgroundColor:'#5285ed',width:30,height:20,borderColor:'#5285ed',borderRadius:10,marginTop:5,}}>
+                                <View style={{backgroundColor:'#5285ed',width:30,height:20,borderColor:'#5285ed',borderRadius:10,marginTop:5,justifyContent:'center',alignItems:'center'}}>
                                 <Text style={{fontSize:12,color:'white',textAlign:'center',textAlignVertical:'center'}}>{item.item.count}</Text>
                                 </View>
                             </View>
@@ -97,16 +106,20 @@ class AlarmDoneFeed extends PureComponent {
                     </View>
                 </TouchableOpacity>
             )
-        }{
-            return(<NoDataComponent Message={'没有查询到数据'} />)
-        }
     }
     render() {
+        console.log('============正在加载数据========================');
+        console.log(this.props.mainAlarmData);
+        console.log('====================================');
+        const color = {
+            subColor: '#fff',
+            mainColor: '#4c68ea'
+          };
         let CurrenDate=this.props.timeData.length>0 ?this.props.timeData[0].endtime: this.state.endDate;
         let LastDate=this.props.timeData.length>0 ?this.props.timeData[0].starttime:this.state.startDate;
         let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
+        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
         let chooseTime = CurrenDate==LastDate ? '自 '+initLastDate+' 至 '+ initCurrenDate : '自 '+LastDate+' 至 '+CurrenDate;
         return (
             <View style={styles.container}>
@@ -126,15 +139,17 @@ class AlarmDoneFeed extends PureComponent {
                         <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{chooseTime}</Text>
                     </View>
                 </TouchableOpacity>
+                <View style={{flex:1,justifyContent:'center'}}>
                 {
                     this.props.loading ? 
                     <LoadingComponent Message={'正在加载数据'} /> :
                     <FlatList   
-                    ListEmptyComponent={() => (this.props.mainAlarmData.length ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+                    ListEmptyComponent={() => (this.props.mainAlarmData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'暂无数据'} /></View>)}
                     data={this.props.mainAlarmData}
                     renderItem={this._renderItemList}
                     keyExtractor={this._extraUniqueKey}/>
                 }
+                </View>
             </View>
         );
     }

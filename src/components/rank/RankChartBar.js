@@ -78,7 +78,7 @@ class RankChartBar extends Component {
           let colors=[];
           let axisMaximum=nextProps.chartData.length;
           nextProps.chartData.map((item,key)=>{
-          values.push({y:item.chartYValue,marker:`时间:${item.chartXValue}\n值:${item.chartYValue}`});
+          values.push({y:item.chartYValue,marker:`${item.chartXValue}\n值:${item.chartYValue}`});
           item.chartXValue.length>= valueFormatter.push(item.chartXValue.substring(0,4));
           colors.push(processColor(item.chartColor));
           })
@@ -128,7 +128,7 @@ class RankChartBar extends Component {
         let colors=[];
         let axisMaximum=this.props.chartData.length;
         this.props.chartData.map((item,key)=>{
-        values.push({y:item.chartYValue,marker:`时间:${item.chartXValue}\n值:${item.chartYValue}`});
+        values.push({y:item.chartYValue,marker:`${item.chartXValue}\n值:${item.chartYValue}`});
         item.chartXValue.length>= valueFormatter.push(item.chartXValue.substring(0,4));
         colors.push(processColor(item.chartColor));
         })

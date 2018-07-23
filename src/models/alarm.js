@@ -150,7 +150,6 @@ export default Model.extend({
             if (!image.fileName) {
               image.fileName = image.uri.split('/')[image.uri.split('/').length - 1];
             }
-           
             const { data } = yield call(alarmService.uploadimage, { Img: image.data, FileType: `.${image.fileName.split('.')[1].toLowerCase()}` });
             image.uploadID = data;
             callback(image);
