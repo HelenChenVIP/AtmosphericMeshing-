@@ -9,6 +9,7 @@ import LoadingComponent from '../../components/comment/LoadingComponent'
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+
 /**
  * 站点详情 图表
  * Helenchen
@@ -28,7 +29,7 @@ class PointDetailsChart extends PureComponent  {
             enabled: true,
             digits: 2,
             backgroundTint: processColor('#ef3344'),
-            markerColor: processColor('rgba(240, 240, 240, 0.8)'),
+            // markerColor: processColor('rgba(240, 240, 240, 0.8)'),
             textColor: processColor('#666666'),
           }
         };
@@ -43,7 +44,7 @@ class PointDetailsChart extends PureComponent  {
         let values=[];
         let valueFormatter=[];
         let axisMaximum=nextProps.zxData.length;
-        nextProps.zxData.map((item,key)=>{
+        nextProps.zxData.ZXvaule.map((item,key)=>{
         values.push({y:item.YValue,marker:`时间:${item.XValue}\n值:${item.YValue}`});
         let time1=(item.XValue).substring(0,5);
         let time2=(item.XValue).substring(6,11);
@@ -56,13 +57,14 @@ class PointDetailsChart extends PureComponent  {
               $set: {
                 dataSets: [{
                   'values': values,
-                  label: '小时数据',
+                  label: '',
                   config: {
                     drawValues: false,
                     lineWidth: 1.5,
                     drawCircles: false,
-                    highlightColor: processColor('blue'),
-                    color: processColor('blue'),
+                    // highlightColor: processColor('blue'),
+                    colors: nextProps.zxData.colors,
+                    // circleColors:nextProps.zxData.pointColors,
                     drawFilled: true,
                     fillColor: processColor('white'),
                     fillAlpha: 60,
@@ -124,20 +126,22 @@ class PointDetailsChart extends PureComponent  {
     render() {
         return (
           this.props.loading?
-          <LoadingComponent/>
+          <LoadingComponent Message={'正在加载数据...'} /> 
             : <LineChart
             style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT/3,marginBottom:10}}
             data={this.state.data}
             xAxis={this.state.xAxis}
             marker={this.state.marker}
-            chartDescription={{text: ''}}
             drawGridBackground={false}
             borderColor={processColor('teal')}
             animation={{durationX: 2000}}
             borderWidth={1}
             scaleXEnabled={true}
             onSelect={this.handleSelect.bind(this)}
+            legend={{enabled: false}}
             onChange={(event) => console.log(event.nativeEvent)}
+            chartDescription={{text: ""}
+            }
           />
         );
     }

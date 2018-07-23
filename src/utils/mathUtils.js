@@ -73,3 +73,31 @@ export const timeAdd=(time)=>{
     return time;
 }
 
+//比较两个时间只差 currTime,lastTime
+export const timeZC=(DayendTime,DaystartTime)=>{
+    let lastTime;
+    if(DayendTime=='' || DaystartTime==''){
+        lastTime=moment().add(-30, 'days').format('YYYY-MM-DD HH:mm:ss');
+    }else{
+        //当前时间
+        let currdate=new Date(DaystartTime);
+        let nowTimes = currdate.valueOf();
+        //之前时间
+        let lastdate=new Date(DayendTime);
+        let lastTimes = lastdate.valueOf();
+        //差值
+        let czTime=lastTimes-nowTimes;
+        let ctHour=czTime/24*3600*1000;
+        if(ctHour<48){
+            lastTime=moment().add(-30, 'days').format('YYYY-MM-DD HH:mm:ss');
+        }else{
+            lastTime=DaystartTime;
+        }
+    }
+    return lastTime;
+}
+
+
+
+
+

@@ -35,11 +35,11 @@ class MainAlarm extends PureComponent {
           if(i==0){
             mState=0;
           }else{
-            mState=1;
+            mState=2;
           }
         let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
+        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
+        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
         this.props.dispatch(createAction('alarm/GetMainAlarm')({
             starttime:initLastDate,
             endtime:initCurrenDate,

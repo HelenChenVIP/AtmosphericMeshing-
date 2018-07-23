@@ -50,23 +50,23 @@ class AlarmDoneFeedbackCheck extends PureComponent {
              return true;
          }
      }
-     
     render() {
         return(
-                    this.props.CheckEarlyWarningInfoData ? 
-                    <View style={styles.container}>
-                    <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:80,backgroundColor:'#ffffff',alignItems:'center',borderColor:'#dedede',borderWidth:1}}>
-                    <Text style={{fontSize:16,color:'#333333',marginLeft:10,height:100,textAlignVertical:'center'}}>预警原因：</Text>
-                    <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',flex:1,alignItems:'center',marginRight:10}}>
-                    {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
-                            return (<View style={{flexDirection:'row',marginTop:12}}>{
-                                this.props.CheckEarlyWarningInfoData.warningReason==item.checkCode ? 
-                                    <Image source={require('../../images/ic_rbtn_select.png')} style={{ width: 16, height: 16 }}/>
-                                :  <Image source={require('../../images/ic_rbtn_default.png')} style={{ width: 16, height: 16 }}/>}
-                                    <Text style={{fontSize:16,color:'#848484',marginLeft:2}}>{item.checkReson}</Text>
-                                    </View>
-                            );})}
-                    </View>
+                this.props.CheckEarlyWarningInfoData ? 
+                <View style={styles.container}>
+                <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:80,backgroundColor:'#ffffff',alignItems:'center',borderColor:'#dedede',borderWidth:1}}>
+                <Text style={{fontSize:16,color:'#333333',marginLeft:10,height:100,textAlignVertical:'center'}}>预警原因：</Text>
+                <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',flex:1,alignItems:'center',marginRight:10}}>
+                {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
+                        return (
+                            <View style={{flexDirection:'row',marginTop:12}}>{
+                            this.props.CheckEarlyWarningInfoData.warningReason==item.checkCode ? 
+                                <Image source={require('../../images/ic_rbtn_select.png')} style={{ width: 16, height: 16 }}/>
+                            :  <Image source={require('../../images/ic_rbtn_default.png')} style={{ width: 16, height: 16 }}/>}
+                                <Text style={{fontSize:16,color:'#848484',marginLeft:2}}>{item.checkReson}</Text>
+                                </View>
+                        );})}
+                </View>
                 </View>
                 <View style={{flexDirection: 'row', height: 50, justifyContent: 'center', alignItems: 'center',backgroundColor:'#ffffff'}}>
                     <Text style={{fontSize:16,color:'#333333',marginLeft:10,flex:1}}>预计恢复时间：</Text>

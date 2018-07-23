@@ -12,6 +12,7 @@ import SuspensionLoadingComponent from '../../components/comment/SuspensionLoadi
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+
 /**
  * 地图组件
  * HelenChen
@@ -129,6 +130,7 @@ class MapBase extends PureComponent {
      //循环渲染Marker
      _renderMarker = () =>{
         let rtnVal = [];
+        
         if(this.state.pressPollutantCode!=null && this.state.pressPollutantCode!=''){
             rtnVal.splice(0,rtnVal.length);
         }
@@ -158,8 +160,8 @@ class MapBase extends PureComponent {
                 
                 onPress={()=>{
                     this.setState({
-                        avglat:item.dbo__T_Bas_CommonPoint__Latitude,
-                        avglong:item.dbo__T_Bas_CommonPoint__Longitude,
+                        avglat:this.state.avglat === item.dbo__T_Bas_CommonPoint__Latitude ? item.dbo__T_Bas_CommonPoint__Latitude+ 1 / 10000 :item.dbo__T_Bas_CommonPoint__Latitude,
+                        avglong:this.state.avglong === item.dbo__T_Bas_CommonPoint__Longitude ? item.dbo__T_Bas_CommonPoint__Longitude + 1 / 10000:item.dbo__T_Bas_CommonPoint__Longitude,
                         // activecode:item.dbo__T_Bas_CommonPoint__DGIMN
                     });
                     this.props.dispatch(createAction('map/setActivecode')({activecode:item.dbo__T_Bas_CommonPoint__DGIMN}));

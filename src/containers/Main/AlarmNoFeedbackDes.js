@@ -60,7 +60,6 @@ class AlarmNoFeedbackDes extends PureComponent {
             }
         }
         ));
-        console.log('=============测试。。。componentWillMount=======================');
         this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
             PageIndex:1,}));
 
@@ -78,7 +77,6 @@ class AlarmNoFeedbackDes extends PureComponent {
                 EndTime:moment(endDate).format('YYYY-MM-DD'),
             }
            }));
-        console.log('=============测试。。。confirmDate=======================');
         this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
             PageIndex:1,}));
       }
@@ -212,7 +210,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                         <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{chooseTime}</Text>
                     </View>
                 </TouchableOpacity>
-                {this.props.loading?
+                {this.props.loading ?
                 <LoadingComponent Message={'正在加载数据...'} /> :
                 <FlatList
                 ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}

@@ -1,10 +1,13 @@
 import {mapLengedBack,mapLengedFore,mapEuitmentImage,statusImage,IAQILevel,kindMRCode,kindCode,TVOCLevel,valueAQIColor,valueTVOCColor,valueAQIText,CodeForName} from '../utils/mapconfig';
 import {selectionSort,random5,selectionSortNew} from '../utils/mathUtils';
+import { processColor } from 'react-native';
 /**
  * 地图、排名 Data
  * @param {*} realTimeDataList 
  * @param {*} pressPollutantCode 
  */
+const transparency = processColor('#ffffff00');
+const chartBlue = processColor('blue');
 export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
     let fillIcon='';
     let equitmentStatus='';
@@ -172,14 +175,26 @@ export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
   let XValue='';
   let YValue='';
   let YValue_new='';
+  let colors = [];
+  let pointColors = [];
   hourDataList.map((item,key)=>{
     XValue=(item.MonitorTime).substring(5,16);
     if(item[choosePollutantCode]==null || item[choosePollutantCode]==''){
       YValue=0;
       YValue_new='-- --';
+      if (key === 0) {
+        colors.push(transparency);
+        pointColors.push(transparency);
+      } else {
+        colors[colors.length-1] = transparency;
+        colors.push(transparency);
+        pointColors.push(transparency);
+      }
     }else{
       YValue=parseFloat(item[choosePollutantCode]);
       YValue_new=parseFloat(item[choosePollutantCode]);
+      colors.push(chartBlue);
+      pointColors.push(chartBlue);
     }
     //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值
     if(choosePollutantCode=='AQI'){                                                                               
@@ -231,5 +246,5 @@ export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
     let choosePollutantName=CodeForName(choosePollutantCode);
     ZXvaule.push({XValue,YValue,YValue_new,chartColor,listtv,choosePollutantName});
   })
-  return ZXvaule;
+  return {ZXvaule,colors,pointColors};
 }
