@@ -181,7 +181,7 @@ class Login extends Component {
                             <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:50,backgroundColor:'white',borderRadius:25,marginTop : 30}} onClick={this.login}>登录</Button>
                     }
                    
-                    <Text style={{ fontSize: 8, color: 'white',marginTop:15,}}>{'v 1.0.2'}</Text>
+                    <Text style={{ fontSize: 8, color: 'white',marginTop:15,}}>{'v 1.0.3'}</Text>
                     <Text style={{ fontSize: 8, color: 'white',marginTop:2,}}>{'北京雪迪龙科技股份有限公司'}</Text>
                     <Text style={{ fontSize: 8, color: 'white',marginTop:2,}}>{'Copyright@2017 SDL.All Rights Reserved'}</Text>
                 </View>

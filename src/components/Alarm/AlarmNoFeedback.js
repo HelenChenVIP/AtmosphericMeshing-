@@ -4,6 +4,7 @@ import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,Fl
 import NoDataComponent from '../comment/NoDataComponent';
 import LoadingComponent from '../comment/LoadingComponent';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
+import {timeForm} from '../../utils/mathUtils';
 import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
 import { connect } from 'react-redux';
@@ -46,20 +47,21 @@ class AlarmNoFeedback extends PureComponent {
     
       confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
         this.setState({
-          startDate: moment(startDate).format('YYYY-MM-DD'),
-          endDate: moment(endDate).format('YYYY-MM-DD'),
+          startDate: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+          endDate: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
         });
         this.props.dispatch(createAction('alarm/updateState')({
             alarmNoDesData:{ 
                 ...this.props.alarmNoDesData,
-                BeginTime:moment(startDate).format('YYYY-MM-DD'),
-                EndTime:moment(endDate).format('YYYY-MM-DD'),
+                State:'0',
+                BeginTime:moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+                EndTime:moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
                 }
         }));
 
         this.props.dispatch(createAction('alarm/GetMainAlarm')({
-        starttime:moment(startDate).format('YYYY-MM-DD'),
-        endtime:moment(endDate).format('YYYY-MM-DD'),
+        starttime:moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+        endtime:moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
         polluntCode:'',
         warnReason:'',
         RegionCode:'',
@@ -116,9 +118,10 @@ class AlarmNoFeedback extends PureComponent {
         let CurrenDate=this.props.timeData.length>0 ?this.props.timeData[0].endtime: this.state.endDate;
         let LastDate=this.props.timeData.length>0 ?this.props.timeData[0].starttime:this.state.startDate;
         let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD');
-        let chooseTime = CurrenDate==LastDate ? '自 '+initLastDate+' 至 '+ initCurrenDate : '自 '+LastDate+' 至 '+CurrenDate;
+        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
+        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+        let day='day';
+        let chooseTime = timeForm(CurrenDate,day)==timeForm(LastDate,day) ? '自 '+timeForm(initLastDate,day)+' 至 '+ timeForm(initCurrenDate,day) : '自 '+timeForm(LastDate,day)+' 至 '+timeForm(CurrenDate,day);
         return (
             <View style={styles.container}>
                 <Calendar
@@ -141,7 +144,7 @@ class AlarmNoFeedback extends PureComponent {
                     this.props.loading ? 
                     <LoadingComponent Message={'正在加载数据'} /> :
                     <FlatList           
-                    ListEmptyComponent={() => (this.props.mainAlarmData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+                    ListEmptyComponent={() => (this.props.mainAlarmData.length>0 ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'暂无数据'} /></View>)}
                     data={this.props.mainAlarmData}
                     renderItem={this._renderItemList}
                     keyExtractor={this._extraUniqueKey}/>

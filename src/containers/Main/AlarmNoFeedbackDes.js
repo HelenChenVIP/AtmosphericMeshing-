@@ -8,6 +8,8 @@ import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import {Checkbox} from 'antd-mobile';
+import {timeForm} from '../../utils/mathUtils';
+
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -55,6 +57,7 @@ class AlarmNoFeedbackDes extends PureComponent {
         this.props.dispatch(createAction('alarm/updateState')({
             alarmNoDesData:{
                 ...this.props.alarmNoDesData,
+                        State:'0',
                         BeginTime:this.props.alarmNoDesData.BeginTime,
                         EndTime:this.props.alarmNoDesData.EndTime,
             }
@@ -66,15 +69,16 @@ class AlarmNoFeedbackDes extends PureComponent {
     }
       confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
         this.setState({
-            mBeginTime: moment(startDate).format('YYYY-MM-DD'),
-            mEndTime: moment(endDate).format('YYYY-MM-DD'),
+            mBeginTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+            mEndTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
         });
        
         this.props.dispatch(createAction('alarm/updateState')({
             alarmNoDesData:{
                 ...this.props.alarmNoDesData,
-                BeginTime:moment(startDate).format('YYYY-MM-DD'),
-                EndTime:moment(endDate).format('YYYY-MM-DD'),
+                State:'0',
+                BeginTime:moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
+                EndTime:moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
             }
            }));
         this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
@@ -159,6 +163,7 @@ class AlarmNoFeedbackDes extends PureComponent {
             this.props.dispatch(createAction('alarm/updateState')({
                 alarmNoDesData:{ 
                     ...this.props.alarmNoDesData,
+                    State:'0',
                     checkboxStatemap: this.state.checkboxStatemap,
                     checkboxIndexmap: this.state.checkboxIndexmap,
                     clearselect: this.clearselect
@@ -187,9 +192,9 @@ class AlarmNoFeedbackDes extends PureComponent {
             EndTime=this.state.mEndTime;  
         }else{
             BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
-            EndTime=moment(nowTime).format('YYYY-MM-DD');
+            EndTime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
         }
-        let chooseTime = '自 '+BeginTime+' 至 '+ EndTime;
+        let chooseTime = '自 '+timeForm(BeginTime,'day')+' 至 '+ timeForm(EndTime,'day');
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor="#5688f6"
@@ -225,11 +230,11 @@ class AlarmNoFeedbackDes extends PureComponent {
                     this.props.dispatch(createAction('alarm/updateState')({
                         alarmNoDesData:{
                             ...this.props.alarmNoDesData,
+                            State:'0',
                             BeginTime:this.state.mBeginTime,
                             EndTime:this.state.mEndTime,
                         }
                         }));
-                    console.log('=============测试。。。onRefresh=======================');
                     this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
                         PageIndex:1,}));
                 }}
@@ -243,10 +248,10 @@ class AlarmNoFeedbackDes extends PureComponent {
                     this.props.dispatch(createAction('alarm/updateState')({
                         alarmNoDesData:{
                             ...this.props.alarmNoDesData,
+                            State:'0',
                             BeginTime:this.state.mBeginTime,
                             EndTime:this.state.mEndTime,
                         }}));
-                    console.log('=============测试。。。onEndReached=======================');
                     this.props.dispatch(createAction('alarm/EndReached')({
                         PageIndex:loadingpage,}));
                 }}/>

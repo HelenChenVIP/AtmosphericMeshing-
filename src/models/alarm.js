@@ -62,6 +62,7 @@ export default Model.extend({
               yield update({mainAlarmData,timeData});
             }
           },
+          //避免重复加载
           *EndReached({payload:{PageIndex}}, {update, put, call, select}){
             const {NoAlarmDesData,allTotal} = yield select(state => state.alarm);
             if (allTotal === 0) {
@@ -73,7 +74,6 @@ export default Model.extend({
           //报警二级界面数据
           * GetNoAlarmDes({payload:{PageIndex}}, {update, put, call, select}){
             const {alarmNoDesData:{DGIMN,PointName,RegionCode,PolluntCode,BeginTime,EndTime,EarlyWaringType,State,PageSize,IsPc}} = yield select(state => state.alarm);
-            debugger;
             let { data : NoAlarmDesData,total : allTotal}=yield call(alarmService.GetAllAlarmDataList,
                     {DGIMN:DGIMN,
                       PointName:PointName,
@@ -86,7 +86,6 @@ export default Model.extend({
                       PageIndex:PageIndex,
                       PageSize:PageSize,
                       IsPc:IsPc,});
-                      debugger;
             if(NoAlarmDesData){
               if(PageIndex>1){
                 if(NoAlarmDesData.length>=allTotal){
@@ -110,7 +109,6 @@ export default Model.extend({
 
           * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { callWithSpinning, update, put, call, select }) {
             const result = yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
-            debugger;
             if (result&&result.requstresult==='1') {
               let {NoAlarmDesData,mainAlarmData} = yield select(state => state.alarm);
               const index=mainAlarmData.findIndex((item)=>{
@@ -138,7 +136,6 @@ export default Model.extend({
           * GetCheckEarlyWarningInfo({payload:{ID}}, {update, put, call}){
             const { data : CheckEarlyWarningInfoData}=yield call(alarmService.GetCheckEarlyWarningInfo,
                     {ID:ID});
-                    debugger;
             if(CheckEarlyWarningInfoData !== null){
               yield update({CheckEarlyWarningInfoData});
             }else{
