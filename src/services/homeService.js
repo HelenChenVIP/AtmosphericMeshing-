@@ -91,7 +91,7 @@ export const uploadimage = async (param) => {
   export const GethourAQIDatasColumn = async(param) => {
     let start='';
     let pageIndex=1;
-    let pageSize=30;
+    let pageSize=80;
     if(param.HourStartTime=='' || param.HourendTime==''){
       start=timeCalculate(param.HourendTime);
     }else{
@@ -116,7 +116,7 @@ export const uploadimage = async (param) => {
  */
 export const GetDayAQIDatasColumn = async(param) => {
   let pageIndex=1;
-  let pageSize=30;
+  let pageSize=80;
   let lastTime=timeZC(param.DayendTime,param.DaystartTime);
   const body = {
     IsSupplyData:true,

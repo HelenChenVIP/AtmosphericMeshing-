@@ -57,7 +57,6 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                           //离线 异常
                           fillIcon=imageList[statusImage(equitmentStatus)];
                           //离线
-                          debugger;
                           if(statusImage(equitmentStatus)==1){
                             mValue='----';
                             chartYValue_new=mValue;
@@ -75,7 +74,6 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                           }
                           
                         }else{
-                          debugger;
                           //在线 超标
                           //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值
                           if(pressPollutantCode=='AQI'){                                                                               
