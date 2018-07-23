@@ -66,7 +66,7 @@ class MainMy extends PureComponent {
             onPress={()=>{
               
             }}>
-                <Image source={require('../../../images/ic_logon.png')} style={styles.itemImageStyle}></Image>
+                <Image source={require('../../../images/ic_updata.png')} style={styles.itemImageStyle}></Image>
                 <Text style={styles.itemTextView}>版本更新</Text>
             </TouchableOpacity> 
             <TouchableOpacity style={{flexDirection:'row',height:40,backgroundColor:'#ffffff',alignItems:'center',marginTop:1}} 

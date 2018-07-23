@@ -89,7 +89,7 @@ class Login extends Component {
                     barStyle="light-content"
                 />
                 <View style={[styles.LoginForm,{height:this.state.contentHeight,}]}>
-                <Text style={[{color:globalcolor.whiteFontColor, marginTop:30,fontSize:15,marginBottom:40,}]}>用户登录</Text>
+                <Text style={[{color:globalcolor.whiteFontColor, marginTop:35,fontSize:15,marginBottom:40,}]}>用户登录</Text>
                     <Image source={require('../images/login_person.png')} style={[{height:60,width:104,marginTop:20,}]}/>
                     
                     <View style={[styles.TextInputStyle, { marginTop: 30,marginBottom: 10 }]}>
@@ -177,11 +177,11 @@ class Login extends Component {
                     {
                         this.props.loginLoading
                         || this.props.loadglobalvariable ?
-                            <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:30,backgroundColor:'white',borderRadius:15,marginTop : 30}} loading>正在登录</Button>:
-                            <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:30,backgroundColor:'white',borderRadius:15,marginTop : 30}} onClick={this.login}>登录</Button>
+                            <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:50,backgroundColor:'white',borderRadius:25,marginTop : 30}} loading>正在登录</Button>:
+                            <Button type="ghost" inline style={{width: SCREEN_WIDTH - 50,height:50,backgroundColor:'white',borderRadius:25,marginTop : 30}} onClick={this.login}>登录</Button>
                     }
                    
-                    <Text style={{ fontSize: 8, color: 'white',marginTop:10,}}>{'v 1.0.2'}</Text>
+                    <Text style={{ fontSize: 8, color: 'white',marginTop:15,}}>{'v 1.0.2'}</Text>
                     <Text style={{ fontSize: 8, color: 'white',marginTop:2,}}>{'北京雪迪龙科技股份有限公司'}</Text>
                     <Text style={{ fontSize: 8, color: 'white',marginTop:2,}}>{'Copyright@2017 SDL.All Rights Reserved'}</Text>
                 </View>

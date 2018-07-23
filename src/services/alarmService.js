@@ -50,7 +50,9 @@ export const GetMainAlarmService = async(param) => {
     const body={
         dic:dic,
     };
+    debugger;
     const result=await get(api.alarm.GetAllAlarmDataList,body,null);
+    debugger;
     return result;
   }
   //反馈全部
@@ -69,6 +71,7 @@ export const GetMainAlarmService = async(param) => {
       latitude: param.latitude,
       isRecord:1
     };
+    debugger;
     const result = await post(api.alarm.AddEarlyWarningFeedback, body, null);
     return result;
   };
@@ -78,6 +81,7 @@ export const GetMainAlarmService = async(param) => {
       exceptionID:param.ID
     };
     const result=await get(api.alarm.GetCheckEarlyWarningInfo,body,null);
+    debugger;
     return result;
   }
   export const uploadimage = async (param) => {

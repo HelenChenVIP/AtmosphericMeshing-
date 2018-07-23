@@ -40,6 +40,7 @@ class AlarmDoneFeedbackCheck extends PureComponent {
         }
       }
       componentWillMount(){
+          debugger;
           this.props.dispatch(createAction('alarm/GetCheckEarlyWarningInfo')({
             ID:this.props.navigation.state.params.ID}));
      }
@@ -51,6 +52,7 @@ class AlarmDoneFeedbackCheck extends PureComponent {
          }
      }
     render() {
+        debugger;
         return(
                 this.props.CheckEarlyWarningInfoData ? 
                 <View style={styles.container}>

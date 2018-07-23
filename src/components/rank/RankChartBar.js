@@ -129,7 +129,7 @@ class RankChartBar extends Component {
         let axisMaximum=this.props.chartData.length;
         this.props.chartData.map((item,key)=>{
         values.push({y:item.chartYValue,marker:`时间:${item.chartXValue}\n值:${item.chartYValue}`});
-        valueFormatter.push(item.chartXValue);
+        item.chartXValue.length>= valueFormatter.push(item.chartXValue.substring(0,4));
         colors.push(processColor(item.chartColor));
         })
         if (this.state.isReversedOrder) {
@@ -151,10 +151,7 @@ class RankChartBar extends Component {
                     colors
                   }
               }],
-              config: {
-                barWidth: 0.2,
-                barSpace: 0.2,
-              },
+             
           },
         xAxis: {
           ...this.state.xAxis.valueFormatter,
@@ -162,6 +159,7 @@ class RankChartBar extends Component {
           axisMaximum,
           axisMaximum,
           position: 'BOTTOM',
+          drawGridLines: false,
         },
       })
       }
