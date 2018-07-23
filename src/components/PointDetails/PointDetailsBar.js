@@ -16,7 +16,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({pointdetails,loading})=>({
   zxData:pointdetails.zxData,
-  loading:loading.effects['pointdetails/GetDayDatas'],}))
+  // loading:loading.effects['pointdetails/GetDayDatas'],
+}))
 class PointDetailsBar extends PureComponent  {
     constructor() {
         super();
@@ -86,14 +87,14 @@ class PointDetailsBar extends PureComponent  {
         };
       }
       componentWillMount(){
-        this.props.dispatch(createAction('pointdetails/updateState')({
-          showIndex: '1',
-          HourStartTime:'',
-          HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
-      }))
+      //   this.props.dispatch(createAction('pointdetails/updateState')({
+      //     showIndex: '1',
+      //     HourStartTime:'',
+      //     HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
+      // }))
 
-        this.props.dispatch(createAction('pointdetails/GetDayDatas')({
-           }));
+      //   this.props.dispatch(createAction('pointdetails/GetDayDatas')({
+      //      }));
       } 
       componentWillReceiveProps(nextProps) {
         if (nextProps.zxData !== this.props.zxData) {
@@ -144,10 +145,11 @@ class PointDetailsBar extends PureComponent  {
       console.log(event.nativeEvent)
     }
     render() {
+          // this.props.loading?
+          // <LoadingComponent/>
+          //   :
         return (
-          this.props.loading?
-          <LoadingComponent/>
-            :<BarChart
+          <BarChart
             style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT/3}}
             data={this.state.data}
             xAxis={this.state.xAxis}

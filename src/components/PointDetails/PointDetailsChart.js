@@ -18,7 +18,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({pointdetails,loading})=>({
   zxData:pointdetails.zxData,
-  loading:loading.effects['pointdetails/GetHourDatas'],}))
+  // loading:loading.effects['pointdetails/GetHourDatas'],
+}))
 class PointDetailsChart extends PureComponent  {
     constructor() {
         super();
@@ -35,13 +36,13 @@ class PointDetailsChart extends PureComponent  {
         };
       }
       componentWillMount(){
-        this.props.dispatch(createAction('pointdetails/updateState')({
-          showIndex: '0',
-          HourStartTime:'',
-          HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
-      }))
-        this.props.dispatch(createAction('pointdetails/GetHourDatas')({
-           }));
+      //   this.props.dispatch(createAction('pointdetails/updateState')({
+      //     showIndex: '0',
+      //     HourStartTime:'',
+      //     HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
+      // }))
+      //   this.props.dispatch(createAction('pointdetails/GetHourDatas')({
+      //      }));
       }    
    
     componentWillReceiveProps(nextProps) {
@@ -129,10 +130,11 @@ class PointDetailsChart extends PureComponent  {
       console.log(event.nativeEvent)
     }
     render() {
+      // this.props.loading?
+      // <LoadingComponent Message={'正在加载数据...'} /> 
+      //   : 
         return (
-          this.props.loading?
-          <LoadingComponent Message={'正在加载数据...'} /> 
-            : <LineChart
+          <LineChart
             style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT/3,marginBottom:10}}
             data={this.state.data}
             xAxis={this.state.xAxis}
