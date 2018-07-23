@@ -54,7 +54,7 @@ class MainRank extends PureComponent {
     render() {
           return (
             <View style={{flexDirection:'column',flex:1,backgroundColor:'#ffffff'}}>
-                <PollutantcodeBarRank style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}/>
+                <PollutantcodeBarRank _resetReversedOrder= {()=>{_me._rankFlatList.wrappedInstance._resetReversedOrder()}} style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}/>
                 <RankFlatList ref = {ref=>{_me._rankFlatList = ref}}/>
             </View>
             

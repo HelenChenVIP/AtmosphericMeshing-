@@ -3,6 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList,StatusBar } from 'react-native';
 import NoDataComponent from '../../components/comment/NoDataComponent';
 import LoadingComponent from '../../components/comment/LoadingComponent';
+import SimpleLoadingComponent from '../../components/comment/SimpleLoadingComponent';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
 import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
@@ -21,6 +22,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     PageIndex:alarm.PageIndex,
     alarmNoDesData:alarm.alarmNoDesData,
     loading:loading.effects['alarm/GetNoAlarmDes'],
+    submitLoading:loading.effects['alarm/SummitAll'],
     }))
 class AlarmNoFeedbackDes extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
@@ -259,6 +261,11 @@ class AlarmNoFeedbackDes extends PureComponent {
                         <Text style={{fontSize:18,color:'#ffffff',textAlign:'center',textAlignVertical:'center'}}>反馈</Text>
                     </TouchableOpacity>
                 </View>
+                {
+                    this.props.submitLoading?
+                    <SimpleLoadingComponent message={'提交中'}/>
+                    :(null)
+                }
             </View>
         );
     }

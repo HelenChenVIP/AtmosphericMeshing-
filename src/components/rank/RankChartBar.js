@@ -109,6 +109,10 @@ class RankChartBar extends Component {
       handleZoomDomainChange(domain) {
         this.setState({ zoomedXDomain: domain.x });
       }
+    
+      resetReversedOrder () {
+        this.setState({isReversedOrder:false});
+      }
       
     handleSelect(event) {
       let entry = event.nativeEvent
@@ -132,12 +136,13 @@ class RankChartBar extends Component {
         item.chartXValue.length>= valueFormatter.push(item.chartXValue.substring(0,4));
         colors.push(processColor(item.chartColor));
         })
+        
         if (this.state.isReversedOrder) {
           this.setState({'isReversedOrder':false});
         } else {
-          values.reverse();
-          valueFormatter.reverse();
-          colors.reverse();
+          value = values.reverse().concat();
+          valueFormatter = valueFormatter.reverse().concat();
+          colors = colors.reverse().concat();
           this.setState({'isReversedOrder':true});
         }
         this.setState({

@@ -29,6 +29,7 @@ class PollutantcodeBarRank extends Component {
             <View style={{backgroundColor:'#ffffff',flexDirection: 'row',height: 40,marginLeft:4,marginRight:4,justifyContent:'space-between',alignItems:'center'}}>
                 <TouchableOpacity
                  onPress={()=>{
+                    this.props._resetReversedOrder();
                     this.setState({pressPollutantCode:item.item.pollutantCode}); 
                     this.props.dispatch(createAction('map/mapAllRedures')({
                         whitchPage:'Rank',
