@@ -16,7 +16,8 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class AlarmDoneFeedbackCheck
  * @extends {Component}
  */
-@connect(({alarm,loading})=>({CheckEarlyWarningInfoData:alarm.CheckEarlyWarningInfoData,
+@connect(({alarm,loading})=>({
+    CheckEarlyWarningInfoData:alarm.CheckEarlyWarningInfoData,
     loading:loading.effects['alarm/GetCheckEarlyWarningInfo'],}))
 class AlarmDoneFeedbackCheck extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
@@ -35,8 +36,8 @@ class AlarmDoneFeedbackCheck extends PureComponent {
         super(props); 
         this.state = {        
             rotateEnabled: false,//地图旋转
-            longitude: '',
-            latitude: '',
+            longitude: 118.356618,
+            latitude: 35.103663,
         }
       }
       componentWillMount(){
@@ -52,6 +53,8 @@ class AlarmDoneFeedbackCheck extends PureComponent {
      }
     render() {
         return(
+            this.props.loading ? <LoadingComponent Message={'正在加载数据...'} /> 
+            :
                 this.props.CheckEarlyWarningInfoData ? 
                 <View style={styles.container}>
                 <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:80,backgroundColor:'#ffffff',alignItems:'center',borderColor:'#dedede',borderWidth:1}}>
@@ -82,8 +85,8 @@ class AlarmDoneFeedbackCheck extends PureComponent {
                     zoomLevel={14} 
                     rotateEnabled={this.state.rotateEnabled}    
                     coordinate={{
-                        latitude: this.props.CheckEarlyWarningInfoData.latitude,
-                        longitude: this.props.CheckEarlyWarningInfoData.longitude,
+                        latitude: this.props.CheckEarlyWarningInfoData.latitude ?  this.props.CheckEarlyWarningInfoData.latitude : this.state.latitude,
+                        longitude: this.props.CheckEarlyWarningInfoData.longitude ?  this.props.CheckEarlyWarningInfoData.longitude : this.state.longitude,
                         }}
                     onLocation={({ nativeEvent }) =>
                     this.logLocationEvent}   

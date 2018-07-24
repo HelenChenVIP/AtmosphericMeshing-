@@ -19,9 +19,6 @@ export default Model.extend({
         pressPollutantCodeRank:'',
         allPointList:[],
         realTimeDataList:[],
-        
-       
-        
         markerRealDatas:[],
         mallPointList:[],
         mkindCode:[],
@@ -58,7 +55,6 @@ export default Model.extend({
              if(kindData.chartData!=null && kindData.chartData.length>0){
                  let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
                  if(whitchPage=='Map'){
-                     debugger;
                      if(kindData.changeAllPointList.length>0){
                          state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:kindData.changeAllPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
                      }else{

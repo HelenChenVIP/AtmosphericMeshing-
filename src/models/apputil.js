@@ -51,7 +51,6 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                         equitmentStatus=item.dbo__T_Bas_CommonPoint__Status;//设备状态
                         imageList=mapEuitmentImage(equitmentCode); 
                         //null是在线 超标；0,3离线 异常
-                        let mValue;
                         let pollutantindex;
                         //status 0离线；3异常；(-1)1,2在线超标
                         if(statusImage(equitmentStatus)!=-1){
@@ -59,15 +58,13 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                             fillIcon=imageList[statusImage(equitmentStatus)];
                             //离线
                             if(statusImage(equitmentStatus)==1){
-                              mValue='----';
-                              chartYValue_new=mValue;
+                              chartYValue_new='----';
                               chartColor='#ababab';
                               if(pressPollutantCode=='AQI'){
                                 listtv='离线';
                               }
                             }else{
-                              mValue='0';
-                              chartYValue_new=mValue;
+                              chartYValue_new='0';
                               chartColor='#489ae3';
                               if(pressPollutantCode=='AQI'){
                                 listtv='异常';
@@ -78,27 +75,24 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                             //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值来【渲染】。值取的是浓度值
                             if(pressPollutantCode=='AQI'){  
                                 if(mitem.AQI!=undefined){
-                                  mValue=mitem.AQI;
                                   chartYValue_new=mitem.AQI;
                                   colorValue=mitem.AQI;
-                                  pollutantindex=IAQILevel(mValue);
+                                  pollutantindex=IAQILevel(mitem.AQI);
                                   fillIcon=imageList[pollutantindex];
-                                  chartColor=valueAQIColor(mValue);
-                                  listtv=valueAQIText(mValue);
+                                  chartColor=valueAQIColor(mitem.AQI);
+                                  listtv=valueAQIText(mitem.AQI);
                                 }else{
                                   fillIcon=imageList[1];
                                   chartColor='#333333';
                                 }                                                                            
                             }else if(pressPollutantCode=='a99054'){
                               if(mitem.a99054!=undefined){
-                                mValue=mitem.a99054;
                                 chartYValue_new=mitem.a99054;
                                 colorValue=mitem.a99054;
-                                pollutantindex=TVOCLevel(mValue);
+                                pollutantindex=TVOCLevel(mitem.a99054);
                                 fillIcon=imageList[pollutantindex];
-                                chartColor=valueTVOCColor(mValue);
+                                chartColor=valueTVOCColor(mitem.a99054);
                                 }else{
-                                  mValue=0;
                                   chartYValue_new='----';
                                   colorValue=0;
                                   fillIcon=imageList[1];
@@ -107,7 +101,6 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                             }else{
                               if(mitem[pressPollutantCode]!=undefined){
                                 let mCode=pressPollutantCode+'_IAQI';
-                                mValue=mitem[pressPollutantCode];
                                 chartYValue_new=mitem[pressPollutantCode];
                                 colorValue=mitem[mCode];
                                 pollutantindex=IAQILevel(colorValue);
@@ -168,7 +161,6 @@ export const RankAscDescData=(chartData,listRankData)=>{
 //站点详情-折线图data
 export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
   let ZXvaule=[];
-  let mValue='';
   let chartColor='';
   let listtv='';
   let XValue='';
@@ -181,6 +173,7 @@ export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
     if(item[choosePollutantCode]==null || item[choosePollutantCode]==''){
       YValue=0;
       YValue_new='-- --';
+      chartColor='#ffffff'
       if (key === 0) {
         colors.push(transparency);
         pointColors.push(transparency);
@@ -190,57 +183,21 @@ export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
         pointColors.push(transparency);
       }
     }else{
+      //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值
+      if(choosePollutantCode=='AQI'){                                                                               
+          chartColor=valueAQIColor(item.AQI);
+          listtv=valueAQIText(item.AQI);
+      }else if(choosePollutantCode=='a99054'){
+          chartColor=valueTVOCColor(item.a99054);
+      }else{
+          let mCode=choosePollutantCode+'_IAQI';
+          chartColor=valueAQIColor(item[mCode]);
+          listtv=valueAQIText(item[mCode]);
+      }
       YValue=parseFloat(item[choosePollutantCode]);
       YValue_new=parseFloat(item[choosePollutantCode]);
       colors.push(chartBlue);
       pointColors.push(chartBlue);
-    }
-    //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值
-    if(choosePollutantCode=='AQI'){                                                                               
-        mValue=item.AQI;
-    }else if(choosePollutantCode=='a99054'){
-      if(item.a99054!=undefined){
-        mValue=item.a99054;
-      }else{
-        mValue='';
-      }
-    }else{
-      let mCode=choosePollutantCode+'_IAQI';
-      mValue=item[mCode];
-    }
-    //数值 颜色渲染
-    if(mValue!=null && mValue!=''){
-      if(choosePollutantCode=='a99054'){
-        if(TVOCLevel(mValue)!=undefined){
-          chartColor=valueTVOCColor(mValue);
-          // if(mValue==0){
-          //   listtv='异常';
-          // }else if(mValue>0){
-          //   listtv='';
-          // }else{
-          //   listtv='无数据';
-          // }
-        }else{
-          chartColor='#ffffff';
-          // listtv='无数据';
-        }
-      }else{
-        if(IAQILevel(mValue)!=undefined){
-          if(choosePollutantCode=='AQI'){
-            chartColor=valueAQIColor(mValue);
-            listtv=valueAQIText(mValue);
-          }else{
-            chartColor=valueAQIColor(mValue);
-            listtv=valueAQIText(mValue);
-          }
-        }else{
-          chartColor='#ffffff';
-          // listtv='无数据';
-        }
-      }
-    }else{
-      chartColor='#ffffff';
-      // listtv='无数据';
     }
     let choosePollutantName=CodeForName(choosePollutantCode);
     ZXvaule.push({XValue,YValue,YValue_new,chartColor,listtv,choosePollutantName});
