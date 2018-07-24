@@ -47,6 +47,7 @@ class AlarmDoneFeedDes extends PureComponent {
         this.props.dispatch(createAction('alarm/updateState')({
             alarmNoDesData:{
                 ...this.props.alarmNoDesData,
+                        State:'2',
                         BeginTime:this.props.alarmNoDesData.BeginTime,
                         EndTime:this.props.alarmNoDesData.EndTime,
             }
@@ -97,7 +98,7 @@ class AlarmDoneFeedDes extends PureComponent {
                 data={this.props.NoAlarmDesData}
                 renderItem={this._renderItemList}
                 keyExtractor={this._extraUniqueKey}
-                onEndReachedThreshold={0.5}
+                onEndReachedThreshold={0.1}
                 initialNumToRender={12}
                 refreshing={this.state.isRefreshing}
                 onRefresh={() => {
@@ -105,6 +106,7 @@ class AlarmDoneFeedDes extends PureComponent {
                     this.props.dispatch(createAction('alarm/updateState')({
                         alarmNoDesData:{
                             ...this.props.alarmNoDesData,
+                            State:'2',
                             BeginTime:this.state.mBeginTime,
                             EndTime:this.state.mEndTime,
                         }
@@ -122,11 +124,15 @@ class AlarmDoneFeedDes extends PureComponent {
                     this.props.dispatch(createAction('alarm/updateState')({
                         alarmNoDesData:{
                             ...this.props.alarmNoDesData,
+                            State:'2',
                             BeginTime:this.state.mBeginTime,
                             EndTime:this.state.mEndTime,
                         }}));
-                    this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+                    this.props.dispatch(createAction('alarm/EndReached')({
                         PageIndex:loadingpage,}));
+
+                    // this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+                    //     PageIndex:loadingpage,}));
                 }}/>
             }
             </View>

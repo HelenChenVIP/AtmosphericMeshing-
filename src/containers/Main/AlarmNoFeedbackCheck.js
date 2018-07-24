@@ -93,7 +93,6 @@ class AlarmNoFeedbackCheck extends PureComponent {
   }
   
   feedbackCallback=() => {
-    debugger;
     this.props.alarmNoDesData.clearselect;
     this.props.dispatch(NavigationActions.back());
     CloseToast();
@@ -101,7 +100,6 @@ class AlarmNoFeedbackCheck extends PureComponent {
   }
   //提交全部
   summitAll=()=>{
-    debugger;
     let paramExceptionProcessingID = '';
     let paramImageID = '';
     let WarningReason = '';

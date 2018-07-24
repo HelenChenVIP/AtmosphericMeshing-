@@ -74,12 +74,12 @@ class MapBase extends PureComponent {
                                 rtnVal.push(
                                   <View
                                     key={itemkey}
-                                    style={{flexDirection:'row',alignItems:'center',justifyContent: 'space-around',marginTop: 3,width: (SCREEN_WIDTH-120)/2,backgroundColor:'white',flexWrap:'wrap'}}>
-                                    {nameList[i]=='PM25' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>PM<Text style={{ fontSize: 10, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2.5</Text></Text>
-                                    : nameList[i]=='PM10' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>PM<Text style={{ fontSize: 10, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>10</Text></Text>
-                                    : nameList[i]=='NO2' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>NO<Text style={{ fontSize: 10, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2</Text></Text>
-                                    : nameList[i]=='SO2' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>SO<Text style={{ fontSize: 10, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2</Text></Text>
-                                    : nameList[i]=='O3' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>O<Text style={{ fontSize: 10, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>3</Text></Text>
+                                    style={{flexDirection:'row',justifyContent: 'space-around',marginTop: 3,width: (SCREEN_WIDTH-120)/2,backgroundColor:'white',flexWrap:'wrap'}}>
+                                    {nameList[i]=='PM25' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>PM<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2.5</Text></Text>
+                                    : nameList[i]=='PM10' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>PM<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>10</Text></Text>
+                                    : nameList[i]=='NO2' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>NO<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2</Text></Text>
+                                    : nameList[i]=='SO2' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>SO<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2</Text></Text>
+                                    : nameList[i]=='O3' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>O<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>3</Text></Text>
                                     : <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>{nameList[i]}</Text>
                                     }
                                     <Text style={{ fontSize: 12, color: tvColor,height:20,backgroundColor:bkColor,textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>

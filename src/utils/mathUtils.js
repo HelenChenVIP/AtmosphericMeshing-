@@ -123,6 +123,18 @@ export const timeZC=(DayendTime,DaystartTime)=>{
 }
 
 
+//给定时间 按要求留几位
+export const timeForm=(time,when)=>{
+    
+    let mTime;
+    switch(when){
+        case 'day':
+        mTime=time.substring(0,11);
+    }
+    return mTime;
+    
+}
+
 
 
 

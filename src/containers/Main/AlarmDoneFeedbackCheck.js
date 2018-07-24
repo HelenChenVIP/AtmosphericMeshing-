@@ -40,7 +40,6 @@ class AlarmDoneFeedbackCheck extends PureComponent {
         }
       }
       componentWillMount(){
-          debugger;
           this.props.dispatch(createAction('alarm/GetCheckEarlyWarningInfo')({
             ID:this.props.navigation.state.params.ID}));
      }
@@ -52,7 +51,6 @@ class AlarmDoneFeedbackCheck extends PureComponent {
          }
      }
     render() {
-        debugger;
         return(
                 this.props.CheckEarlyWarningInfoData ? 
                 <View style={styles.container}>
@@ -62,10 +60,10 @@ class AlarmDoneFeedbackCheck extends PureComponent {
                 {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
                         return (
                             <View style={{flexDirection:'row',marginTop:12}}>{
-                            this.props.CheckEarlyWarningInfoData.warningReason==item.checkCode ? 
+                            this.props.CheckEarlyWarningInfoData.warningReason==item.value ? 
                                 <Image source={require('../../images/ic_rbtn_select.png')} style={{ width: 16, height: 16 }}/>
                             :  <Image source={require('../../images/ic_rbtn_default.png')} style={{ width: 16, height: 16 }}/>}
-                                <Text style={{fontSize:16,color:'#848484',marginLeft:2}}>{item.checkReson}</Text>
+                                <Text style={{fontSize:16,color:'#848484',marginLeft:2}}>{item.label}</Text>
                                 </View>
                         );})}
                 </View>
@@ -96,7 +94,7 @@ class AlarmDoneFeedbackCheck extends PureComponent {
                     <Text style={{fontSize: 16, color: '#848484',marginRight:10 }}>{this.props.CheckEarlyWarningInfoData.feedbackTime}</Text>
                 </View>
                 </View>
-                : <NoDataComponent />
+                : <NoDataComponent Message={'暂无数据'}/>
                 );
             }
         

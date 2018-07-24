@@ -51,9 +51,6 @@ class RankFlatList extends Component {
          return (
             <TouchableOpacity
                 onPress={()=>{
-                    console.log('=============断数=======================');
-                    console.log(item.item.point_DGMIN);
-                    console.log('====================================');
                     this.props.dispatch(createAction('pointdetails/updateState')({
                         mapRankDatas:{
                             ...this.props.mapRankDatas,
@@ -65,7 +62,7 @@ class RankFlatList extends Component {
                 <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
                     <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.item.chartXValue}</Text> 
                     <Text style={{marginLeft:10,fontSize: 14,color:'#333333',width:40}}>{item.item.listtv}</Text> 
-                    <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:40}}>{item.item.chartYValue_new}</Text> 
+                    <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:60}}>{item.item.chartYValue_new}</Text> 
                 </View>
             </TouchableOpacity>
          )
@@ -74,7 +71,7 @@ class RankFlatList extends Component {
              <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
                  <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.chartXValue}</Text> 
                  <Text style={{marginLeft:10,fontSize: 14,color:'#333333',width:40}}>  </Text> 
-                 <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:40}}>{item.chartYValue_new}</Text> 
+                 <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:60}}>{item.chartYValue_new}</Text> 
              </View>
          )
      }

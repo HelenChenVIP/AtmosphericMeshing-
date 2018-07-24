@@ -46,7 +46,6 @@ async function request(url, _options) {
      }else{
       uri = new URI(neturl.neturl  + url);
      }
-     
   }else{
      neturl = 'https://api.chsdl.cn/GridWebApi';
      uri = new URI(neturl + url);

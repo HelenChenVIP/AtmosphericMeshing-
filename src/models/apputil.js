@@ -91,7 +91,8 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                             
                             }
                           }else{
-                            let mCode=pressPollutantCode+'_IAQI';
+                            // let mCode=pressPollutantCode+'_IAQI';
+                            let mCode=pressPollutantCode;
                             mValue=mitem[mCode];
                             chartYValue_new=mValue;
                             
@@ -153,8 +154,7 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
                           XValueList.push(kk);
                           chartData.push({chartXValue,chartYValue,chartColor,listtv});
                           listRankData.push({chartXValue,chartYValue_new,chartColor,listtv,point_DGMIN});
-                      }else{
-                        
+                          
                       }
                     })
                    
@@ -166,6 +166,10 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
          // }
         }
       })
+      console.log('===========数据图表=========================');
+      console.log(chartData);
+      console.log('============数据列表========================');
+      console.log(listRankData);
       return {chartData,listRankData,changeAllPointList,mkindCode,mtime,markerRealDatas};
 }
 //排名 正序反序
