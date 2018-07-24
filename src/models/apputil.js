@@ -269,7 +269,11 @@ export const PointDeatilsHourData=(hourDataList,choosePollutantCode)=>{
         }
       }
     }else{
-      chartColor='#ffffff';
+      if (YValue) {
+        chartColor='#489ae3';
+      } else {
+        chartColor='#ffffff';
+      }
       // listtv='无数据';
     }
     let choosePollutantName=CodeForName(choosePollutantCode);
