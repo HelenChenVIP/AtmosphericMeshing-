@@ -47,8 +47,16 @@ async function request(url, _options) {
       uri = new URI(neturl.neturl  + url);
      }
   }else{
-     neturl = 'https://api.chsdl.cn/GridWebApi';
-     uri = new URI(neturl + url);
+    if(url=='/rest/AtmosphereApi/PointAndData/GetPointList?authorCode=1b1994ec-538f-4d2f-b4f9-3c0e6950a806' ||
+    url=='/rest/AtmosphereApi/Hour/GetHourData?authorCode=1b1994ec-538f-4d2f-b4f9-3c0e6950a806' ||
+    url=='/rest/AtmosphereApi/Day/GetDayData?authorCode=1b1994ec-538f-4d2f-b4f9-3c0e6950a806'){
+    neturl = 'https://api.chsdl.cn/GridWebApi/WebGrid_Api';
+    uri = new URI(neturl + url);
+    }else{
+      neturl = 'https://api.chsdl.cn/GridWebApi';
+      uri = new URI(neturl + url);
+    }
+    
   }
   const options = _options || {};
   options.method = options.method || 'GET';

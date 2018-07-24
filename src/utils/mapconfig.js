@@ -78,82 +78,82 @@ export const mapEuitment=(equitmentCode)=>{
    //"29"-扬尘噪声小型站；"30"-六参数微型站；"32"-移动监测车；"34"-大气常规站； "35"-六参数及VOC； "18"-颗粒物；
     switch(equitmentCode){
         case '30':
-        return [require('../images/equipment/lcs_l000.png'),require('../images/equipment/lcs_l001.png'),
-                require('../images/equipment/lcs_l002.png'),require('../images/equipment/lcs_l003.png'),
-                require('../images/equipment/lcs_l004.png'),require('../images/equipment/lcs_l005.png'),
-                require('../images/equipment/lcs_l006.png'),require('../images/equipment/lcs_l007.png'),
-                require('../images/equipment/lcs_l008.png'),require('../images/equipment/lcs_l009.png')];
+        return [{uri: 'lcs_l000'},{uri: 'lcs_l001'},
+                {uri: 'lcs_l002'},{uri: 'lcs_l003'},
+                {uri: 'lcs_l004'},{uri: 'lcs_l005'},
+                {uri: 'lcs_l006'},{uri: 'lcs_l007'},
+                {uri: 'lcs_l008'},{uri: 'lcs_l009'},];
         case '18':
-        return [require('../images/equipment/klw_l000.png'),require('../images/equipment/klw_l001.png'),
-                require('../images/equipment/klw_l002.png'),require('../images/equipment/klw_l003.png'),
-                require('../images/equipment/klw_l004.png'),require('../images/equipment/klw_l005.png'),
-                require('../images/equipment/klw_l006.png'),require('../images/equipment/klw_l007.png'),
-                require('../images/equipment/klw_l008.png'),require('../images/equipment/klw_l009.png')];
+        return [{uri: 'klw_l000'},{uri: 'klw_l001'},
+                {uri: 'klw_l002'},{uri: 'klw_l003'},
+                {uri: 'klw_l004'},{uri: 'klw_l005'},
+                {uri: 'klw_l006'},{uri: 'klw_l007'},
+                {uri: 'klw_l008'},{uri: 'klw_l009'},];
         break;
         case '26':
-        return [require('../images/equipment/xskqz_l000.png'),require('../images/equipment/xskqz_l001.png'),
-                require('../images/equipment/xskqz_l002.png'),require('../images/equipment/xskqz_l003.png'),
-                require('../images/equipment/xskqz_l004.png'),require('../images/equipment/xskqz_l005.png'),
-                require('../images/equipment/xskqz_l006.png'),require('../images/equipment/xskqz_l007.png'),
-                require('../images/equipment/xskqz_l008.png'),require('../images/equipment/xskqz_l009.png')];
+        return [{uri: 'xskqz_l000'},{uri: 'xskqz_l001'},
+                {uri: 'xskqz_l002'},{uri: 'xskqz_l003'},
+                {uri: 'xskqz_l004'},{uri: 'xskqz_l005'},
+                {uri: 'xskqz_l006'},{uri: 'xskqz_l007'},
+                {uri: 'xskqz_l008'},{uri: 'xskqz_l009'},];
         break;
         case '28':
-        return [require('../images/equipment/voc_l000.png'),require('../images/equipment/voc_l001.png'),
-                require('../images/equipment/voc_l002.png'),require('../images/equipment/voc_l003.png'),
-                require('../images/equipment/voc_l004.png'),require('../images/equipment/voc_l005.png'),
-                require('../images/equipment/voc_l006.png'),require('../images/equipment/voc_l007.png'),
-                require('../images/equipment/voc_l008.png'),require('../images/equipment/voc_l009.png')];
+        return [{uri: 'voc_l000'},{uri: 'voc_l001'},
+                {uri: 'voc_l002'},{uri: 'voc_l003'},
+                {uri: 'voc_l004'},{uri: 'voc_l005'},
+                {uri: 'voc_l006'},{uri: 'voc_l007'},
+                {uri: 'voc_l008'},{uri: 'voc_l009'},];
         break;
         case '29':
-        return [require('../images/equipment/yczs_l000.png'),require('../images/equipment/yczs_l001.png'),
-                require('../images/equipment/yczs_l002.png'),require('../images/equipment/yczs_l003.png'),
-                require('../images/equipment/yczs_l004.png'),require('../images/equipment/yczs_l005.png'),
-                require('../images/equipment/yczs_l006.png'),require('../images/equipment/yczs_l007.png'),
-                require('../images/equipment/yczs_l008.png'),require('../images/equipment/yczs_l009.png')];
+        return [{uri: 'yczs_l000'},{uri: 'yczs_l001'},
+                {uri: 'yczs_l002'},{uri: 'yczs_l003'},
+                {uri: 'yczs_l004'},{uri: 'yczs_l005'},
+                {uri: 'yczs_l006'},{uri: 'yczs_l007'},
+                {uri: 'yczs_l008'},{uri: 'yczs_l009'},];
         break;
         // case '32':
         // break;
         case '27':
-        return [require('../images/equipment/ou_l000.png'),require('../images/equipment/ou_l001.png'),
-                require('../images/equipment/ou_l002.png'),require('../images/equipment/ou_l003.png'),
-                require('../images/equipment/ou_l004.png'),require('../images/equipment/ou_l005.png'),
-                require('../images/equipment/ou_l006.png'),require('../images/equipment/ou_l007.png'),
-                require('../images/equipment/ou_l008.png'),require('../images/equipment/ou_l009.png')];
+        return [{uri: 'ou_l000'},{uri: 'ou_l001'},
+                {uri: 'ou_l002'},{uri: 'ou_l003'},
+                {uri: 'ou_l004'},{uri: 'ou_l005'},
+                {uri: 'ou_l006'},{uri: 'ou_l007'},
+                {uri: 'ou_l008'},{uri: 'ou_l009'},];
         break;
         case '34':
-        return [require('../images/equipment/cgkqz_l000.png'),require('../images/equipment/cgkqz_l001.png'),
-                require('../images/equipment/cgkqz_l002.png'),require('../images/equipment/cgkqz_l003.png'),
-                require('../images/equipment/cgkqz_l004.png'),require('../images/equipment/cgkqz_l005.png'),
-                require('../images/equipment/cgkqz_l006.png'),require('../images/equipment/cgkqz_l007.png'),
-                require('../images/equipment/cgkqz_l008.png'),require('../images/equipment/cgkqz_l009.png')];
+        return [{uri: 'cgkqz_l000'},{uri: 'cgkqz_l001'},
+                {uri: 'cgkqz_l002'},{uri: 'cgkqz_l003'},
+                {uri: 'cgkqz_l004'},{uri: 'cgkqz_l005'},
+                {uri: 'cgkqz_l006'},{uri: 'cgkqz_l007'},
+                {uri: 'cgkqz_l008'},{uri: 'cgkqz_l009'},];
         break;
         case '35':
-        return [require('../images/equipment/lcs_voc_l000.png'),require('../images/equipment/lcs_voc_l001.png'),
-                require('../images/equipment/lcs_voc_l002.png'),require('../images/equipment/lcs_voc_l003.png'),
-                require('../images/equipment/lcs_voc_l004.png'),require('../images/equipment/lcs_voc_l005.png'),
-                require('../images/equipment/lcs_voc_l006.png'),require('../images/equipment/lcs_voc_l007.png'),
-                require('../images/equipment/lcs_voc_l008.png'),require('../images/equipment/lcs_voc_l009.png')];
+        return [{uri: 'lcs_voc_l000'},{uri: 'lcs_voc_l001'},
+                {uri: 'lcs_voc_l002'},{uri: 'lcs_voc_l003'},
+                {uri: 'lcs_voc_l004'},{uri: 'lcs_voc_l005'},
+                {uri: 'lcs_voc_l006'},{uri: 'lcs_voc_l007'},
+                {uri: 'lcs_voc_l008'},{uri: 'lcs_voc_l009'},];
         break;
         case '23':
-        return [require('../images/equipment/gk_l000.png'),require('../images/equipment/gk_l001.png'),
-                require('../images/equipment/gk_l002.png'),require('../images/equipment/gk_l003.png'),
-                require('../images/equipment/gk_l004.png'),require('../images/equipment/gk_l005.png'),
-                require('../images/equipment/gk_l006.png'),require('../images/equipment/gk_l007.png'),
-                require('../images/equipment/gk_l008.png'),require('../images/equipment/gk_l009.png')];
+        return [{uri: 'gk_l000'},{uri: 'gk_l001'},
+                {uri: 'gk_l002'},{uri: 'gk_l003'},
+                {uri: 'gk_l004'},{uri: 'gk_l005'},
+                {uri: 'gk_l006'},{uri: 'gk_l007'},
+                {uri: 'gk_l008'},{uri: 'gk_l009'},];
         break;
         case '24':
-        return [require('../images/equipment/sk_l000.png'),require('../images/equipment/sk_l001.png'),
-                require('../images/equipment/sk_l002.png'),require('../images/equipment/sk_l003.png'),
-                require('../images/equipment/sk_l004.png'),require('../images/equipment/sk_l005.png'),
-                require('../images/equipment/sk_l006.png'),require('../images/equipment/sk_l007.png'),
-                require('../images/equipment/sk_l008.png'),require('../images/equipment/sk_l009.png')];
+        return [{uri: 'sk_l000'},{uri: 'sk_l001'},
+                {uri: 'sk_l002'},{uri: 'sk_l003'},
+                {uri: 'sk_l004'},{uri: 'sk_l005'},
+                {uri: 'sk_l006'},{uri: 'sk_l007'},
+                {uri: 'sk_l008'},{uri: 'sk_l009'},];
         break;
         case '25':
-        return [require('../images/equipment/shik_l000.png'),require('../images/equipment/shik_l001.png'),
-                require('../images/equipment/shik_l002.png'),require('../images/equipment/shik_l003.png'),
-                require('../images/equipment/shik_l004.png'),require('../images/equipment/shik_l005.png'),
-                require('../images/equipment/shik_l006.png'),require('../images/equipment/shik_l007.png'),
-                require('../images/equipment/shik_l008.png'),require('../images/equipment/shik_l009.png')];
+        return [{uri: 'shik_l000'},{uri: 'shik_l001'},
+                {uri: 'shik_l002'},{uri: 'shik_l003'},
+                {uri: 'shik_l004'},{uri: 'shik_l005'},
+                {uri: 'shik_l006'},{uri: 'shik_l007'},
+                {uri: 'shik_l008'},{uri: 'shik_l009'},];
         break;
     }    
 }
@@ -296,26 +296,48 @@ export const valueAQIColor=(value)=>{
  * TVOC 对应颜色
  * @param {*} value 
  */
+// export const valueTVOCColor=(value)=>{
+//         //0,50, 100, 150, 200, 300, 499 --0：异常
+//        if(value==0){
+//         return '#489ae3';
+//        }else if(value>0 && value<=200){
+//         return '#03d304';
+//        }else if(value>200 && value<=300){
+//         return '#efdc31';
+//        }else if(value>300 && value<=400){
+//         return '#ffaa00';
+//        }else if(value>400 && value<=500){
+//         return '#ff401a';
+//        }else if(value>500 && value<=600){
+//         return '#d20040';
+//        }else if(value>600){
+//         return '#9c0a4e';
+//        }else{
+//         return '#ffffff'; 
+//        }
+// }
+
 export const valueTVOCColor=(value)=>{
         //0,50, 100, 150, 200, 300, 499 --0：异常
        if(value==0){
         return '#489ae3';
-       }else if(value>0 && value<=200){
+       }else if(value>0 && value<=50){
         return '#03d304';
-       }else if(value>200 && value<=300){
+       }else if(value>50 && value<=100){
         return '#efdc31';
-       }else if(value>300 && value<=400){
+       }else if(value>100 && value<=150){
         return '#ffaa00';
-       }else if(value>400 && value<=500){
+       }else if(value>150 && value<=200){
         return '#ff401a';
-       }else if(value>500 && value<=600){
+       }else if(value>200 && value<=300){
         return '#d20040';
-       }else if(value>600){
+       }else if(value>300){
         return '#9c0a4e';
        }else{
         return '#ffffff'; 
        }
 }
+
 /**
  * IAQI 级别对应污染程度-图标
  * @param {*} value 
@@ -344,24 +366,44 @@ export const IAQILevel=(value)=>{
  * TVOC 对应级别
  * @param {*} value 
  */
+// export const TVOCLevel=(value)=>{
+//         //0,50, 100, 150, 200, 300, 499 --0：异常
+//        if(value==0){
+//         return 2;
+//        }else if(value>0 && value<=200){
+//         return 3;
+//        }else if(value>200 && value<=300){
+//         return 4;
+//        }else if(value>300 && value<=400){
+//         return 5;
+//        }else if(value>400 && value<=500){
+//         return 6;
+//        }else if(value>500 && value<=600){
+//         return 7;
+//        }else if(value>600){
+//         return 8;
+//        }
+// }
+
 export const TVOCLevel=(value)=>{
         //0,50, 100, 150, 200, 300, 499 --0：异常
        if(value==0){
         return 2;
-       }else if(value>0 && value<=200){
+       }else if(value>0 && value<=50){
         return 3;
-       }else if(value>200 && value<=300){
+       }else if(value>50 && value<=100){
         return 4;
-       }else if(value>300 && value<=400){
+       }else if(value>100 && value<=150){
         return 5;
-       }else if(value>400 && value<=500){
+       }else if(value>150 && value<=200){
         return 6;
-       }else if(value>500 && value<=600){
+       }else if(value>200 && value<=300){
         return 7;
-       }else if(value>600){
+       }else if(value>300){
         return 8;
        }
 }
+
 
 /**
  * IAQI 级别对应污染程度-前景色 背景色

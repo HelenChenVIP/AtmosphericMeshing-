@@ -21,7 +21,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({map,loading,pointdetails})=>({
     mallPointList:map.mallPointList,
-    mTime:map.mTime,
     pressPollutantCode:map.pressPollutantCode,
     mkindCode:map.mkindCode,
     markerRealDatas:map.markerRealDatas,
@@ -74,15 +73,15 @@ class MapBase extends PureComponent {
                                 rtnVal.push(
                                   <View
                                     key={itemkey}
-                                    style={{flexDirection:'row',justifyContent: 'space-around',marginTop: 3,width: (SCREEN_WIDTH-120)/2,backgroundColor:'white',flexWrap:'wrap'}}>
-                                    {nameList[i]=='PM25' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>PM<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2.5</Text></Text>
-                                    : nameList[i]=='PM10' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>PM<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>10</Text></Text>
-                                    : nameList[i]=='NO2' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>NO<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2</Text></Text>
-                                    : nameList[i]=='SO2' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>SO<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2</Text></Text>
-                                    : nameList[i]=='O3' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>O<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>3</Text></Text>
+                                    style={{flexDirection:'row',justifyContent: 'space-around',marginTop: 3,width: (SCREEN_WIDTH-100)/2,backgroundColor:'white',flexWrap:'wrap'}}>
+                                    {nameList[i]=='PM25' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-100)/5}}>PM<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2.5</Text></Text>
+                                    : nameList[i]=='PM10' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-100)/5}}>PM<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>10</Text></Text>
+                                    : nameList[i]=='NO2' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-100)/5}}>NO<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2</Text></Text>
+                                    : nameList[i]=='SO2' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-100)/5}}>SO<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>2</Text></Text>
+                                    : nameList[i]=='O3' ? <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-100)/5}}>O<Text style={{ fontSize: 8, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>3</Text></Text>
                                     : <Text style={{ fontSize: 12, color: '#333333',textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>{nameList[i]}</Text>
                                     }
-                                    <Text style={{ fontSize: 12, color: tvColor,height:20,backgroundColor:bkColor,textAlign:'left',width:(SCREEN_WIDTH-120)/5}}>
+                                    <Text style={{ fontSize: 12, color: tvColor,height:20,backgroundColor:bkColor,textAlign:'left',width:(SCREEN_WIDTH-100)/5}}>
                                       {item[codeList[i]] ? item[codeList[i]]:'-- --'}
                                     </Text>
                                   </View>
@@ -130,7 +129,6 @@ class MapBase extends PureComponent {
      //循环渲染Marker
      _renderMarker = () =>{
         let rtnVal = [];
-        
         if(this.state.pressPollutantCode!=null && this.state.pressPollutantCode!=''){
             rtnVal.splice(0,rtnVal.length);
         }
@@ -162,17 +160,16 @@ class MapBase extends PureComponent {
                         avglong:this.state.avglong === item.dbo__T_Bas_CommonPoint__Longitude ? item.dbo__T_Bas_CommonPoint__Longitude + 1 / 10000:item.dbo__T_Bas_CommonPoint__Longitude,
                         activecode:item.dbo__T_Bas_CommonPoint__DGIMN
                     });
-                    // this.props.dispatch(createAction('map/setActivecode')({activecode:item.dbo__T_Bas_CommonPoint__DGIMN}));
                 }}               
                 coordinate={{
                 latitude: mLonAndmLat[1],
                 longitude: mLonAndmLat[0],}}>
                 <View style={styles.customInfoWindow}>
-                    <View style={{flexDirection:'column',height:60,width:SCREEN_WIDTH-120,backgroundColor:'#6395FF',borderBottomColor:'#356FE8',alignItems:'center',borderTopLeftRadius:10,borderTopRightRadius:10}}>
+                    <View style={{flexDirection:'column',height:60,width:SCREEN_WIDTH-100,backgroundColor:'#6395FF',borderBottomColor:'#356FE8',alignItems:'center',borderTopLeftRadius:10,borderTopRightRadius:10}}>
                         <Text style={{fontSize:14,color:'white',marginLeft:6,marginTop:6,height:16,alignSelf:'flex-start',textAlign:'left'}}>{item.dbo__T_Bas_CommonPoint__PointName}</Text>
                         <Text style={{fontSize:9,color:'white',marginLeft:6,marginTop:4,height:16,alignSelf:'flex-start',textAlign:'left'}}>{'网格类型:'+item.dbo__T_Cod_GridType}</Text>
-                        <View style={{flexDirection:'row',width:SCREEN_WIDTH-120,marginBottom:5}}>
-                            <Text style={{fontSize:9,color:'white',marginLeft:6,flex:1}}>{this.props.mTime?this.props.mTime:''}</Text>
+                        <View style={{flexDirection:'row',width:SCREEN_WIDTH-100,marginBottom:5}}>
+                            <Text style={{fontSize:9,color:'white',marginLeft:6,flex:1}}>{item.mtime ? item.mtime : '-年-月-日-时-分-秒'}</Text>
                             <Text style={{fontSize:9,color:'white',marginRight:6}}>{item.dbo__T_Cod_Region}</Text>
                         </View>
                         <TouchableOpacity
@@ -185,11 +182,11 @@ class MapBase extends PureComponent {
                         </TouchableOpacity>
                         
                     </View>
-                    <View style={{flexDirection:'column',width:SCREEN_WIDTH-120}}>
-                    <View style={{flexDirection:'row',marginBottom:3,flexWrap:'wrap',width:SCREEN_WIDTH-120,justifyContent:'center',marginLeft:3,marginRight:3}}>
+                    <View style={{flexDirection:'column',width:SCREEN_WIDTH-100}}>
+                    <View style={{flexDirection:'row',marginBottom:3,flexWrap:'wrap',width:SCREEN_WIDTH-100,justifyContent:'center',marginLeft:3,marginRight:3}}>
                     {this._renderClickItem(item.dbo__T_Bas_CommonPoint__DGIMN)}
                     </View>
-                    <Text style={{width:SCREEN_WIDTH-120,height:1,backgroundColor:'#A9A9A9'}}></Text>
+                    <Text style={{width:SCREEN_WIDTH-100,height:1,backgroundColor:'#efefef'}}></Text>
                     {
                         <TouchableOpacity
                         onPress={() => {
@@ -201,7 +198,7 @@ class MapBase extends PureComponent {
                                  }));
                                  this.props.dispatch(NavigationActions.navigate({routeName: 'PointDetailsShow', params: { }}))        
                         }}
-                        style={{height:30,width:SCREEN_WIDTH-120,alignItems:'center'}}>
+                        style={{height:30,width:SCREEN_WIDTH-100,alignItems:'center'}}>
                         <Text style={{ color: '#4B83F5', fontSize: 14 ,alignSelf:'center'}}>{'查看详情'}</Text>
                   </TouchableOpacity>
                     }
@@ -229,7 +226,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         borderRadius: 10,
         borderColor: 'white',
-        width:SCREEN_WIDTH-120,
+        width:SCREEN_WIDTH-100,
         flexDirection:'column'
     },
     mapContainer: {

@@ -170,7 +170,7 @@ class PointDetailsShow extends PureComponent  {
                         <View style={{backgroundColor:"#383838",opacity:0.8,position:"absolute",alignSelf:'center',flex:1,height:SCREEN_HEIGHT,width:SCREEN_WIDTH,alignItems:'center',justifyContent:'center',}}>
                             <View style={{minHeight: SCREEN_HEIGHT/3,width:SCREEN_WIDTH-40,flexDirection:'column',backgroundColor:'#ffffff',borderRadius:10,alignItems:'center',justifyContent: 'center', }}>
                                 <View style={{width:SCREEN_WIDTH-40,height:40,alignSelf:'center'}}>
-                                    <View style={{alignItems:'center',justifyContent: 'center',width:SCREEN_WIDTH-40,height:40,backgroundColor:'#5a78ed',borderTopLeftRadius:10,borderTopRightRadius:10  }}>
+                                    <View style={{alignItems:'center',justifyContent: 'center',width:SCREEN_WIDTH-40,height:40,backgroundColor:'#568af5',borderTopLeftRadius:10,borderTopRightRadius:10  }}>
                                     <Text style={{fontSize:17,color:'#ffffff',textAlignVertical:'center'}}>监测因子选择</Text>
                                     </View>
                                     <TouchableOpacity style={{position:'absolute',right:2}} onPress={() => {this.setState({modalVisible:false})}}>
