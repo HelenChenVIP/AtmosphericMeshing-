@@ -25,7 +25,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     pressPollutantCode:map.pressPollutantCode,
     mkindCode:map.mkindCode,
     markerRealDatas:map.markerRealDatas,
-    activecode:map.activecode,
+    // activecode:map.activecode,
     mapRankDatas:pointdetails.mapRankDatas,
     loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],}))
 class MapBase extends PureComponent {
@@ -38,7 +38,8 @@ class MapBase extends PureComponent {
             avglong:118.356618,
             czlat:0.1,
             czlong:0.1,
-            monitorTime:''
+            monitorTime:'',
+            activecode:'',
         }
       }
   
@@ -146,17 +147,17 @@ class MapBase extends PureComponent {
                 rtnVal.push(
                 <Marker   
                 key={key+1} 
-                active={this.props.activecode==item.dbo__T_Bas_CommonPoint__DGIMN}  
+                active={this.state.activecode==item.dbo__T_Bas_CommonPoint__DGIMN}  
                 image={
                     item.fillIcon
                 }
                 onPress={()=>{
                     this.setState({
-                        avglat:this.state.avglat === item.dbo__T_Bas_CommonPoint__Latitude ? item.dbo__T_Bas_CommonPoint__Latitude+ 1 / 10000 : item.dbo__T_Bas_CommonPoint__Latitude,
-                        avglong:this.state.avglong === item.dbo__T_Bas_CommonPoint__Longitude ? item.dbo__T_Bas_CommonPoint__Longitude + 1 / 10000 : item.dbo__T_Bas_CommonPoint__Longitude,
-                        // activecode:item.dbo__T_Bas_CommonPoint__DGIMN
+                        avglat:this.state.avglat === item.dbo__T_Bas_CommonPoint__Latitude ? item.dbo__T_Bas_CommonPoint__Latitude+ 1 / 10000 :item.dbo__T_Bas_CommonPoint__Latitude,
+                        avglong:this.state.avglong === item.dbo__T_Bas_CommonPoint__Longitude ? item.dbo__T_Bas_CommonPoint__Longitude + 1 / 10000:item.dbo__T_Bas_CommonPoint__Longitude,
+                        activecode:item.dbo__T_Bas_CommonPoint__DGIMN
                     });
-                    this.props.dispatch(createAction('map/setActivecode')({activecode:item.dbo__T_Bas_CommonPoint__DGIMN}));
+                    // this.props.dispatch(createAction('map/setActivecode')({activecode:item.dbo__T_Bas_CommonPoint__DGIMN}));
                 }}               
                 coordinate={{
                 latitude: mLonAndmLat[1],
@@ -171,8 +172,8 @@ class MapBase extends PureComponent {
                         </View>
                         <TouchableOpacity
                         onPress={() => {
-                            // this.setState({activecode:''});
-                            this.props.dispatch(createAction('map/setActivecode')({'activecode':''}));
+                            this.setState({activecode:''});
+                            // this.props.dispatch(createAction('map/setActivecode')({'activecode':''}));
                             }}
                         style={{position:'absolute',right:10,marginTop:5}}>
                             <Image source={require('../../images/icon_close_red.png')} style={{width:26,height:26,}}></Image>
