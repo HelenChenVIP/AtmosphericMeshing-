@@ -31,30 +31,10 @@
 				}	]
 		},
 		{
+			//"六参数微型站","六参数及VOC","国控点","省控点","市控点"
 			"equitmentType":[
 				{"equitmentName":"六参数微型站",
 				"equitmentCode":"30"
-				},
-				{"equitmentName":"颗粒物微型站",
-				"equitmentCode":"18"
-				},
-				{"equitmentName":"小型空气站",
-				"equitmentCode":"26"
-				},
-				{"equitmentName":"VOC微型站",
-				"equitmentCode":"28"
-				},
-				{"equitmentName":"扬尘噪声小型站",
-				"equitmentCode":"29"
-				},
-				{"equitmentName":"移动监测车",
-				"equitmentCode":"32"
-				},
-				{"equitmentName":"恶臭监测站",
-				"equitmentCode":"27"
-				},
-				{"equitmentName":"常规空气站",
-				"equitmentCode":"34"
 				},
 				{"equitmentName":"六参数及VOC",
 				"equitmentCode":"35"
@@ -69,6 +49,44 @@
 				"equitmentCode":"25"
 				}						
 			]
+			// "equitmentType":[
+			// 	{"equitmentName":"六参数微型站",
+			// 	"equitmentCode":"30"
+			// 	},
+			// 	{"equitmentName":"颗粒物微型站",
+			// 	"equitmentCode":"18"
+			// 	},
+			// 	{"equitmentName":"小型空气站",
+			// 	"equitmentCode":"26"
+			// 	},
+			// 	{"equitmentName":"VOC微型站",
+			// 	"equitmentCode":"28"
+			// 	},
+			// 	{"equitmentName":"扬尘噪声小型站",
+			// 	"equitmentCode":"29"
+			// 	},
+			// 	{"equitmentName":"移动监测车",
+			// 	"equitmentCode":"32"
+			// 	},
+			// 	{"equitmentName":"恶臭监测站",
+			// 	"equitmentCode":"27"
+			// 	},
+			// 	{"equitmentName":"常规空气站",
+			// 	"equitmentCode":"34"
+			// 	},
+			// 	{"equitmentName":"六参数及VOC",
+			// 	"equitmentCode":"35"
+			// 	},
+			// 	{"equitmentName":"国控点",
+			// 	"equitmentCode":"23"
+			// 	},
+			// 	{"equitmentName":"省控点",
+			// 	"equitmentCode":"24"
+			// 	},
+			// 	{"equitmentName":"市控点",
+			// 	"equitmentCode":"25"
+			// 	}						
+			// ]
 		},
 		{
 			"pollutantType":[
