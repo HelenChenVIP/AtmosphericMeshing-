@@ -153,7 +153,7 @@ class PointDetailsShow extends PureComponent  {
                     minDate={moment().format('YYYY0101')}
                     maxDate={moment().format('YYYYMMDD')}
                     onConfirm={this.confirmDate}/>
-                    <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>{this.state.codeClickName!='' ? this.state.codeClickName : 'AQI'}</Text>
+                    <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>{this.state.codeClickName!='' ? this.state.codeClickID == 'a34004' ? 'PM2.5':this.state.codeClickName :'AQI'}</Text>
                         <TouchableOpacity onPress={()=>{this.chooseCode()}}>
                         <Image source={require('../../images/pollution_type_on.png')} style={{width:26,height:26,marginRight:10}}/>
                         </TouchableOpacity>

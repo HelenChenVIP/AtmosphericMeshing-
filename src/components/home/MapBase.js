@@ -8,7 +8,7 @@ import coordinate from '../../utils/coordinate';
 import mainmap from '../../config/configjson/mainmap.json';
 import {AQIorIAQI,IAQIColorLevel} from '../../utils/mapconfig';
 import LoadingComponent from '../../components/comment/LoadingComponent'
-import SuspensionLoadingComponent from '../../components/comment/SuspensionLoadingComponent';
+import SimpleLoadingComponent from '../../components/comment/SimpleLoadingComponent';
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -26,7 +26,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     markerRealDatas:map.markerRealDatas,
     // activecode:map.activecode,
     mapRankDatas:pointdetails.mapRankDatas,
-    loading:loading.effects['map/GetGridRealTimeImgDataAndroid'],}))
+    mapLoading:loading.effects['map/mapLoadAllPointList'],}))
 class MapBase extends PureComponent {
     constructor(props) {
         super(props); 
@@ -95,8 +95,13 @@ class MapBase extends PureComponent {
     }
    
     render() {
+        console.log(this.props.mapLoading);
         return (
             <View style={styles.container}>
+                {
+                    this.props.mapLoading?
+                    <SimpleLoadingComponent message={'正在加载点位信息'}/>:(null)
+                }
                 <MapView 
                 zoomLevel={11} 
                 rotateEnabled={this.state.rotateEnabled}      

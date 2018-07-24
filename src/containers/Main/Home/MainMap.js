@@ -47,11 +47,15 @@ class MainMap extends PureComponent {
           }
           
         refreshOn=()=>{
-            this.props.dispatch(createAction('map/mapAllRedures')({
-                whitchPage:'Map',
-                pressPollutantCodeMap: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
-                pressPollutantCodeRank:''
-                 }))
+            // debugger;
+            // this.props.dispatch(createAction('map/mapAllRedures')({
+            //     whitchPage:'Map',
+            //     pressPollutantCodeMap: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
+            //     pressPollutantCodeRank:''
+            //      }))
+            this.props.dispatch(createAction('map/mapLoadAllPointList')({
+                whitchPage:'Map',}))
+
         }
     render() {
         return (
