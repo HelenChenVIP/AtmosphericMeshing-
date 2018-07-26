@@ -175,7 +175,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
         return (
             <ScrollView> 
             <View style={styles.container}>
-                <TouchableOpacity style={{width:SCREEN_WIDTH,height:30,justifyContent:'center',alignItems:'center',}} onPress={() => {this.lookMore()}}>
+                <TouchableOpacity style={{width:SCREEN_WIDTH,height:30,justifyContent:'center',alignItems:'center'}} onPress={() => {this.lookMore()}}>
                 <Text style={{fontSize:14,color:'#4782f5',textAlignVertical:'center',textAlign:'center'}}>点击查看已选预警信息</Text>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:120,marginTop:1,marginBottom:1,backgroundColor:'#ffffff'}}>
@@ -280,6 +280,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#dedede',
         flexDirection:'column',
         width:SCREEN_WIDTH,
+        
     },
 });
 const TimeComponent = props => (

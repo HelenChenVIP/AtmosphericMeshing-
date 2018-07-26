@@ -57,6 +57,7 @@ class AlarmDoneFeedbackCheck extends PureComponent {
             :
                 this.props.CheckEarlyWarningInfoData ? 
                 <View style={styles.container}>
+                <Text style={{width:SCREEN_WIDTH,height:20}}> </Text>
                 <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:80,backgroundColor:'#ffffff',alignItems:'center',borderColor:'#dedede',borderWidth:1}}>
                 <Text style={{fontSize:16,color:'#333333',marginLeft:10,height:100,textAlignVertical:'center'}}>预警原因：</Text>
                 <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',flex:1,alignItems:'center',marginRight:10}}>
@@ -109,8 +110,9 @@ class AlarmDoneFeedbackCheck extends PureComponent {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#dedede',
-        flexDirection:'column'
+        backgroundColor: '#ffffff',
+        flexDirection:'column',
+        marginTop:20
     },
 });
 
