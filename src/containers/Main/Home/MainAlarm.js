@@ -30,25 +30,25 @@ class MainAlarm extends PureComponent {
         tabBarIcon: ({ focused, tintColor }) =>
           <Image source={focused ? require('../../../images/ic_alarm_hover.png') : require('../../../images/ic_alarm.png')} style={{height:20,width:20}}></Image>,
       })
+      
+      componentWillMount(){
+        this.handleChangeTab({i:0})
+      }
+
       handleChangeTab=({ i }) => {
-          let mState=0;
-          if(i==0){
-            mState=0;
-          }else{
-            mState=2;
-          }
-        let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
-        this.props.dispatch(createAction('alarm/GetMainAlarm')({
-            starttime:initLastDate,
-            endtime:initCurrenDate,
-            polluntCode:'',
-            warnReason:'',
-            RegionCode:'',
-            pointName:'',
-            state:mState
-            }));
+        let endtime=moment().format('YYYY-MM-DD HH:mm:ss');
+        let starttime=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+        if(i===0){
+            this.props.dispatch(createAction('alarm/GetNoFeedData')({
+                starttime,
+                endtime
+                }));
+        }else{
+            this.props.dispatch(createAction('alarm/GetDoneFeedData')({
+                starttime,
+                endtime
+                }));
+        } 
       }
       
     render() {

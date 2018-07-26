@@ -224,7 +224,6 @@ class PointDetailsShow extends PureComponent  {
     }
 
     onValueChange = (value) => {
-        console.log('=============站点详情onValueChange=======================');
     }
     //选择监测因子
     chooseCode=()=>{

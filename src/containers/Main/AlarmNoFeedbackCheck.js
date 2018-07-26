@@ -51,7 +51,6 @@ class AlarmNoFeedbackCheck extends PureComponent {
       })
       constructor(props) {
         super(props);
-        console.log(props); 
         this.state = {        
             rotateEnabled: false,//地图旋转
             RecoveryTime: moment().add(alarmJson.data[0].recoverTime, 'hours'),
@@ -215,11 +214,8 @@ class AlarmNoFeedbackCheck extends PureComponent {
                   onPress={() => {
                     ImagePicker.showImagePicker(options, (response) => {
                       if (response.didCancel) {
-                        console.log('User cancelled image picker');
                       } else if (response.error) {
-                        console.log('ImagePicker Error: ', response.error);
                       } else if (response.customButton) {
-                        console.log('User tapped custom button: ', response.customButton);
                       } else {
                         ShowLoadingToast('正在上传图片');
                         const imageIndex = this.state.imagelist.findIndex((value, index, arr) => value.origURL === response.origURL);

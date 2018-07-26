@@ -130,7 +130,6 @@ class PointDetailsChart extends PureComponent  {
         this.setState({...this.state, selectedEntry: JSON.stringify(entry)})
       }
   
-      console.log(event.nativeEvent)
     }
     render() {
       // this.props.loading?
@@ -150,7 +149,6 @@ class PointDetailsChart extends PureComponent  {
             scaleXEnabled={true}
             onSelect={this.handleSelect.bind(this)}
             legend={{enabled: false}}
-            onChange={(event) => console.log(event.nativeEvent)}
             chartDescription={{text: ""}
             }
           />
