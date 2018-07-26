@@ -16,8 +16,7 @@ export default TabNavigator(
     tabBarPosition: 'bottom',
     swipeEnabled: false,
     animationEnabled: false,
-    lazyLoad: false,
-    
+    lazy: true,
   }
 );
 

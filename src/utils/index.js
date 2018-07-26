@@ -13,7 +13,7 @@ export const ShowToast = (msg) => {
   Toast.info(msg, 1);
 };
 export const ShowAlert = (title, msg, timeout, config) => {
-  let cfg = [{ text: '关闭', onPress: () => console.log('cancel') }];
+  let cfg = [{ text: '关闭' }];
   if (config && config.length > 0) {
     cfg = config;
   }

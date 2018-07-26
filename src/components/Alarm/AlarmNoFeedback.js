@@ -1,15 +1,12 @@
 //import liraries
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList } from 'react-native';
+import { View, Text, StyleSheet,Dimensions,Image,TouchableOpacity,FlatList } from 'react-native';
 import NoDataComponent from '../comment/NoDataComponent';
 import LoadingComponent from '../comment/LoadingComponent';
-import { createAction,ShowToast,NavigationActions} from '../../utils'; 
-import {timeForm} from '../../utils/mathUtils';
-import Calendar from 'react-native-calendar-select';
-import moment from 'moment';
+import { createAction,NavigationActions} from '../../utils'; 
+import DateComponent from './DateComponent';
 import { connect } from 'react-redux';
 
-const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 /**
@@ -18,86 +15,29 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class AlarmNoFeedback
  * @extends {Component}
  */
-@connect(({alarm,loading})=>({
-    mainAlarmData:alarm.mainAlarmData,
-    timeData:alarm.timeData,
-    loading:loading.effects['alarm/GetMainAlarm'],
-    alarmNoDesData:alarm.alarmNoDesData,
+@connect(({alarm})=>({
+    NoFeedData:alarm.NoFeedData,
+    loading:alarm.effectsloading['alarm/GetNoFeedData'],
 }))
 class AlarmNoFeedback extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-          isupdate: false,
-          startDate: '',
-          endDate: '',
-        };
-      }
-      componentWillMount(){
-        this.props.dispatch(createAction('alarm/GetMainAlarm')({
-            starttime:'',
-            endtime:'',
-            polluntCode:'',
-            warnReason:'',
-            RegionCode:'',
-            pointName:'',
-            state:'0'
-            }));
-       } 
-    
-      confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
-        this.setState({
-          startDate: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-          endDate: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
-        });
-        this.props.dispatch(createAction('alarm/updateState')({
-            alarmNoDesData:{ 
-                ...this.props.alarmNoDesData,
-                State:'0',
-                BeginTime:moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-                EndTime:moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
-                }
-        }));
-
-        this.props.dispatch(createAction('alarm/GetMainAlarm')({
-        starttime:moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-        endtime:moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
-        polluntCode:'',
-        warnReason:'',
-        RegionCode:'',
-        pointName:'',
-        state:'0'
-        }));
-      }
       //FlatList key
     _extraUniqueKey=(item,index)=> `index22${index}${item}`
     _renderItemList = (item) => {
             return(
                 <TouchableOpacity onPress={() => {
-                    this.props.dispatch(createAction('alarm/updateState')({
-                        alarmNoDesData:{ 
-                            ...this.props.alarmNoDesData,
-                            DGIMN:item.item.dgimn,
-                            PointName:item.item.pointName,
-                            BeginTime:this.state.startDate,
-                            EndTime:this.state.endDate,
-                            RegionCode:'',
-                            PolluntCode:'',
-                            EarlyWaringType:'',
-                            State:'0',
-                            IsPc:'false',
-                            PageSize:'12',
-                            }
-                       }));
                     this.props.dispatch(NavigationActions.navigate({
                         routeName: 'AlarmNoFeedbackDes',                        
-                        params: {} }));
+                        params: {
+                            DGIMN:item.item.dgimn,
+                            PointName:item.item.pointName,
+                        } }));
                 }}>
                     <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'row',height:70,marginTop:5,marginBottom:5,marginLeft:10,marginRight:10}}>
                         <Image source={require('../../images/icon_alarm_point.png')} style={{width:40,height:40,marginLeft:10,alignSelf:'center'}}></Image>
                         <View style={{flexDirection:'column',alignItems:'center',marginLeft:10,alignSelf:'center',flex:1}}>
                             <Text style={{fontSize:14,color:'#333333',alignSelf:'flex-start'}}>{item.item.pointName}</Text>
                             <Text style={{fontSize:12,color:'#757575',marginTop:5,alignSelf:'flex-start'}}>{item.item.regionName}</Text>
+                            
                         </View>
                         <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{fontSize:12,color:'#969696'}}>{'未反馈'}</Text>
@@ -115,37 +55,20 @@ class AlarmNoFeedback extends PureComponent {
             subColor: '#fff',
             mainColor: '#4c68ea'
           };
-        let CurrenDate=this.props.timeData.length>0 ?this.props.timeData[0].endtime: this.state.endDate;
-        let LastDate=this.props.timeData.length>0 ?this.props.timeData[0].starttime:this.state.startDate;
-        let nowTime = (new Date()).valueOf();
-        let initCurrenDate=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
-        let initLastDate=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
-        let day='day';
-        let chooseTime = timeForm(CurrenDate,day)==timeForm(LastDate,day) ? '自 '+timeForm(initLastDate,day)+' 至 '+ timeForm(initCurrenDate,day) : '自 '+timeForm(LastDate,day)+' 至 '+timeForm(CurrenDate,day);
         return (
             <View style={styles.container}>
-                <Calendar
-                i18n="zh"
-                ref={(calendar) => { this.calendar = calendar; }}
-                color={color}
-                format="YYYYMMDD"
-                startDate={this.props.timeData.length>0 ?this.props.timeData[0].starttime:this.state.startDate}
-                endDate={this.props.timeData.length>0 ?this.props.timeData[0].endtime: this.state.endDate}
-                minDate={moment().format('YYYY0101')}
-                maxDate={moment().format('YYYYMMDD')}
-                onConfirm={this.confirmDate}/>
-                <TouchableOpacity onPress={() => {this.calendar && this.calendar.open();}}>
-                    <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,backgroundColor:'#f3f3f3',alignItems:'center'}}>
-                        <Image source={require('../../images/icon_alarm_time.png')} style={{ marginLeft: 10, height: 15, width: 15 }} />
-                        <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{chooseTime}</Text>
-                    </View>
-                </TouchableOpacity>
+                <DateComponent datachange={(starttime,endtime)=>{
+                      this.props.dispatch(createAction('alarm/GetNoFeedData')({
+                        starttime,
+                        endtime,
+                        }));
+                }} />
                 {
                     this.props.loading ? 
                     <LoadingComponent Message={'正在加载数据'} /> :
                     <FlatList           
-                    ListEmptyComponent={() => (this.props.mainAlarmData.length>0 ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'暂无数据'} /></View>)}
-                    data={this.props.mainAlarmData}
+                    ListEmptyComponent={() => (this.props.NoFeedData.length>0 ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'暂无数据'} /></View>)}
+                    data={this.props.NoFeedData}
                     renderItem={this._renderItemList}
                     keyExtractor={this._extraUniqueKey}/>
                 }

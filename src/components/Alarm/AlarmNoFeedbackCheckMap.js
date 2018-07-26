@@ -9,7 +9,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 class AlarmNoFeedbackCheckMap extends PureComponent {
     constructor(props) {
         super(props);
-        console.log(props); 
         this.state = {        
             rotateEnabled: false,//地图旋转
             longitude: '',
