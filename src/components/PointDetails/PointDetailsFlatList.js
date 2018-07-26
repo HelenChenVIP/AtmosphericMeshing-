@@ -52,9 +52,9 @@ class PointDetailsFlatList extends PureComponent  {
             <LoadingComponent Message={'正在加载数据...'} /> 
             :<FlatList   
             style={{height:SCREEN_HEIGHT,width:SCREEN_WIDTH,backgroundColor:'#ffffff',flex: 1,}}
-            ListEmptyComponent={() => (this.props.zxData.ZXvaule ? null : <View style={{ height: SCREEN_HEIGHT - 600 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+            ListEmptyComponent={() => (this.props.zxData.ZXvaule ? null : <View style={{ height: SCREEN_HEIGHT - 600 }}><NoDataComponent Message={'暂无数据'} /></View>)}
             data={this.props.zxData.ZXvaule}
-            ListHeaderComponent={<View style={{height:SCREEN_HEIGHT/3,width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}>
+            ListHeaderComponent={<View style={{height:SCREEN_HEIGHT/3,width:SCREEN_WIDTH,backgroundColor:'#ffffff',marginBottom: 5,}}>
             {
                 showIndex=='0' ? <PointDetailsChart/> : <PointDetailsBar/>
             }</View>}

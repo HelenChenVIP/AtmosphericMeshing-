@@ -19,9 +19,6 @@ export default Model.extend({
         pressPollutantCodeRank:'',
         allPointList:[],
         realTimeDataList:[],
-        
-       
-        
         markerRealDatas:[],
         mallPointList:[],
         mkindCode:[],
@@ -36,12 +33,11 @@ export default Model.extend({
             listen({
                  //监测地图、排名界面 获取所有站点信息
                 MainMap: ({ params }) => {
-                    dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Map'},});
+                    dispatch({ type: 'mapLoadAllPointList',payload: {whitchPage:'Map'},});
                 },
                 MainRank: ({ params }) => {
                     dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Rank'},});
                 },
-              
             })
         }
     },
@@ -72,24 +68,34 @@ export default Model.extend({
                  }
              }
              return state;
-
         },
 
         },
     effects:{
+        *mapLoadAllPointList({payload:{whitchPage}}, {update, put, call,take}){
+            debugger;
+            yield put('GetAllPointList',{
+                whitchPage:whitchPage,
+            });
+            yield take('GetAllPointList/@@end');
+            debugger
+        },
         /**
          * 获取所有站点信息
          * Helenchen
          * @param {any} {payload:{pollutantType}} 
          * @param {any} {call,update} 
          */
-        * GetAllPointList({payload:{whitchPage}}, {update, put, call}){
+        * GetAllPointList({payload:{whitchPage}}, {update, put, call,take}){
             const { data : allPointList }=yield call(homeService.GetAllPointList,{});
             if(allPointList !== null){
                 yield update({allPointList});
-            yield put('GetGridRealTimeImgDataAndroid',{
-                whitchPage:whitchPage,
-            });
+                debugger;
+                yield put('GetGridRealTimeImgDataAndroid',{
+                    whitchPage:whitchPage,
+                });
+                yield take('GetGridRealTimeImgDataAndroid/@@end');
+                debugger;
             }else{
             ShowToast('数据为空');
             }
@@ -100,13 +106,15 @@ export default Model.extend({
          * @param {any} {payload} 
          * @param {any} {update,call} 
          */
-        * GetGridRealTimeImgDataAndroid({payload:{whitchPage}},{update,put,call}){
+        * GetGridRealTimeImgDataAndroid({payload:{whitchPage}},{update,put,call,select,take}){
+            debugger;
             const {data:realTimeDataList}=yield call(homeService.GetGridRealTimeImgData,{});
+            const {pressPollutantCode} = yield select(state => state.map);
             if(realTimeDataList!==null){
               yield update( {realTimeDataList} ); 
               yield put('mapAllRedures',{
                 whitchPage:whitchPage,
-                pressPollutantCodeMap:mainmap.data[2].pollutantType[0].pollutantCode,
+                pressPollutantCodeMap:pressPollutantCode!==''?pressPollutantCode:mainmap.data[2].pollutantType[0].pollutantCode,
                 pressPollutantCodeRank:mainmap.data[2].pollutantType[0].pollutantCode,
               })
             }else{
