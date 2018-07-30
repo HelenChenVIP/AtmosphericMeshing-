@@ -10,6 +10,7 @@ export default Model.extend({
       NoFeedData:[],
       DoneFeedData:[],
       NoAlarmDesData:[],
+      DoneAlarmDesData:[],
       GetCheckEarlyWarningInfo:[],
       timeData:[moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss'),moment().format('YYYY-MM-DD HH:mm:ss')],
       timeDesData:[],
@@ -69,27 +70,6 @@ export default Model.extend({
             state:2});
         yield updatehide({DoneFeedData,timeData:[starttime,endtime]});
       },
-      //报警一级界面数据
-        // * GetMainAlarm({payload:{starttime,endtime,polluntCode,warnReason,RegionCode,pointName,state}}, {update, put, call}){
-        //   let nowTime = (new Date()).valueOf();
-        //   if(starttime==''){
-        //     starttime=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
-        //     endtime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
-        //   }
-        //   const { data : mainAlarmData} = yield call(alarmService.GetMainAlarmService,
-        //             {starttime:starttime,
-        //             endtime:endtime,
-        //             polluntCode:'',
-        //             warnReason:'',
-        //             RegionCode:'',
-        //             pointName:'',
-        //             state:state});
-        //     if(mainAlarmData!=null){
-        //       let timeData=[];
-        //       timeData.push({starttime,endtime});
-        //       yield update({mainAlarmData,timeData});
-        //     }
-        //   },
           //避免重复加载
           *EndReached({payload:{PageIndex}}, {update, put, call, select}){
             const {NoAlarmDesData,allTotal} = yield select(state => state.alarm);
@@ -99,6 +79,7 @@ export default Model.extend({
               yield put('GetNoAlarmDes',{PageIndex});
             }
           },
+          //报警未反馈二级
           *FirstGetNoAlarmDes({payload:{DGIMN,PointName,BeginTime,EndTime}}, {updatehide, call, select}){
             const {timeData,timeDesData}
             = yield select(state => state.alarm);
@@ -130,7 +111,7 @@ export default Model.extend({
                 ShowToast('暂无数据');
               }
           },
-          //报警二级界面数据
+          //报警未反馈二级 加载更多
           * GetNoAlarmDes({payload:{PageIndex}}, {updatehide, put, call, select}){
             const {DGIMN,PointName,timeDesData}
              = yield select(state => state.alarm);
@@ -154,6 +135,68 @@ export default Model.extend({
               ShowToast('没有更多数据');
             }
           },
+          //报警已反馈二级
+          *FirstGetDoneAlarmDes({payload:{DGIMN,PointName,BeginTime,EndTime}}, {updatehide, call, select}){
+            const {timeData,timeDesData}
+            = yield select(state => state.alarm);
+            if(BeginTime==='')
+            {
+              BeginTime=timeData[0];
+              EndTime=timeData[1];
+            }
+            if(timeDesData.length!==0)
+            {
+              BeginTime=timeDesData[0];
+              EndTime=timeDesData[1];
+            }
+            let { data : DoneAlarmDesData,total : allTotal}=yield call(alarmService.GetAllAlarmDataList,
+                    {DGIMN:DGIMN,
+                      PointName:PointName,
+                      RegionCode:'',
+                      PolluntCode:'',
+                      BeginTime,
+                      EndTime,
+                      EarlyWaringType:'',
+                      State:'2',
+                      PageIndex:1,
+                      PageSize:10,
+                      IsPc:'false',});
+                      
+              if(DoneAlarmDesData){
+                yield updatehide({DoneAlarmDesData,PageIndex:1,timeDesData:[BeginTime,EndTime],allTotal});
+              }else{
+                ShowToast('暂无数据');
+              }
+          },
+          //报警已反馈二级 加载更多
+          * GetDoneAlarmDes({payload:{PageIndex}}, {updatehide, put, call, select}){
+            const {DGIMN,PointName,timeDesData}
+             = yield select(state => state.alarm);
+            let { data : DoneAlarmDesData,total : allTotal}=yield call(alarmService.GetAllAlarmDataList,
+                    {DGIMN:DGIMN,
+                      PointName:PointName,
+                      RegionCode:'',
+                      PolluntCode:'',
+                      BeginTime:timeDesData[0],
+                      EndTime:timeDesData[1],
+                      EarlyWaringType:'',
+                      State:'2',
+                      PageIndex:PageIndex,
+                      PageSize:10,
+                      IsPc:'false',});
+            if(DoneAlarmDesData){
+              let { DoneAlarmDesData:DoneAlarmDesDataFirst } = yield select(state => state.alarm);
+                  DoneAlarmDesData=DoneAlarmDesDataFirst.concat(DoneAlarmDesData);
+                  yield updatehide({DoneAlarmDesData,PageIndex,allTotal});
+            }else{
+              ShowToast('没有更多数据');
+            }
+          },
+
+
+
+
+
 
           * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { callWithSpinning, update, put, call, select }) {
             const result = yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });

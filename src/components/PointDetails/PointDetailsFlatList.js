@@ -68,14 +68,22 @@ class PointDetailsFlatList extends PureComponent  {
    if(item.item.listtv!=undefined)
    {
        return (
-           <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between',marginTop:1,borderBottomWidth:1,borderBottomColor:'#efefef'}}>
-               <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10,textAlign:'center',alignSelf:'center'}}>{this.props.showIndex=='0' ? item.item.XValue:(item.item.XValue).substring(0,5)}</Text> 
-               <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.choosePollutantName}</Text> 
-               <View style={{height:25,width:SCREEN_WIDTH/6,backgroundColor:item.item.chartColor == '#16010b' ? '#ffffff' : item.item.chartColor,alignSelf:'center'}}>
-               <Text style={{color:'#333333',padding:3,fontSize: 14,textAlignVertical:'center',textAlign:'center'}}>{item.item.YValue_new}</Text> 
-               </View>
-               <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.listtv}</Text> 
-           </View>
+        <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between',marginTop:1,borderBottomWidth:1,borderBottomColor:'#efefef'}}>
+        <Text style={{fontSize: 14,color:'#868686',padding:3,width:SCREEN_WIDTH/3,marginLeft:10,textAlign:'center',alignSelf:'center'}}>{this.props.showIndex=='0' ? item.item.XValue:(item.item.XValue).substring(0,5)}</Text> 
+        {
+         item.item.choosePollutantName=='PM25' ? <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#333333'}}>2.5</Text> </Text>
+         : item.item.choosePollutantName=='PM10' ? <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#333333'}}>10</Text> </Text> 
+         : item.item.choosePollutantName=='NO2' ? <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>NO<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#333333'}}>2</Text> </Text>
+         : item.item.choosePollutantName=='SO2' ? <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>SO<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#333333'}}>2</Text> </Text>
+         : item.item.choosePollutantName=='O3' ? <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>O<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#333333'}}>3</Text> </Text>
+         : <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.choosePollutantName}</Text>   
+     }
+         
+        <View style={{height:25,width:SCREEN_WIDTH/6,backgroundColor:item.item.chartColor == '#16010b' ? '#ffffff' : item.item.chartColor,alignSelf:'center'}}>
+        <Text style={{color:'#333333',padding:3,fontSize: 14,textAlignVertical:'center',textAlign:'center'}}>{item.item.YValue_new}</Text> 
+        </View>
+        <Text style={{fontSize: 14,color:'#333333',padding:3,width:SCREEN_WIDTH/4-20,textAlign:'center',alignSelf:'center'}}>{item.item.listtv}</Text> 
+    </View>
        )
    }
    else{

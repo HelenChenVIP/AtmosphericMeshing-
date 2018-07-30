@@ -3,7 +3,7 @@ import React, { PureComponent } from 'react';
 import { View, Text, StyleSheet,Dimensions,Image,TouchableOpacity } from 'react-native';
 import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
-
+import {timeForm} from './../../utils/mathUtils'
 import { connect } from 'react-redux';
 const SCREEN_WIDTH=Dimensions.get('window').width;
 
@@ -24,12 +24,14 @@ class DateComponent extends PureComponent {
       } 
      
     render() {
-         
         const color = {
             subColor: '#fff',
             mainColor: '#4c68ea'
           };
+        let begin=timeForm(this.props.timeData[0],'hour');
+        let end=timeForm(this.props.timeData[1],'hour');
         return (
+        
             <View style={styles.container}>
                 <Calendar
                 i18n="zh"
@@ -44,7 +46,7 @@ class DateComponent extends PureComponent {
                 <TouchableOpacity onPress={() => {this.calendar && this.calendar.open();}}>
                     <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,backgroundColor:'#f3f3f3',alignItems:'center'}}>
                         <Image source={require('../../images/icon_alarm_time.png')} style={{ marginLeft: 10, height: 15, width: 15 }} />
-                        <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{`自${this.props.timeData[0]} 至 ${this.props.timeData[1]}`}</Text>
+                        <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{`自${begin} 至 ${end}`}</Text>
                     </View>
                 </TouchableOpacity>
             </View>

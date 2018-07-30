@@ -84,7 +84,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                     </TouchableOpacity>
             )
         }{
-            return(<NoDataComponent Message={'没有查询到数据'} />);
+            return(<NoDataComponent Message={'暂无数据'} />);
         }
     }
     //选择其中几项

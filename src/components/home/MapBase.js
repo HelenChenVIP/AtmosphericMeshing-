@@ -24,7 +24,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     pressPollutantCode:map.pressPollutantCode,
     mkindCode:map.mkindCode,
     markerRealDatas:map.markerRealDatas,
-    // activecode:map.activecode,
     mapRankDatas:pointdetails.mapRankDatas,
     mapLoading:loading.effects['map/mapLoadAllPointList'],}))
 class MapBase extends PureComponent {
@@ -95,7 +94,6 @@ class MapBase extends PureComponent {
     }
    
     render() {
-        console.log(this.props.mapLoading);
         return (
             <View style={styles.container}>
                 {
@@ -175,7 +173,6 @@ class MapBase extends PureComponent {
                         <TouchableOpacity
                         onPress={() => {
                             this.setState({activecode:''});
-                            // this.props.dispatch(createAction('map/setActivecode')({'activecode':''}));
                             }}
                         style={{position:'absolute',right:10,marginTop:5}}>
                             <Image source={require('../../images/icon_close_red.png')} style={{width:26,height:26,}}></Image>

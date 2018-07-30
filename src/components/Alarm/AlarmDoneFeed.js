@@ -24,6 +24,13 @@ class AlarmDoneFeed extends PureComponent {
     _renderItemList = (item) => {
             return(
                 <TouchableOpacity onPress={() => {
+                    this.props.dispatch(NavigationActions.navigate({
+                        routeName: 'AlarmDoneFeedDes',                        
+                        params: {
+                            DGIMN:item.item.dgimn,
+                            PointName:item.item.pointName,
+                        } }));
+
                     // this.props.dispatch(createAction('alarm/updateState')({
                     //     alarmNoDesData:{ 
                     //         ...this.props.alarmNoDesData,

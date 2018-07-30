@@ -18,9 +18,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class MainMap
  * @extends {Component} 
  */
-@connect(({map})=>({
-    pressPollutantCode:map.pressPollutantCode,
-    }))
+@connect(({})=>({}))
 class MainMap extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
         headerTitle: '网格化',
@@ -42,36 +40,35 @@ class MainMap extends PureComponent {
         tabBarIcon: ({ focused, tintColor }) =>
         <Image source={focused ? require('../../../images/ic_map_hover.png') : require('../../../images/ic_map.png')} style={{height:20,width:20}}></Image>
         })
+        componentWillMount(){
+            this.props.dispatch(createAction('map/mapLoadAllPointList')({
+                whitchPage:'Map',}))
+        }
+
         componentDidMount(){
             this.props.navigation.setParams({navigatePress:this.refreshOn})
           }
           
         refreshOn=()=>{
-            // debugger;
-            // this.props.dispatch(createAction('map/mapAllRedures')({
-            //     whitchPage:'Map',
-            //     pressPollutantCodeMap: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
-            //     pressPollutantCodeRank:''
-            //      }))
             this.props.dispatch(createAction('map/mapLoadAllPointList')({
                 whitchPage:'Map',}))
 
         }
-    render() {
-        return (
-            <View style={styles.container}>
-            <StatusBar barStyle="light-content"/>
-                <MapBase />
-                <PollutantcodeBar style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',position:'absolute',top:0}}/> 
-                <View style={styles.lengendStyle}>
-                    <LengendStateBar style={{backgroundColor:'#ffffff',width:SCREEN_WIDTH}}/>
-                    <Text style={{backgroundColor:'#efefef',width:SCREEN_WIDTH,height:1,marginTop:5}}/>
-                    <LengendEquitmentBar style={{backgroundColor:'#ffffff',width:SCREEN_WIDTH}}/>
+        render() {
+            return (
+                <View style={styles.container}>
+                <StatusBar barStyle="light-content"/>
+                    <MapBase />
+                    <PollutantcodeBar style={{width:SCREEN_WIDTH,backgroundColor:'#ffffff',position:'absolute',top:0}}/> 
+                    <View style={styles.lengendStyle}>
+                        <LengendStateBar style={{backgroundColor:'#ffffff',width:SCREEN_WIDTH}}/>
+                        <Text style={{backgroundColor:'#efefef',width:SCREEN_WIDTH,height:1,marginTop:5}}/>
+                        <LengendEquitmentBar style={{backgroundColor:'#ffffff',width:SCREEN_WIDTH}}/>
+                    </View>
+                    <Image source={require('../../../images/big_circle.png')} style={{width:50,height:50, position:'absolute',bottom:40,left:5}}/>
                 </View>
-                <Image source={require('../../../images/big_circle.png')} style={{width:50,height:50, position:'absolute',bottom:40,left:5}}/>
-            </View>
-        );
-    }
+            );
+        }
 }
 
 const styles = StyleSheet.create({

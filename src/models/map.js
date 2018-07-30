@@ -31,54 +31,60 @@ export default Model.extend({
     subscriptions:{
         setupSubscriber({dispatch,listen}){
             listen({
-                 //监测地图、排名界面 获取所有站点信息
-                MainMap: ({ params }) => {
-                    dispatch({ type: 'mapLoadAllPointList',payload: {whitchPage:'Map'},});
-                },
-                MainRank: ({ params }) => {
-                    dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Rank'},});
-                },
+                //  //监测地图、排名界面 获取所有站点信息
+                // MainMap: ({ params }) => {
+                //     dispatch({ type: 'mapLoadAllPointList',payload: {whitchPage:'Map'},});
+                // },
+                // MainRank: ({ params }) => {
+                //     dispatch({ type: 'GetAllPointList',payload: {whitchPage:'Rank'},});
+                // },
             })
         }
     },
     reducers:{
         mapAllRedures(state,{payload:{whitchPage,pressPollutantCodeMap,pressPollutantCodeRank}}){
             if(whitchPage=='Map'){
-                pressPollutantCode=pressPollutantCodeMap;
+                //地图、排名Data
+                let kindData=MapRankData(state.realTimeDataList,state.allPointList,pressPollutantCodeMap);
+                //排名Data排序
+                if(kindData.chartData!=null && kindData.chartData.length>0){
+                    let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
+                    if(kindData.changeAllPointList.length>0){
+                        state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:kindData.changeAllPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCodeMap}};
+                    }else{
+                        state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:state.allPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCodeMap}};
+                    }
+                }
             }else{
-                pressPollutantCode=pressPollutantCodeRank;
+                 //地图、排名Data
+                let kindData=MapRankData(state.realTimeDataList,state.allPointList,pressPollutantCodeRank);
+                //排名Data排序
+                if(kindData.chartData!=null && kindData.chartData.length>0){
+                    let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
+                    if(kindData.changeAllPointList.length>0){
+                        state = {...state,...{chartData:ascDescData.sortchartDataAll,listRankData:ascDescData.sortListRankDataAll,pressPollutantCode:pressPollutantCodeRank}};
+                    }else{
+                        state = {...state,...{chartData:ascDescData.sortchartDataAll,listRankData:ascDescData.sortListRankDataAll,pressPollutantCode:pressPollutantCodeRank}};
+                    }
+                }
             }
-             //地图、排名Data
-             let kindData=MapRankData(state.realTimeDataList,state.allPointList,pressPollutantCode);
-             //排名Data排序
-             if(kindData.chartData!=null && kindData.chartData.length>0){
-                 let ascDescData=RankAscDescData(kindData.chartData,kindData.listRankData);
-                 if(whitchPage=='Map'){
-                     if(kindData.changeAllPointList.length>0){
-                         state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:kindData.changeAllPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
-                     }else{
-                         state = {...state,...{markerRealDatas:kindData.markerRealDatas,mallPointList:state.allPointList,mkindCode:kindData.mkindCode,mTime:kindData.mtime,pressPollutantCode:pressPollutantCode}};
-                     }
-                 }else{
-                     if(kindData.changeAllPointList.length>0){
-                         state = {...state,...{chartData:ascDescData.sortchartDataAll,listRankData:ascDescData.sortListRankDataAll,pressPollutantCode:pressPollutantCode}};
-                     }else{
-                         state = {...state,...{chartData:ascDescData.sortchartDataAll,listRankData:ascDescData.sortListRankDataAll,pressPollutantCode:pressPollutantCode}};
-                     }
-                 }
-             }
+
+            // 
+            // if(whitchPage=='Map'){
+            //     pressPollutantCode=pressPollutantCodeMap;
+            // }else{
+            //     pressPollutantCode=pressPollutantCodeRank;
+            // }
              return state;
         },
 
         },
     effects:{
         *mapLoadAllPointList({payload:{whitchPage}}, {update, put, call,take}){
-            debugger;
             yield put('GetAllPointList',{
                 whitchPage:whitchPage,
             });
             yield take('GetAllPointList/@@end');
-            debugger
         },
         /**
          * 获取所有站点信息
@@ -90,12 +96,10 @@ export default Model.extend({
             const { data : allPointList }=yield call(homeService.GetAllPointList,{});
             if(allPointList !== null){
                 yield update({allPointList});
-                debugger;
                 yield put('GetGridRealTimeImgDataAndroid',{
                     whitchPage:whitchPage,
                 });
                 yield take('GetGridRealTimeImgDataAndroid/@@end');
-                debugger;
             }else{
             ShowToast('数据为空');
             }
@@ -107,7 +111,6 @@ export default Model.extend({
          * @param {any} {update,call} 
          */
         * GetGridRealTimeImgDataAndroid({payload:{whitchPage}},{update,put,call,select,take}){
-            debugger;
             const {data:realTimeDataList}=yield call(homeService.GetGridRealTimeImgData,{});
             const {pressPollutantCode} = yield select(state => state.map);
             if(realTimeDataList!==null){
