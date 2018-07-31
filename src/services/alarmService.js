@@ -6,8 +6,9 @@ import moment from 'moment';
 
  //获取未核实1级 state:0 未核实 2核实
 export const GetMainAlarmService = async(param) => {
+  let start=param.starttime.substring(0,11)+'00:00:00';
     const body={
-        starttime:param.starttime,
+        starttime:start,
         endtime:param.endtime,
         polluntCode:param.polluntCode,
         warnReason:param.warnReason,
@@ -28,10 +29,12 @@ export const GetMainAlarmService = async(param) => {
     let BeginTime;
     let EndTime;
     if(param.BeginTime==''){
-      BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+      let Begin=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+      BeginTime=Begin.substring(0,11)+'00:00:00';
       EndTime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
     }else{
-      BeginTime=param.BeginTime;
+      let Begin=param.BeginTime;
+      BeginTime=Begin.substring(0,11)+'00:00:00';
       EndTime=param.EndTime;
     }
     let dic="{" +

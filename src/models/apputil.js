@@ -33,8 +33,18 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
         let real_DGMIN=mitem.DGIMN;
         if(pressPollutantCode!=null&&pressPollutantCode!=''){
           //选择的监测因子是否被包含在实时数据集合里，包含则展示此监测点不包含的话直接忽略该点
-         // if(mitem[pressPollutantCode]!=null && mitem[pressPollutantCode]!=''){
               //全部站点
+              // const aaa=[1,2,3,4,6,8,9,10];
+              // const point=aaa.find((item)=>{
+              //   return item>4;
+              // })
+              // const key=aaa.findIndex((item)=>{
+              //   return item>6;
+              // })
+              // aaa.every((item)=>{
+              //   return aaa=1;
+              // })
+              // aaa[key]
               allPointList.map((item,key2)=>{
                 point_DGMIN=item.dbo__T_Bas_CommonPoint__DGIMN;
                 let pointName=item.dbo__T_Bas_CommonPoint__PointName;

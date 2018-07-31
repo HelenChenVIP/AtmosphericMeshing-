@@ -50,7 +50,7 @@ class Login extends Component {
     async componentWillMount() {
         this._isMounted = true
         const loginmsg = await loadStorage('loginmsg');
-        if(this.mounted){
+        if(this._isMounted){
             if (loginmsg != null) {
                 this.setState(loginmsg);
               }

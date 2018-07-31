@@ -79,15 +79,16 @@ export const random5=(arr)=>{
 
 //获取24h之前时间
 export const timeCalculate=(currTime )=>{
-    //当前时间
-    let currdate=new Date(currTime);
-    let nowTime = currdate.valueOf();
-    //差值
-    const JG=24*3600*1000;
-    let beginTime=nowTime-JG;
-    let mbeginTime = new Date(beginTime);
-    let mm=mbeginTime.toString;
-    let mBeging24=mbeginTime.getFullYear() + "-" +timeAdd(mbeginTime.getMonth() + 1) + "-" + timeAdd(mbeginTime.getDate()) + " " +timeAdd(mbeginTime.getHours()) + ":" + timeAdd(mbeginTime.getMinutes()) + ":" + timeAdd(mbeginTime.getSeconds());
+    // //当前时间
+    // let currdate=new Date(currTime);
+    // let nowTime = currdate.valueOf();
+    // //差值
+    // const JG=24*3600*1000;
+    // let beginTime=nowTime-JG;
+    // let mbeginTime = new Date(beginTime);
+    // let mBeging24=mbeginTime.getFullYear() + "-" +timeAdd(mbeginTime.getMonth() + 1) + "-" + timeAdd(mbeginTime.getDate()) + " " +timeAdd(mbeginTime.getHours()) + ":" + timeAdd(mbeginTime.getMinutes()) + ":" + timeAdd(mbeginTime.getSeconds());
+    let mBeging24=moment(currTime).add(-1, 'd').format('YYYY-MM-DD HH:mm:ss');
+    let starttime=moment().add(-1, 'days').format('YYYY-MM-DD HH:mm:ss');
     return mBeging24;
 }
 
@@ -125,13 +126,14 @@ export const timeZC=(DayendTime,DaystartTime)=>{
 
 //给定时间 按要求留几位
 export const timeForm=(time,when)=>{
-    
     let mTime;
     switch(when){
         case 'day':
         mTime=time.substring(0,11);
+        break;
         case 'hour':
         mTime=time.substring(0,13)+'时';
+        break;
     }
     return mTime;
     
