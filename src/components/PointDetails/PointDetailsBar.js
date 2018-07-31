@@ -130,7 +130,7 @@ class PointDetailsBar extends PureComponent  {
         }
     } 
     handleZoomDomainChange(domain) {
-        //console.log('Domain change: ', domain.x);
+        
         this.setState({ zoomedXDomain: domain.x });
       }
       
@@ -142,7 +142,6 @@ class PointDetailsBar extends PureComponent  {
         this.setState({...this.state, selectedEntry: JSON.stringify(entry)})
       }
 
-      console.log(event.nativeEvent)
     }
     render() {
           // this.props.loading?
@@ -163,7 +162,6 @@ class PointDetailsBar extends PureComponent  {
             drawGridBackground={false}
             onSelect={this.handleSelect.bind(this)}
             highlights={this.state.highlights}
-            onChange={(event) => console.log(event.nativeEvent)}
             marker={this.state.marker}
             chartDescription={{text: ""}}/>
         );

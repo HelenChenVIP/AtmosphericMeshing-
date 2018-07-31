@@ -16,10 +16,11 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class AlarmDoneFeedDes
  * @extends {Component}
  */
-@connect(({alarm,loading})=>({NoAlarmDesData:alarm.NoAlarmDesData,
+@connect(({alarm,loading})=>({DoneAlarmDesData:alarm.DoneAlarmDesData,
     PageIndex:alarm.PageIndex,
-    alarmNoDesData:alarm.alarmNoDesData,
-    loading:loading.effects['alarm/GetNoAlarmDes'],
+    alarmDoneDesData:alarm.alarmDoneDesData,
+    loading:alarm.effectsloading['alarm/FirstGetDoneAlarmDes'],
+    moreloading:alarm.effectsloading['alarm/GetDoneAlarmDes'],
 }))
 class AlarmDoneFeedDes extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
@@ -43,19 +44,9 @@ class AlarmDoneFeedDes extends PureComponent {
         };
       }
       componentWillMount(){
-        this.setState({mBeginTime:this.props.alarmNoDesData.BeginTime,mEndTime:this.props.alarmNoDesData.EndTime});
-        this.props.dispatch(createAction('alarm/updateState')({
-            alarmNoDesData:{
-                ...this.props.alarmNoDesData,
-                        State:'2',
-                        BeginTime:this.props.alarmNoDesData.BeginTime,
-                        EndTime:this.props.alarmNoDesData.EndTime,
-            }
-        }
-        ));
-        this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-            PageIndex:1,}));
-
+        const {DGIMN,PointName,BeginTime,EndTime}=this.props.navigation.state.params
+        this.props.dispatch(createAction('alarm/FirstGetDoneAlarmDes')({
+            DGIMN,PointName,PageIndex:1,BeginTime:'',EndTime:''}));
     }    
      //FlatList key
      _extraUniqueKey=(item,index)=> `index44${index}${item}`
@@ -95,44 +86,22 @@ class AlarmDoneFeedDes extends PureComponent {
                 <LoadingComponent Message={'正在加载数据'} /> :
                 <FlatList           
                 ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
-                data={this.props.NoAlarmDesData}
+                data={this.props.DoneAlarmDesData}
                 renderItem={this._renderItemList}
                 keyExtractor={this._extraUniqueKey}
                 onEndReachedThreshold={0.1}
                 initialNumToRender={12}
-                refreshing={this.state.isRefreshing}
+                refreshing={this.props.moreloading?this.props.moreloading:false}
                 onRefresh={() => {
-                    this.setState({isRefreshing:false});
-                    this.props.dispatch(createAction('alarm/updateState')({
-                        alarmNoDesData:{
-                            ...this.props.alarmNoDesData,
-                            State:'2',
-                            BeginTime:this.state.mBeginTime,
-                            EndTime:this.state.mEndTime,
-                        }
-                        }));
-                    this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                        PageIndex:1,}));
+                    const {DGIMN,PointName}=this.props.navigation.state.params
+                    this.props.dispatch(createAction('alarm/FirstGetDoneAlarmDes')({
+                        DGIMN,PointName,PageIndex:1,BeginTime:'',EndTime:''}));
                 }}
                 onEndReached={(info) => {
-                    let loadingpage=1;
-                    if(this.props.PageIndex>=1){
-                        loadingpage=this.props.PageIndex+1;
-                    }else{
-                        loadingpage=1;
+                    if(this.props.PageIndex<=(this.props.allTotal/10)){
+                        this.props.dispatch(createAction('alarm/GetDoneAlarmDes')({
+                            PageIndex:this.props.PageIndex+1}));
                     }
-                    this.props.dispatch(createAction('alarm/updateState')({
-                        alarmNoDesData:{
-                            ...this.props.alarmNoDesData,
-                            State:'2',
-                            BeginTime:this.state.mBeginTime,
-                            EndTime:this.state.mEndTime,
-                        }}));
-                    this.props.dispatch(createAction('alarm/EndReached')({
-                        PageIndex:loadingpage,}));
-
-                    // this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                    //     PageIndex:loadingpage,}));
                 }}/>
             }
             </View>

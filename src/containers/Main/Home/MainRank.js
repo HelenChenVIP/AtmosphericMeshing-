@@ -39,7 +39,10 @@ class MainRank extends PureComponent {
         super(props);
         _me = this;
       }
-
+      componentWillMount(){
+        this.props.dispatch(createAction('map/GetAllPointList')({
+        whitchPage:'Rank',}))
+    }
       componentDidMount(){
         this.props.navigation.setParams({navigatePress:this.rankUpDown})
       }

@@ -34,12 +34,6 @@ class PollutantcodeBar extends PureComponent {
                         pressPollutantCodeMap: item.item.pollutantCode,
                         pressPollutantCodeRank:''
                          }))
-
-                    // this.props.dispatch(createAction('app/getpressCodeData')({
-                    //     whitchPage:'Map',
-                    //     pressPollutantCodeMap: item.item.pollutantCode,
-                    //     pressPollutantCodeRank:''
-                    //   }));             
                 }}>{
                     item.item.pollutantName=='PM25' ? <Text style={{fontSize: 14,alignSelf:'center',padding:5,color:color}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:color}}>2.5</Text> </Text>
                     : item.item.pollutantName=='PM10' ? <Text style={{fontSize: 14,alignSelf:'center',padding:5,color:color}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:color}}>10</Text> </Text> 

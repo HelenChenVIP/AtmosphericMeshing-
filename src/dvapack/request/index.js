@@ -62,15 +62,11 @@ async function request(url, _options) {
   options.method = options.method || 'GET';
   options.headers = options.headers || {};
   if (__DEV__) {
-    console.log(`${options.method} ${uri}`);
     if (options.body) {
-      console.log(options.body);
     }
   }
   const resp = await fetch(uri.toString(), options);
-  console.log(`status${resp.status}`);
   const text = await resp.text();
-  console.log('RESP:', text);
   const json = await JSON.parse(text);
   // 如果请求失败
   if (resp.status !== 200) {
@@ -127,12 +123,9 @@ export async function upload(url, body, optionscall, tooken) {
     body: JSON.stringify(body),
     ...optionscall
   };
- console.log(uri.toString());
   const resp = await fetch(uri.toString(), options);
-  console.log(`status${resp.status}`);
   const text = await resp.text();
 
-  console.log('RESP:', text);
 
   const json = JSON.parse(text);
 

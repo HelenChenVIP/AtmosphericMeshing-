@@ -39,34 +39,38 @@ const createNestedRecuder = parentKey => (state, { payload }) => {
   };
 };
 
-const getDefaultModel = () => ({
-  // 为了兼容旧版本，初始值依旧为false.如果应用中需要多个控制状态，则在model中覆盖初始属性
-  state: {
-    visible: false,
-    spinning: false,
-    loading: false,
-    confirmLoading: false
-  },
-  subscriptions: {},
-  effects: {},
-  reducers: {
-    showLoading: createNestedValueRecuder('loading', true),
-    hideLoading: createNestedValueRecuder('loading', false),
-    showConfirmLoading: createNestedValueRecuder('confirmLoading', true),
-    hideConfirmLoading: createNestedValueRecuder('confirmLoading', false),
-    showSpinning: createNestedValueRecuder('spinning', true),
-    hideSpinning: createNestedValueRecuder('spinning', false),
-    updateLoading: createNestedRecuder('loading'),
-    updateSpinner: createNestedRecuder('spinning'),
-    updateConfirmLoading: createNestedRecuder('confirmLoading'),
-    updateState(state, { payload }) {
-      return {
-        ...state,
-        ...payload
-      };
+const getDefaultModel = () => {
+  return(({
+    // 为了兼容旧版本，初始值依旧为false.如果应用中需要多个控制状态，则在model中覆盖初始属性
+    state: {
+      effectsloading:{},
+    },
+    subscriptions: {},
+    effects: {},
+    reducers: {
+      show(state,{payload,actiontype}){
+        return {
+          ...state,
+          ...payload,
+          effectsloading:{...state.effectsloading,[actiontype]:true}
+        }
+      },
+      hide(state,{payload,actiontype}){
+        return {
+          ...state,
+          ...payload,
+          effectsloading:{...state.effectsloading,[actiontype]:false}
+        }
+      },
+      updateState(state, { payload }) {
+        return {
+          ...state,
+          ...payload
+        };
+      }
     }
-  }
-});
+  }));
+};
 
 /**
  * 扩展subscription函数的参数,支持listen方法，方便监听path改变
@@ -168,7 +172,7 @@ const enhanceSubscriptions = (subscriptions = {}) => {
  *  callWithExtra
  *  以上函数都支持第三个参数,message = { successMsg, errorMsg }
  */
-const enhanceEffects = (effects = {}) => {
+const enhanceEffects = (effects = {},autoCancel=[]) => {
   const wrappedEffects = {};
   Object
     .keys(effects)
@@ -178,16 +182,19 @@ const enhanceEffects = (effects = {}) => {
           ...sagaEffects,
           put: createPutEffect(sagaEffects),
           update: createUpdateEffect(sagaEffects),
-          callWithLoading: createExtraCall(sagaEffects, { loading: true }),
-          callWithConfirmLoading: createExtraCall(sagaEffects, { confirmLoading: true }),
-          callWithSpinning: createExtraCall(sagaEffects, { spinning: true }),
-          callWithMessage: createExtraCall(sagaEffects),
-          callWithExtra: (serviceFn, args, config) => {
-            createExtraCall(sagaEffects, config)(serviceFn, args, config);
-          }
+          updateshow: createAutoEffect(sagaEffects,action.type,true),
+          updatehide:createAutoEffect(sagaEffects,action.type,false),
         };
-
+        const { put } = sagaEffects;
+        yield put({ type: 'show', payload:{},actiontype:action.type});
         yield effects[key](action, extraSagaEffects);
+        const index=autoCancel.find((item)=>{
+          return action.type.split('/')[1]===item
+        })
+        if(index&&index!==-1)
+        {
+          yield put({ type: 'hide', payload:{},actiontype:action.type});
+        }
       };
     });
 
@@ -206,75 +213,20 @@ const enhanceEffects = (effects = {}) => {
       yield put(action);
     };
   }
-
+  function createAutoEffect(sagaEffects,actiontype,isshow) {
+    const { put } = sagaEffects;
+    return function* updateEffect(payload) {
+      yield put({ type: isshow?'show':'hide', payload,actiontype });
+    };
+  }
   function createUpdateEffect(sagaEffects) {
     const { put } = sagaEffects;
+    
     return function* updateEffect(payload) {
       yield put({ type: 'updateState', payload });
     };
   }
-
-  function createExtraCall(sagaEffects, config = {}) {
-    const { put, call } = sagaEffects;
-    return function* extraCallEffect(serviceFn, args, payloadupdate, message = {}) {
-      let result;
-      const { loading, confirmLoading, spinning } = config;
-      const { successMsg, errorMsg, key } = message;
-      if (loading) {
-        yield put({ type: 'showLoading',
-          payload: {
-            ...payloadupdate,
-            key
-          } });
-      }
-      if (confirmLoading) {
-        yield put({ type: 'showConfirmLoading',
-          payload: {
-            ...payloadupdate,
-            key
-          } });
-      }
-      if (spinning) {
-        yield put({ type: 'showSpinning',
-          payload: {
-            ...payloadupdate,
-            key
-          } });
-      }
-
-      try {
-        result = yield call(serviceFn, args);
-        successMsg && ShowResult(true, successMsg);
-      } catch (e) {
-        errorMsg && ShowAlert('发生错误', errorMsg);
-        throw e;
-      } finally {
-        if (loading) {
-          yield put({ type: 'hideLoading',
-            payload: {
-              ...payloadupdate,
-              key
-            } });
-        }
-        if (confirmLoading) {
-          yield put({ type: 'hideConfirmLoading',
-            payload: {
-              ...payloadupdate,
-              key
-            } });
-        }
-        if (spinning) {
-          yield put({ type: 'hideSpinning',
-            payload: {
-              ...payloadupdate,
-              key
-            } });
-        }
-      }
-
-      return result;
-    };
-  }
+ 
 };
 
 /**
@@ -289,17 +241,15 @@ function extend(defaults, properties) {
     properties = defaults;
     defaults = null;
   }
-
   const model = defaults || getDefaultModel();
   const modelAssignKeys = ['state', 'subscriptions', 'effects', 'reducers'];
   const { namespace } = properties;
-
   modelAssignKeys.forEach((key) => {
     if (key === 'subscriptions') {
       properties[key] = enhanceSubscriptions(properties[key]);
     }
     if (key === 'effects') {
-      properties[key] = enhanceEffects(properties[key]);
+      properties[key] = enhanceEffects(properties[key],properties['autoCancel']);
     }
     Object.assign(model[key], properties[key]);
   });

@@ -165,10 +165,6 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
          // }
         }
       })
-      console.log('===========数据图表=========================');
-      console.log(chartData);
-      console.log('============数据列表========================');
-      console.log(listRankData);
       return {chartData,listRankData,changeAllPointList,mkindCode,mtime,markerRealDatas};
 }
 //排名 正序反序

@@ -130,6 +130,8 @@ export const timeForm=(time,when)=>{
     switch(when){
         case 'day':
         mTime=time.substring(0,11);
+        case 'hour':
+        mTime=time.substring(0,13)+'时';
     }
     return mTime;
     

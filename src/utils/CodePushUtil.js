@@ -5,10 +5,7 @@ export const doUpdate = (codePushStatusDidChange,codePushDownloadDidProgress) =>
     CodePush.checkForUpdate()
         .then((update) => {
             if (!update) {
-                // console.log("The app is up to date!");
             } else {
-                // console.log("An update is available! Should we download it?");
-                // console.log(update);
             }
         });
     CodePush.sync({

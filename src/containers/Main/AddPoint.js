@@ -189,7 +189,7 @@ class AddPoint extends PureComponent {
                         value={this.state.pickerValue}                       
                         onPickerChange={v => this.setState({ pickerValue: v })}
                         onOk={v => this.setState({ pickerValue: v })}      
-                        onDismiss={e => console.log('dismiss', e)}>               
+                        >               
                         <CustomChildren>Customized children</CustomChildren>
                         </Picker>                       
                     </View>  
@@ -225,11 +225,8 @@ class AddPoint extends PureComponent {
                       onPress={() => {
                         ImagePicker.showImagePicker(options, (response) => {
                           if (response.didCancel) {
-                            console.log('User cancelled image picker');
                           } else if (response.error) {
-                            console.log('ImagePicker Error: ', response.error);
                           } else if (response.customButton) {
-                            console.log('User tapped custom button: ', response.customButton);
                           } else {
                             ShowLoadingToast('正在上传图片');
                             const imageIndex = this.state.imagelist

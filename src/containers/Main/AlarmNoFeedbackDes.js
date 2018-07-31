@@ -1,15 +1,13 @@
 //import liraries
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet,SectionList,Dimensions,Image,TouchableOpacity,FlatList,StatusBar } from 'react-native';
+import { View, Text, StyleSheet,Dimensions,Image,TouchableOpacity,FlatList,StatusBar } from 'react-native';
 import NoDataComponent from '../../components/comment/NoDataComponent';
 import LoadingComponent from '../../components/comment/LoadingComponent';
 import SimpleLoadingComponent from '../../components/comment/SimpleLoadingComponent';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
-import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import {Checkbox} from 'antd-mobile';
-import {timeForm} from '../../utils/mathUtils';
+import DateDesComponent from '../../components/Alarm/DateDesComponent';
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -19,12 +17,14 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  * @class AlarmNoFeedback
  * @extends {Component}
  */
-@connect(({alarm,loading})=>({
+@connect(({alarm})=>({
     NoAlarmDesData:alarm.NoAlarmDesData,
     PageIndex:alarm.PageIndex,
     alarmNoDesData:alarm.alarmNoDesData,
-    loading:loading.effects['alarm/GetNoAlarmDes'],
-    submitLoading:loading.effects['alarm/SummitAll'],
+    allTotal:alarm.allTotal,
+    loading:alarm.effectsloading['alarm/FirstGetNoAlarmDes'],
+    moreloading:alarm.effectsloading['alarm/GetNoAlarmDes'],
+    submitLoading:alarm.effectsloading['alarm/SummitAll'],
     }))
 class AlarmNoFeedbackDes extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
@@ -36,8 +36,6 @@ class AlarmNoFeedbackDes extends PureComponent {
         headerTitleStyle: {alignSelf: 'center'},//标题居中
         headerStyle: { backgroundColor: '#5688f6',height:45 },
         labelStyle: {fontSize: 14},
-        tabBarIcon: ({ focused, tintColor }) =>
-          <Image source={focused ? require('../../images/ic_me_hover.png') : require('../../images/ic_me.png')} style={{height:20,width:20}}></Image>,
       })
     constructor(props) {
         super(props); 
@@ -55,43 +53,16 @@ class AlarmNoFeedbackDes extends PureComponent {
         };
     }
     componentWillMount(){
-        this.setState({mBeginTime:this.props.alarmNoDesData.BeginTime,mEndTime:this.props.alarmNoDesData.EndTime});
-        this.props.dispatch(createAction('alarm/updateState')({
-            alarmNoDesData:{
-                ...this.props.alarmNoDesData,
-                        State:'0',
-                        BeginTime:this.props.alarmNoDesData.BeginTime,
-                        EndTime:this.props.alarmNoDesData.EndTime,
-            }
-        }
-        ));
-        this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-            PageIndex:1,}));
-
+        const {DGIMN,PointName,BeginTime,EndTime}=this.props.navigation.state.params
+        this.props.dispatch(createAction('alarm/FirstGetNoAlarmDes')({
+            DGIMN,PointName,PageIndex:1,BeginTime:'',EndTime:''}));
     }
-      confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
-        this.setState({
-            mBeginTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-            mEndTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
-        });
        
-        this.props.dispatch(createAction('alarm/updateState')({
-            alarmNoDesData:{
-                ...this.props.alarmNoDesData,
-                State:'0',
-                BeginTime:moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-                EndTime:moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
-            }
-           }));
-        this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-            PageIndex:1,}));
-      }
       //FlatList key
     _extraUniqueKey=(item,index)=> `index22${index}${item}`
       //FlatList key
       _extraUniqueKey33=(item,index)=> `index33${index}${item}`
       onChange = (val) => {
-        console.log(val);
       }
     _renderItemList = (item) => {
         if(item!=null){
@@ -113,7 +84,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                     </TouchableOpacity>
             )
         }{
-            return(<NoDataComponent Message={'没有查询到数据'} />);
+            return(<NoDataComponent Message={'暂无数据'} />);
         }
     }
     //选择其中几项
@@ -179,44 +150,15 @@ class AlarmNoFeedbackDes extends PureComponent {
           }
     }
     render() {
-        const color = {
-            subColor: '#fff',
-            mainColor: '#4c68ea'
-          };
-        let BeginTime;
-        let EndTime;
-        let nowTime = (new Date()).valueOf();
-        if(this.props.alarmNoDesData.BeginTime!==''){
-            BeginTime=this.props.alarmNoDesData.BeginTime;
-            EndTime=this.props.alarmNoDesData.EndTime;  
-        }else if(this.state.mBeginTime!==''){
-            BeginTime=this.state.mBeginTime;
-            EndTime=this.state.mEndTime;  
-        }else{
-            BeginTime=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
-            EndTime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
-        }
-        let chooseTime = '自 '+timeForm(BeginTime,'day')+' 至 '+ timeForm(EndTime,'day');
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor="#5688f6"
                     barStyle="light-content"/>
-                <Calendar
-                i18n="zh"
-                ref={(calendar) => { this.calendar = calendar; }}
-                color={color}
-                format="YYYYMMDD"
-                startDate={this.state.startDate}
-                endDate={this.state.endDate}
-                minDate={moment().format('YYYY0101')}
-                maxDate={moment().format('YYYYMMDD')}
-                onConfirm={this.confirmDate}/>
-                <TouchableOpacity onPress={() => {this.calendar && this.calendar.open();}}>
-                    <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,backgroundColor:'#f3f3f3',alignItems:'center'}}>
-                        <Image source={require('../../images/icon_alarm_time.png')} style={{ marginLeft: 10, height: 15, width: 15 }} />
-                        <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{chooseTime}</Text>
-                    </View>
-                </TouchableOpacity>
+                <DateDesComponent datachange={(starttime,endtime)=>{
+                      const {DGIMN,PointName}=this.props.navigation.state.params
+                      this.props.dispatch(createAction('alarm/FirstGetNoAlarmDes')({
+                          DGIMN,PointName,PageIndex:1,BeginTime:'',EndTime:''}));
+                }} />
                 {this.props.loading ?
                 <LoadingComponent Message={'正在加载数据...'} /> :
                 <FlatList
@@ -226,36 +168,17 @@ class AlarmNoFeedbackDes extends PureComponent {
                 keyExtractor={this._extraUniqueKey}
                 onEndReachedThreshold={0.1}
                 initialNumToRender={12}
-                refreshing={this.state.isRefreshing}
+                refreshing={this.props.moreloading?this.props.moreloading:false}
                 onRefresh={() => {
-                    this.setState({isRefreshing:false});
-                    this.props.dispatch(createAction('alarm/updateState')({
-                        alarmNoDesData:{
-                            ...this.props.alarmNoDesData,
-                            State:'0',
-                            BeginTime:this.state.mBeginTime,
-                            EndTime:this.state.mEndTime,
-                        }
-                        }));
-                    this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
-                        PageIndex:1,}));
+                    const {DGIMN,PointName}=this.props.navigation.state.params
+                      this.props.dispatch(createAction('alarm/FirstGetNoAlarmDes')({
+                          DGIMN,PointName,PageIndex:1,BeginTime:'',EndTime:''}));
                 }}
                 onEndReached={(info) => {
-                    let loadingpage=1;
-                    if(this.props.PageIndex>=1){
-                        loadingpage=this.props.PageIndex+1;
-                    }else{
-                        loadingpage=1;
+                    if(this.props.PageIndex<=(this.props.allTotal/10)){
+                        this.props.dispatch(createAction('alarm/GetNoAlarmDes')({
+                            PageIndex:this.props.PageIndex+1}));
                     }
-                    this.props.dispatch(createAction('alarm/updateState')({
-                        alarmNoDesData:{
-                            ...this.props.alarmNoDesData,
-                            State:'0',
-                            BeginTime:this.state.mBeginTime,
-                            EndTime:this.state.mEndTime,
-                        }}));
-                    this.props.dispatch(createAction('alarm/EndReached')({
-                        PageIndex:loadingpage,}));
                 }}/>
             }
                 <View style={{width:SCREEN_WIDTH,height:50,flexDirection:'row',alignItems:'center'}}>

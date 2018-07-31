@@ -51,7 +51,6 @@ class AlarmNoFeedbackCheck extends PureComponent {
       })
       constructor(props) {
         super(props);
-        console.log(props); 
         this.state = {        
             rotateEnabled: false,//地图旋转
             RecoveryTime: moment().add(alarmJson.data[0].recoverTime, 'hours'),
@@ -175,7 +174,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
         return (
             <ScrollView> 
             <View style={styles.container}>
-                <TouchableOpacity style={{width:SCREEN_WIDTH,height:30,justifyContent:'center',alignItems:'center',}} onPress={() => {this.lookMore()}}>
+                <TouchableOpacity style={{width:SCREEN_WIDTH,height:30,justifyContent:'center',alignItems:'center'}} onPress={() => {this.lookMore()}}>
                 <Text style={{fontSize:14,color:'#4782f5',textAlignVertical:'center',textAlign:'center'}}>点击查看已选预警信息</Text>
                 </TouchableOpacity>
                 <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:120,marginTop:1,marginBottom:1,backgroundColor:'#ffffff'}}>
@@ -215,11 +214,8 @@ class AlarmNoFeedbackCheck extends PureComponent {
                   onPress={() => {
                     ImagePicker.showImagePicker(options, (response) => {
                       if (response.didCancel) {
-                        console.log('User cancelled image picker');
                       } else if (response.error) {
-                        console.log('ImagePicker Error: ', response.error);
                       } else if (response.customButton) {
-                        console.log('User tapped custom button: ', response.customButton);
                       } else {
                         ShowLoadingToast('正在上传图片');
                         const imageIndex = this.state.imagelist.findIndex((value, index, arr) => value.origURL === response.origURL);
@@ -280,6 +276,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#dedede',
         flexDirection:'column',
         width:SCREEN_WIDTH,
+        
     },
 });
 const TimeComponent = props => (

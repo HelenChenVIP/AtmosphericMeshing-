@@ -153,7 +153,14 @@ class PointDetailsShow extends PureComponent  {
                     minDate={moment().format('YYYY0101')}
                     maxDate={moment().format('YYYYMMDD')}
                     onConfirm={this.confirmDate}/>
-                    <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>{this.state.codeClickName!='' ? this.state.codeClickID == 'a34004' ? 'PM2.5':this.state.codeClickName :'AQI'}</Text>
+                    {
+                        this.state.codeClickName=='PM25' ? <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#4b66e4'}}>2.5</Text> </Text>
+                        : this.state.codeClickName=='PM10' ? <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#4b66e4'}}>10</Text> </Text> 
+                        : this.state.codeClickName=='NO2' ? <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>NO<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#4b66e4'}}>2</Text> </Text>
+                        : this.state.codeClickName=='SO2' ? <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>SO<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#4b66e4'}}>2</Text> </Text>
+                        : this.state.codeClickName=='O3' ? <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>O<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#4b66e4'}}>3</Text> </Text>
+                        :this.state.codeClickName!='' ? <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>{this.state.codeClickName}</Text> :<Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>{'AQI'}</Text> 
+                    }
                         <TouchableOpacity onPress={()=>{this.chooseCode()}}>
                         <Image source={require('../../images/pollution_type_on.png')} style={{width:26,height:26,marginRight:10}}/>
                         </TouchableOpacity>
@@ -180,7 +187,7 @@ class PointDetailsShow extends PureComponent  {
                                 <View style={{minHeight: SCREEN_HEIGHT/3-40,width:SCREEN_WIDTH-40,flexDirection:'row',justifyContent:'space-between'
                                     ,flexWrap:'wrap',backgroundColor:'#ffffff',borderBottomLeftRadius:10,borderBottomRightRadius:10,}}>
                                     <FlatList
-                                    ListEmptyComponent={() => (this.state.mkindCode ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+                                    ListEmptyComponent={() => (this.state.mkindCode ? null : <View style={{ height: SCREEN_HEIGHT - 300 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                                     keyExtractor={this.extraUniqueKey}
                                     data={this.state.mkindCode}
                                     renderItem={this.renderItem}
@@ -224,7 +231,6 @@ class PointDetailsShow extends PureComponent  {
     }
 
     onValueChange = (value) => {
-        console.log('=============站点详情onValueChange=======================');
     }
     //选择监测因子
     chooseCode=()=>{
@@ -262,20 +268,28 @@ class PointDetailsShow extends PureComponent  {
       }
 
     extraUniqueKey=(item, index) => `index7${index}${item}`
-    //渲染污染因子
-    renderItem=({ item }) => {
-        let codeName;
-        if(item.pcode=='a34004'){
-            codeName='PM2.5';
-        }else{
-            codeName=item.pname;
-        }
-        return (
-            <TouchableOpacity onPress={()=>{this.codeClick(item)}}>
-              <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>{codeName}</Text>
-              </TouchableOpacity>
-        );
+   //渲染污染因子
+   renderItem=({ item }) => {
+    let codeName;
+    if(item.pcode=='a34004'){
+        codeName='PM25';
+    }else{
+        codeName=item.pname;
     }
+    return (
+        <TouchableOpacity onPress={()=>{this.codeClick(item)}}>
+        {
+            codeName=='PM25' ? <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333'}}>2.5</Text> </Text>
+            : codeName=='PM10' ? <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333'}}>10</Text> </Text> 
+            : codeName=='NO2' ? <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>NO<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333'}}>2</Text> </Text>
+            : codeName=='SO2' ? <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>SO<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333'}}>2</Text> </Text>
+            : codeName=='O3' ? <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>O<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333'}}>3</Text> </Text>
+            : <Text style={{width:SCREEN_WIDTH/2-60,height:40,fontSize:16,color:this.state.codeClickID==item.pcode ? '#f8850b' : '#333333',marginLeft:5,textAlign:'center',alignSelf:'center'}}>{codeName}</Text>   
+        }
+         
+          </TouchableOpacity>
+    );
+}
     //选择的code
     codeClick=(item)=>{
         this.setState({

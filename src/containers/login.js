@@ -48,11 +48,19 @@ class Login extends Component {
     }
   
     async componentWillMount() {
+        this._isMounted = true
         const loginmsg = await loadStorage('loginmsg');
-        if (loginmsg != null) {
-          this.setState(loginmsg);
+        if(this.mounted){
+            if (loginmsg != null) {
+                this.setState(loginmsg);
+              }
         }
+
+       
       }
+    componentWillUnmount() {
+         this._isMounted = false
+    }
     /**
      * 登录方法
     */
