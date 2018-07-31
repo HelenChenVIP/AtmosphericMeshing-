@@ -101,11 +101,11 @@ const app = dva({
   initialState: {},
   models: [],
   ...createLoading({ effects: true }),
-  onAction: [routerMiddleware, screenTracking],
-  
-  // onAction: [routerMiddleware, screenTracking, logger],
+  onAction: [routerMiddleware, screenTracking, 
+    // logger
+  ],
 });
-app.use(dvaEnhancer);
+// app.use(dvaEnhancer);
 registerModels(app);
 const App = app.start(<Router />);
 // persistStore(app.getStore(), {
