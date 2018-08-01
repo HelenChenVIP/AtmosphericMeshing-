@@ -36,9 +36,9 @@ class RankFlatList extends Component {
             }}/>
         );
     }
-    _sortRankChart = () => {
+    _sortRankChart = (fun) => {
         this.props.dispatch(createAction('map/doSortchartDataAll')()); 
-        this._rankChartBar.wrappedInstance._sort();
+        this._rankChartBar.wrappedInstance._sort(fun);
     }
     _resetReversedOrder = () => {
         this._rankChartBar.wrappedInstance.resetReversedOrder();

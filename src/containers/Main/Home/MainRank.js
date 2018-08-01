@@ -20,9 +20,9 @@ class MainRank extends PureComponent {
         headerTitle: '实时排名',
         title: '排名',
         headerRight:(<TouchableOpacity onPress={()=>{
-            _me._rankFlatList.wrappedInstance._sortRankChart();
+            _me._rankFlatList.wrappedInstance._sortRankChart(_me._setSortButtonText);
         }}>
-                <Text style={[{color:'white',marginRight:8}]}>{'反序'}</Text>
+                <Text style={[{color:'white',marginRight:8}]}>{navigation.state.params&&navigation.state.params.text?navigation.state.params.text:'反序'}</Text>
             </TouchableOpacity>),
         animationEnabled: false,
         headerBackTitle: null,
@@ -44,7 +44,7 @@ class MainRank extends PureComponent {
         whitchPage:'Rank',}))
     }
       componentDidMount(){
-        this.props.navigation.setParams({navigatePress:this.rankUpDown})
+        this.props.navigation.setParams({navigatePress:this.rankUpDown,text:'最高'})
       }
       rankUpDown=()=>{
         this.props.navigation.dispatch(createAction('map/mapAllRedures')({
@@ -52,6 +52,10 @@ class MainRank extends PureComponent {
           pressPollutantCodeRank: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
           pressPollutantCodeMap: ''
         }));  
+    }
+
+    _setSortButtonText = (text) => {
+        this.props.navigation.setParams({'text':text})
     }
    
     render() {
@@ -82,6 +86,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#2c3e50',
   },
 });
+
+class SortText extends PureComponent {
+    render () {
+        return<Text style={[{color:'white',marginRight:8}]}>{'反序'}</Text>
+    }
+}
 
 //make this component available to the app
 export default MainRank;

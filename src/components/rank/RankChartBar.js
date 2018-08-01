@@ -124,7 +124,7 @@ class RankChartBar extends Component {
 
     }
 
-    _sort = () => {
+    _sort = (fun) => {
       if (this.props.chartData!= null) {
         let values=[];
         let valueFormatter=[];
@@ -137,8 +137,10 @@ class RankChartBar extends Component {
         })
         
         if (this.state.isReversedOrder) {
+          fun('最高');
           this.setState({'isReversedOrder':false});
         } else {
+          fun('最低');
           value = values.reverse().concat();
           valueFormatter = valueFormatter.reverse().concat();
           colors = colors.reverse().concat();
