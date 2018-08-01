@@ -34,8 +34,9 @@ class DateDesComponent extends PureComponent {
           {
               return (<View></View>);
           }
-          let begin=timeForm(this.props.timeDesData[0],'hour');
-          let end=timeForm(this.props.timeDesData[1],'hour');
+          
+          let begin=timeForm(this.props.timeDesData[0],'day');
+          let end=timeForm(this.props.timeDesData[1],'day');
         return (
             <View style={styles.container}>
                 <Calendar

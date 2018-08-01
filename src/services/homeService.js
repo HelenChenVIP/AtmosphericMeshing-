@@ -82,7 +82,7 @@ export const uploadimage = async (param) => {
   export const GetGridRealTimeImgData = async(param) => {
     const body = {};
     const result = await post(api.tool.GetGridRealTimeImgDataAndroid,body,null);
-    return result === null ? { data: null } : result;
+    return result;
   }
 /**
  * 站点详情-小时数据

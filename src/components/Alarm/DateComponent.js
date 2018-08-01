@@ -28,8 +28,8 @@ class DateComponent extends PureComponent {
             subColor: '#fff',
             mainColor: '#4c68ea'
           };
-        let begin=timeForm(this.props.timeData[0],'hour');
-        let end=timeForm(this.props.timeData[1],'hour');
+        let begin=timeForm(this.props.timeData[0],'day');
+        let end=timeForm(this.props.timeData[1],'day');
         return (
         
             <View style={styles.container}>
