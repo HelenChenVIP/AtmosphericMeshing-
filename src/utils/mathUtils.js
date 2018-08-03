@@ -102,7 +102,9 @@ export const timeAdd=(time)=>{
 //比较两个时间只差 currTime,lastTime
 export const timeZC=(DayendTime,DaystartTime)=>{
     let lastTime;
+    let endTime;
     if(DayendTime=='' || DaystartTime==''){
+        endTime=moment().format('YYYY-MM-DD HH:mm:ss');
         lastTime=moment().add(-30, 'days').format('YYYY-MM-DD HH:mm:ss');
     }else{
         //当前时间
@@ -119,8 +121,9 @@ export const timeZC=(DayendTime,DaystartTime)=>{
         }else{
             lastTime=DaystartTime;
         }
+        endTime=DayendTime;
     }
-    return lastTime;
+    return {lastTime,endTime};
 }
 
 

@@ -8,7 +8,7 @@ import knowledgeBase from './KnowledgeBase';
 import PointDetailsShow from './../../components/PointDetails/PointDetailsShow';
 import AlarmNoFeedback from './../../components/Alarm/AlarmNoFeedback';
 import AlarmDoneFeed from './../../components/Alarm/AlarmDoneFeed';
-
+import MyCalendar from '../Main/MyCalendar';
 export default StackNavigator(
     {
       HomeNavigator: { screen: HomeNavigator },
@@ -20,6 +20,7 @@ export default StackNavigator(
       PointDetailsShow:{screen:PointDetailsShow},
       AlarmNoFeedback:{screen:AlarmNoFeedback},
       AlarmDoneFeed:{screen:AlarmDoneFeed},
+      MyCalendar:{screen:MyCalendar},
     }, {
       headerMode: 'float',
     }

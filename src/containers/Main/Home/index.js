@@ -4,12 +4,14 @@ import MainRank from './MainRank';
 import MainAlarm from './MainAlarm';
 import MainMy from './MainMy';
 
+
 export default TabNavigator(
   {
     MainMap: {screen: MainMap },
     MainRank: { screen: MainRank },
     MainAlarm: { screen: MainAlarm },
     MainMy: { screen: MainMy }
+    
   },
   {
     tabBarComponent: TabBarBottom,

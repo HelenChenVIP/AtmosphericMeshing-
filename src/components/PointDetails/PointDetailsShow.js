@@ -10,8 +10,7 @@ import NoDataComponent from '../../components/comment/NoDataComponent';
 import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
 import LoadingComponent from '../../components/comment/LoadingComponent'
-import {timeCalculate} from '../../utils/mathUtils';
-
+import {timeCalculate,timeForm} from '../../utils/mathUtils';
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -22,6 +21,10 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({pointdetails,loading})=>({
     pointData:pointdetails.pointData,
+    HourStartTime:pointdetails.HourStartTime,
+    HourendTime:pointdetails.HourendTime,
+    DaystartTime:pointdetails.DaystartTime,
+    DayendTime:pointdetails.DayendTime,
     loading:loading.effects['pointdetails/PointBaseMsg'],}))
 class PointDetailsShow extends PureComponent  {
     static navigationOptions = ({ navigation }) => ({
@@ -43,7 +46,6 @@ class PointDetailsShow extends PureComponent  {
             PagerIndex:'0',
             codeClickID:'',
             codeClickName:'',
-
             pointName:'----',
             region:'----',
             pollutantType:'----',
@@ -52,13 +54,6 @@ class PointDetailsShow extends PureComponent  {
             equitmentType:'----',
             mkindCode:'----',
             chooseTime:'----',
-
-            HourStartTime:'',
-            HourendTime:moment().format('YYYY-MM-DD HH:mm:ss'),
-
-            DaystartTime:'',
-            DayendTime:moment().format('YYYY-MM-DD HH:mm:ss'),
-
         }
     }
   
@@ -79,16 +74,13 @@ class PointDetailsShow extends PureComponent  {
                         this.props.dispatch(createAction('pointdetails/updateState')({
                             showIndex: this.state.PagerIndex,
                             codeClickID: this.state.codeClickID,
-                            HourStartTime: this.state.HourStartTime,
-                            HourendTime: this.state.HourendTime,
                             dgimn:this.state.dgimn,
+
                         }))
                     }else{
                         this.props.dispatch(createAction('pointdetails/updateState')({
                             showIndex: this.state.PagerIndex,
                             codeClickID: this.state.codeClickID,
-                            DaystartTime: this.state.DaystartTime,
-                            DayendTime: this.state.DayendTime,
                             dgimn:this.state.dgimn,
                         }))
                     }
@@ -105,16 +97,17 @@ class PointDetailsShow extends PureComponent  {
         };
         let chooseTime;
         if(this.state.PagerIndex=='0'){
-            if(this.state.HourStartTime==''){
+            if(this.props.HourStartTime==''){
                 chooseTime='最近24h'
             }else{
-                chooseTime=this.state.HourStartTime+'至'+this.state.HourendTime;
+
+                chooseTime=timeForm(this.props.HourStartTime,'hour')+'至'+timeForm(this.props.HourendTime,'hour');
             }
         }else{
-            if(this.state.DaystartTime==''){
+            if(this.props.DaystartTime==''){
                 chooseTime='最近30天'
             }else{
-                chooseTime=this.state.DaystartTime+'至'+this.state.DayendTime;
+                chooseTime=timeForm(this.props.DaystartTime,'day')+'至'+timeForm(this.props.DayendTime,'day');
             }
         }
         return (
@@ -143,16 +136,7 @@ class PointDetailsShow extends PureComponent  {
                         <Image source={require('../../images/time.png')} style={{width:26,height:26,marginLeft:10}}/>
                         </TouchableOpacity>
                     }
-                    <Calendar
-                    i18n="zh"
-                    ref={(calendar) => { this.calendar = calendar; }}
-                    color={color}
-                    format="YYYYMMDD"
-                    startDate={'2018-01-01'}
-                    endDate={'2018-12-31'}
-                    minDate={moment().format('YYYY0101')}
-                    maxDate={moment().format('YYYYMMDD')}
-                    onConfirm={this.confirmDate}/>
+                   
                     {
                         this.state.codeClickName=='PM25' ? <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#4b66e4'}}>2.5</Text> </Text>
                         : this.state.codeClickName=='PM10' ? <Text style={{flex:1,marginTop:5,backgroundColor:'#ffffff',fontSize:15,color:'#4b66e4',textAlign:'center',alignSelf:'center'}}>PM<Text style={{fontSize: 8,alignSelf:'center',padding:5,color:'#4b66e4'}}>10</Text> </Text> 
@@ -213,16 +197,16 @@ class PointDetailsShow extends PureComponent  {
         }
         if(e.nativeEvent.selectedSegmentIndex=='0'){
             this.props.dispatch(createAction('pointdetails/updateState')({
-                HourStartTime:this.state.HourStartTime,
-                HourendTime: this.state.HourendTime,
+                // HourStartTime:this.state.HourStartTime,
+                // HourendTime: this.state.HourendTime,
                 showIndex: e.nativeEvent.selectedSegmentIndex,
             }))
             this.props.dispatch(createAction('pointdetails/GetHourDatas')({
             }));
         }else{
             this.props.dispatch(createAction('pointdetails/updateState')({
-                DaystartTime:this.state.DaystartTime,
-                DayendTime: this.state.DayendTime,
+                // DaystartTime:this.state.DaystartTime,
+                // DayendTime: this.state.DayendTime,
                 showIndex: e.nativeEvent.selectedSegmentIndex,
             }))
             this.props.dispatch(createAction('pointdetails/GetDayDatas')({
@@ -238,34 +222,14 @@ class PointDetailsShow extends PureComponent  {
     }
     //选择时间
     chooseTime=()=>{
-        this.calendar && this.calendar.open();
+        // this.calendar && this.calendar.open();
+        this.props.dispatch(NavigationActions.navigate({
+            routeName: 'MyCalendar',                        
+            params: {
+                PagerIndex:this.state.PagerIndex,
+            } }));
     }
-    //选中时间
-    confirmDate=({ startDate, endDate, startMoment, endMoment }) => {
-        if(this.state.PagerIndex=='0'){
-            this.setState({
-                HourStartTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-                HourendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),},
-                ()=>{
-                this.props.dispatch(createAction('pointdetails/updateState')({
-                    HourStartTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-                    HourendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
-                }))
-            });
-            this.props.dispatch(createAction('pointdetails/GetHourDatas')({}));
-        }else{
-            this.setState({
-                DaystartTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-                DayendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),},
-                ()=>{
-                this.props.dispatch(createAction('pointdetails/updateState')({
-                    DaystartTime: moment(startDate).format('YYYY-MM-DD HH:mm:ss'),
-                    DayendTime: moment(endDate).format('YYYY-MM-DD HH:mm:ss'),
-                }))
-            });
-            this.props.dispatch(createAction('pointdetails/GetDayDatas')({}));
-        }
-      }
+
 
     extraUniqueKey=(item, index) => `index7${index}${item}`
    //渲染污染因子

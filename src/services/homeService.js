@@ -117,12 +117,13 @@ export const uploadimage = async (param) => {
 export const GetDayAQIDatasColumn = async(param) => {
   let pageIndex=1;
   let pageSize=80;
-  let lastTime=timeZC(param.DayendTime,param.DaystartTime);
+  let lastTime=timeZC(param.DayendTime,param.DaystartTime).lastTime;
+  let endTime=timeZC(param.DayendTime,param.DaystartTime).endTime;
   const body = {
     IsSupplyData:true,
     DGIMNs: param.dgimn,
     beginTime:lastTime,
-    endTime:param.DayendTime,
+    endTime:endTime,
     pageIndex:pageIndex,
     pageSize:pageSize,
     isAsc:true

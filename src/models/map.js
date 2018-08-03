@@ -69,12 +69,6 @@ export default Model.extend({
                 }
             }
 
-            // 
-            // if(whitchPage=='Map'){
-            //     pressPollutantCode=pressPollutantCodeMap;
-            // }else{
-            //     pressPollutantCode=pressPollutantCodeRank;
-            // }
              return state;
         },
 
