@@ -92,6 +92,7 @@ export const timeCalculate=(currTime )=>{
     return mBeging24;
 }
 
+
 export const timeAdd=(time)=>{
     if(time<9){
         time='0'+time;
