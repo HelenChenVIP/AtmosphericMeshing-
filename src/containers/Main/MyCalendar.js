@@ -5,6 +5,7 @@ import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
+import {timeJQ,timeMores} from '../../utils/mathUtils';
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 let chooseDays=[];
@@ -34,21 +35,20 @@ class MyCalendar extends PureComponent {
         this.state = {
             startDay:'',
             chooseTimeList:[],
-            mTimeList:[],
-            HourStartTime:'',
-            HourendTime:moment().format('YYYY-MM-DD HH:mm:ss'),
-            DaystartTime:'',
-            DayendTime:moment().format('YYYY-MM-DD HH:mm:ss'),
+            allTimeList:[],
 
         };
-        this.onDayPress = this.onDayPress.bind(this);
-       
-        
+    this.onDayPress = this.onDayPress.bind(this);
+    }
+    componentWillMount(){
+        this.setState({
+            allTimeList:timeMores(this.props.navigation.state.params.startEnd)
+        })
     }
     render() {
         let dataSelect = {};
-        if(this.state.mTimeList!=null && this.state.mTimeList!='' && this.state.mTimeList.length>0){
-            this.state.mTimeList.map((item,key)=>{
+        if(this.state.allTimeList!=null && this.state.allTimeList!='' && this.state.allTimeList.length>0){
+            this.state.allTimeList.map((item,key)=>{
                 const day=moment(item).format('YYYY-MM-DD');
                 dataSelect[day] = {selected: true, marked: true}
             });
@@ -93,39 +93,11 @@ class MyCalendar extends PureComponent {
             chooseDays[0]=day.dateString;
             break;
         }
-        let mBeging='';
-        let time='';
-        mBeging=chooseDays[0];
-        if(chooseDays.length<2){
-            time=chooseDays[0];
-        }else{
-            time=chooseDays[1];
-        }
-        let mTimeList=[];
-        let ff=[];
-        if(time>mBeging){
-            ff=[mBeging];
-            while (time>mBeging)
-            {
-                mBeging=moment(mBeging).add(1, 'd').format('YYYY-MM-DD HH:mm:ss');
-                mTimeList.push(mBeging);
-            }
-        }else if(time<mBeging){
-            ff=[time];
-            while (time<mBeging)
-            {
-                time=moment(time).add(1, 'd').format('YYYY-MM-DD HH:mm:ss');
-                mTimeList.push(time);
-            }
-        }else{
-            ff=[chooseDays[0]];
-            mTimeList=chooseDays[0];
-        }
-        let allTimeList=ff.concat(mTimeList);
         this.setState({
-            mTimeList:allTimeList
+            allTimeList:timeMores(chooseDays)
         });
-        this._timeLongs(allTimeList);
+
+        this._timeLongs(timeMores(chooseDays));
     }
     _timeLongs=(allTimeList)=>{
         let aTime=moment(allTimeList[0]).format('YYYY-MM-DD HH:mm:ss');
@@ -141,28 +113,18 @@ class MyCalendar extends PureComponent {
         }
         if(starttime!='' && endtime!='' && starttime!=endtime){
             if(this.props.navigation.state.params.PagerIndex=='0'){
-                this.setState({
+                this.props.dispatch(createAction('pointdetails/updateState')({
                     HourStartTime: starttime,
-                    HourendTime:endtime,},
-                    ()=>{
-                    this.props.dispatch(createAction('pointdetails/updateState')({
-                        HourStartTime: starttime,
-                        HourendTime: endtime,
-                    }))
-                    this.props.dispatch(createAction('pointdetails/GetHourDatas')({}));
-                });
+                    HourendTime: endtime,
+                }))
+                this.props.dispatch(createAction('pointdetails/GetHourDatas')({}));
                 
             }else{
-                this.setState({
+                this.props.dispatch(createAction('pointdetails/updateState')({
                     DaystartTime: starttime,
-                    DayendTime: endtime,},
-                    ()=>{
-                    this.props.dispatch(createAction('pointdetails/updateState')({
-                        DaystartTime: starttime,
-                        DayendTime: endtime,
-                    }))
-                    this.props.dispatch(createAction('pointdetails/GetDayDatas')({}));
-                });
+                    DayendTime: endtime,
+                }))
+                this.props.dispatch(createAction('pointdetails/GetDayDatas')({}));
                 
             }
         }

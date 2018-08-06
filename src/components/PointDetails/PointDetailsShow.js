@@ -10,7 +10,7 @@ import NoDataComponent from '../../components/comment/NoDataComponent';
 import Calendar from 'react-native-calendar-select';
 import moment from 'moment';
 import LoadingComponent from '../../components/comment/LoadingComponent'
-import {timeCalculate,timeForm} from '../../utils/mathUtils';
+import {timeCalculate,timeForm,timeJQ} from '../../utils/mathUtils';
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 /**
@@ -100,7 +100,6 @@ class PointDetailsShow extends PureComponent  {
             if(this.props.HourStartTime==''){
                 chooseTime='最近24h'
             }else{
-
                 chooseTime=timeForm(this.props.HourStartTime,'hour')+'至'+timeForm(this.props.HourendTime,'hour');
             }
         }else{
@@ -110,6 +109,7 @@ class PointDetailsShow extends PureComponent  {
                 chooseTime=timeForm(this.props.DaystartTime,'day')+'至'+timeForm(this.props.DayendTime,'day');
             }
         }
+        this.setState({chooseTime:chooseTime});
         return (
             this.props.loading ? <LoadingComponent Message={'正在加载数据...'} /> 
             :
@@ -197,16 +197,12 @@ class PointDetailsShow extends PureComponent  {
         }
         if(e.nativeEvent.selectedSegmentIndex=='0'){
             this.props.dispatch(createAction('pointdetails/updateState')({
-                // HourStartTime:this.state.HourStartTime,
-                // HourendTime: this.state.HourendTime,
                 showIndex: e.nativeEvent.selectedSegmentIndex,
             }))
             this.props.dispatch(createAction('pointdetails/GetHourDatas')({
             }));
         }else{
             this.props.dispatch(createAction('pointdetails/updateState')({
-                // DaystartTime:this.state.DaystartTime,
-                // DayendTime: this.state.DayendTime,
                 showIndex: e.nativeEvent.selectedSegmentIndex,
             }))
             this.props.dispatch(createAction('pointdetails/GetDayDatas')({
@@ -223,10 +219,13 @@ class PointDetailsShow extends PureComponent  {
     //选择时间
     chooseTime=()=>{
         // this.calendar && this.calendar.open();
+        let startEnd=timeJQ(this.state.chooseTime);
+
         this.props.dispatch(NavigationActions.navigate({
             routeName: 'MyCalendar',                        
             params: {
                 PagerIndex:this.state.PagerIndex,
+                startEnd:startEnd,
             } }));
     }
 
