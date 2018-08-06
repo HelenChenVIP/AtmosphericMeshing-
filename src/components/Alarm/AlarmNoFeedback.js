@@ -6,7 +6,8 @@ import LoadingComponent from '../comment/LoadingComponent';
 import { createAction,NavigationActions} from '../../utils'; 
 import DateComponent from './DateComponent';
 import { connect } from 'react-redux';
-
+import {timeForm,timeJQ} from '../../utils/mathUtils';
+const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 
 /**
@@ -17,6 +18,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({alarm})=>({
     NoFeedData:alarm.NoFeedData,
+    timeData:alarm.timeData,
     loading:alarm.effectsloading['alarm/GetNoFeedData'],
 }))
 class AlarmNoFeedback extends PureComponent {
@@ -50,6 +52,8 @@ class AlarmNoFeedback extends PureComponent {
             )
         
     }
+   
+
     render() {
         const color = {
             subColor: '#fff',
@@ -57,12 +61,12 @@ class AlarmNoFeedback extends PureComponent {
           };
         return (
             <View style={styles.container}>
-                <DateComponent datachange={(starttime,endtime)=>{
-                      this.props.dispatch(createAction('alarm/GetNoFeedData')({
-                        starttime,
-                        endtime,
-                        }));
-                }} />
+                <TouchableOpacity onPress={() => {this.chooseTime()}}>
+                    <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,backgroundColor:'#f3f3f3',alignItems:'center'}}>
+                        <Image source={require('../../images/icon_alarm_time.png')} style={{ marginLeft: 10, height: 15, width: 15 }} />
+                        <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{`自${timeForm(this.props.timeData[0],'day')} 至 ${timeForm(this.props.timeData[1],'day')}`}</Text>
+                    </View>
+                </TouchableOpacity>
                 {
                     this.props.loading ? 
                     <LoadingComponent Message={'正在加载数据'} /> :
@@ -75,6 +79,23 @@ class AlarmNoFeedback extends PureComponent {
             </View>
         );
     }
+
+    //选择时间
+    chooseTime=()=>{
+        let begin=timeForm(this.props.timeData[0],'day');
+        let end=timeForm(this.props.timeData[1],'day');
+        let chooseTime=[begin,end];
+        this.props.dispatch(NavigationActions.navigate({
+            routeName: 'AlarmCalendar',                        
+            params: {
+                chooseTime:chooseTime,
+                //state:0 未核实 2核实
+                state:0
+            }}));
+    }
+
+
+
 }
 
 // define your styles

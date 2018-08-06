@@ -5,9 +5,10 @@ import NoDataComponent from '../comment/NoDataComponent';
 import LoadingComponent from '../comment/LoadingComponent';
 import { createAction,NavigationActions} from '../../utils'; 
 import DateComponent from './DateComponent';
+import {timeForm,timeJQ} from '../../utils/mathUtils';
 import { connect } from 'react-redux';
+const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
-
 /**
  * 报警-已反馈
  * HelenChen
@@ -16,6 +17,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({alarm})=>({
     DoneFeedData:alarm.DoneFeedData,
+    timeData:alarm.timeData,
     loading:alarm.effectsloading['alarm/GetDoneFeedData'],
 }))
 class AlarmDoneFeed extends PureComponent {
@@ -30,26 +32,6 @@ class AlarmDoneFeed extends PureComponent {
                             DGIMN:item.item.dgimn,
                             PointName:item.item.pointName,
                         } }));
-
-                    // this.props.dispatch(createAction('alarm/updateState')({
-                    //     alarmNoDesData:{ 
-                    //         ...this.props.alarmNoDesData,
-                    //         DGIMN:item.item.dgimn,
-                    //         PointName:item.item.pointName,
-                    //         BeginTime:this.state.startDate,
-                    //         EndTime:this.state.endDate,
-                    //         RegionCode:'',
-                    //         PolluntCode:'',
-                    //         EarlyWaringType:'',
-                    //         State:'2',
-                    //         IsPc:'false',
-                    //         PageSize:'12',
-                    //         }
-                    //    }));
-                    // this.props.dispatch(NavigationActions.navigate({
-                    //     routeName: 'AlarmDoneFeedDes',                        
-                    //     params: {} }));
-
                 }}>
                     <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'row',height:70,marginTop:10,marginLeft:10,marginRight:10}}>
                         <Image source={require('../../images/icon_alarm_point.png')} style={{width:40,height:40,marginLeft:10,alignSelf:'center'}}></Image>
@@ -76,12 +58,12 @@ class AlarmDoneFeed extends PureComponent {
           };
         return (
             <View style={styles.container}>
-               <DateComponent datachange={(starttime,endtime)=>{
-                      this.props.dispatch(createAction('alarm/GetDoneFeedData')({
-                        starttime,
-                        endtime,
-                        }));
-                }} />
+                <TouchableOpacity onPress={() => {this.chooseTime()}}>
+                    <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,backgroundColor:'#f3f3f3',alignItems:'center'}}>
+                        <Image source={require('../../images/icon_alarm_time.png')} style={{ marginLeft: 10, height: 15, width: 15 }} />
+                        <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{`自${timeForm(this.props.timeData[0],'day')} 至 ${timeForm(this.props.timeData[1],'day')}`}</Text>
+                    </View>
+                </TouchableOpacity>
                 <View style={{flex:1,justifyContent:'center'}}>
                 {
                     this.props.loading ? 
@@ -95,6 +77,20 @@ class AlarmDoneFeed extends PureComponent {
                 </View>
             </View>
         );
+    }
+
+    //选择时间
+    chooseTime=()=>{
+        let begin=timeForm(this.props.timeData[0],'day');
+        let end=timeForm(this.props.timeData[1],'day');
+        let chooseTime=[begin,end];
+        this.props.dispatch(NavigationActions.navigate({
+            routeName: 'AlarmCalendar',                        
+            params: {
+                chooseTime:chooseTime,
+                //state:0 未核实 2核实
+                state:2
+            }}));
     }
 }
 
