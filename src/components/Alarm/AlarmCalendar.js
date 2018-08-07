@@ -46,7 +46,6 @@ class AlarmCalendar extends PureComponent {
     }
     render() {
         let dataSelect = {};
-        debugger;
         if(this.state.allTimeList!=null && this.state.allTimeList!='' && this.state.allTimeList.length>0){
             this.state.allTimeList.map((item,key)=>{
                 const day=moment(item).format('YYYY-MM-DD');
@@ -110,7 +109,6 @@ class AlarmCalendar extends PureComponent {
              starttime=bTime;
              endtime=aTime;
         }
-        debugger;
         if(starttime!='' && endtime!='' && starttime!=endtime){
                //state:0 未核实 2核实
         if(this.props.navigation.state.params.state=='2'){

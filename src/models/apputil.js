@@ -24,123 +24,109 @@ export const MapRankData=(realTimeDataList,allPointList,pressPollutantCode)=>{
     let XValueList=[];
     let chartColor='';
     let listtv='';
-    let listtv_new='';
     let kk=-1;
     let point_DGMIN='';
     let colorValue='';
+    let pointName;
     //全部实时数据
     realTimeDataList.map((mitem,key1)=>{
-        let real_DGMIN=mitem.DGIMN;
+        let mmtime=mitem.MonitorTime;
         if(pressPollutantCode!=null&&pressPollutantCode!=''){
-          //选择的监测因子是否被包含在实时数据集合里，包含则展示此监测点不包含的话直接忽略该点
-              //全部站点
-              // const aaa=[1,2,3,4,6,8,9,10];
-              // const point=aaa.find((item)=>{
-              //   return item>4;
-              // })
-              // const key=aaa.findIndex((item)=>{
-              //   return item>6;
-              // })
-              // aaa.every((item)=>{
-              //   return aaa=1;
-              // })
-              // aaa[key]
-              allPointList.map((item,key2)=>{
-                point_DGMIN=item.dbo__T_Bas_CommonPoint__DGIMN;
-                let pointName=item.dbo__T_Bas_CommonPoint__PointName;
-                if(point_DGMIN!=null && point_DGMIN!='' && real_DGMIN!=null && real_DGMIN!=''){
-                  if(point_DGMIN==real_DGMIN){
-                    let mmtime=mitem.MonitorTime;
-                    let equitmentCode=item.dbo__T_Bas_CommonPoint__PollutantType;//设备类型
-                    mkindCode=kindCode(equitmentCode);//该设备类型下所有监测因子code
-                    //绑定设备 与 监测因子
-                    mkindCode[0].map((kinditem,key3)=>{
-                      //选中的监测因子==设备可以监测的监测因子 展示 否则不展示
-                      if(kinditem==pressPollutantCode){
-                        kk++;
-                        equitmentStatus=item.dbo__T_Bas_CommonPoint__Status;//设备状态
-                        imageList=mapEuitmentImage(equitmentCode); 
-                        //null是在线 超标；0,3离线 异常
-                        let pollutantindex;
-                        //status 0离线；3异常；(-1)1,2在线超标
-                        if(statusImage(equitmentStatus)!=-1){
-                            //离线 异常
-                            fillIcon=imageList[statusImage(equitmentStatus)];
-                            //离线
-                            if(statusImage(equitmentStatus)==1){
-                              chartYValue_new='----';
-                              chartColor='#ababab';
-                              if(pressPollutantCode=='AQI'){
-                                listtv='离线';
-                              }
-                            }else{
-                              chartYValue_new='0';
-                              chartColor='#489ae3';
-                              if(pressPollutantCode=='AQI'){
-                                listtv='异常';
-                              }
+              //选择的监测因子是否被包含在实时数据集合里，包含则展示此监测点不包含的话直接忽略该点
+              let MyItem = allPointList.find((item)=>{
+                return item.dbo__T_Bas_CommonPoint__DGIMN===mitem.DGIMN;
+              })
+              if(MyItem!=undefined){
+                pointName=MyItem.dbo__T_Bas_CommonPoint__PointName;
+                point_DGMIN=MyItem.dbo__T_Bas_CommonPoint__DGIMN;
+                //绑定设备 与 监测因子
+                mkindCode=kindCode(MyItem.dbo__T_Bas_CommonPoint__PollutantType);//该设备类型下所有监测因子code
+                //选中的监测因子==设备可以监测的监测因子 展示 否则不展示
+                let MyCodeItem = mkindCode[0].find((kinditem)=>{
+                  return pressPollutantCode===kinditem;
+                })
+                if(MyCodeItem!=undefined){
+                      kk++;
+                      equitmentStatus=MyItem.dbo__T_Bas_CommonPoint__Status;//设备状态
+                      imageList=mapEuitmentImage(MyItem.dbo__T_Bas_CommonPoint__PollutantType); 
+                      //null是在线 超标；0,3离线 异常
+                      let pollutantindex;
+                      //status 0离线；3异常；(-1)1,2在线超标
+                      if(statusImage(equitmentStatus)!=-1){
+                          //离线 异常
+                          fillIcon=imageList[statusImage(equitmentStatus)];
+                          //离线
+                          if(statusImage(equitmentStatus)==1){
+                            chartYValue_new='----';
+                            chartColor='#ababab';
+                            if(pressPollutantCode=='AQI'){
+                              listtv='离线';
                             }
-                        }else{
-                            //在线 超标
-                            //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值来【渲染】。值取的是浓度值
-                            if(pressPollutantCode=='AQI'){  
-                                if(mitem.AQI!=undefined){
-                                  chartYValue_new=mitem.AQI;
-                                  colorValue=mitem.AQI;
-                                  pollutantindex=IAQILevel(mitem.AQI);
-                                  fillIcon=imageList[pollutantindex];
-                                  chartColor=valueAQIColor(mitem.AQI);
-                                  listtv=valueAQIText(mitem.AQI);
-                                }else{
-                                  fillIcon=imageList[1];
-                                  chartColor='#333333';
-                                }                                                                            
-                            }else if(pressPollutantCode=='a99054'){
-                              if(mitem.a99054!=undefined){
-                                chartYValue_new=mitem.a99054;
-                                colorValue=mitem.a99054;
-                                pollutantindex=TVOCLevel(mitem.a99054);
+                          }else{
+                            chartYValue_new='0';
+                            chartColor='#489ae3';
+                            if(pressPollutantCode=='AQI'){
+                              listtv='异常';
+                            }
+                          }
+                      }else{
+                          //在线 超标
+                          //若污染因子的code===AQI则取AQI的值，否则取XX_IQI的值来【渲染】。值取的是浓度值
+                          if(pressPollutantCode=='AQI'){  
+                              if(mitem.AQI!=undefined){
+                                chartYValue_new=mitem.AQI;
+                                colorValue=mitem.AQI;
+                                pollutantindex=IAQILevel(mitem.AQI);
                                 fillIcon=imageList[pollutantindex];
-                                chartColor=valueTVOCColor(mitem.a99054);
-                                }else{
-                                  chartYValue_new='----';
-                                  colorValue=0;
-                                  fillIcon=imageList[1];
-                                  chartColor='#333333';
-                                }
-                            }else{
-                              if(mitem[pressPollutantCode]!=undefined){
-                                let mCode=pressPollutantCode+'_IAQI';
-                                chartYValue_new=mitem[pressPollutantCode];
-                                colorValue=mitem[mCode];
-                                pollutantindex=IAQILevel(colorValue);
-                                fillIcon=imageList[pollutantindex];
-                                chartColor=valueAQIColor(colorValue);
+                                chartColor=valueAQIColor(mitem.AQI);
+                                listtv=valueAQIText(mitem.AQI);
                               }else{
                                 fillIcon=imageList[1];
                                 chartColor='#333333';
+                              }                                                                            
+                          }else if(pressPollutantCode=='a99054'){
+                            if(mitem.a99054!=undefined){
+                              chartYValue_new=mitem.a99054;
+                              colorValue=mitem.a99054;
+                              pollutantindex=TVOCLevel(mitem.a99054);
+                              fillIcon=imageList[pollutantindex];
+                              chartColor=valueTVOCColor(mitem.a99054);
+                              }else{
+                                chartYValue_new='----';
+                                colorValue=0;
+                                fillIcon=imageList[1];
+                                chartColor='#333333';
                               }
+                          }else{
+                            if(mitem[pressPollutantCode]!=undefined){
+                              let mCode=pressPollutantCode+'_IAQI';
+                              chartYValue_new=mitem[pressPollutantCode];
+                              colorValue=mitem[mCode];
+                              pollutantindex=IAQILevel(colorValue);
+                              fillIcon=imageList[pollutantindex];
+                              chartColor=valueAQIColor(colorValue);
+                            }else{
+                              fillIcon=imageList[1];
+                              chartColor='#333333';
                             }
-                        } 
-                        item.fillIcon=fillIcon;
-                        item.mtime=mitem.MonitorTime;
-                        changeAllPointList.push(item);
-                        chartXValue=pointName;
-                        if(mitem[pressPollutantCode]!=undefined && mitem[pressPollutantCode]!=''){
-                          chartYValue=parseFloat(mitem[pressPollutantCode]);
-                        }else{
-                          chartYValue=0;
-                        } 
-                        XValueList.push(kk);
-                        chartData.push({chartXValue,chartYValue,chartColor,listtv});//柱状图data
-                        listRankData.push({chartXValue,chartYValue_new,chartColor,listtv,point_DGMIN});//柱状图下方列表data
-                      }
-                    })
-                  }
+                          }
+                      } 
+                      MyItem.fillIcon=fillIcon;
+                      MyItem.mtime=mitem.MonitorTime;
+                      changeAllPointList.push(MyItem);
+                      chartXValue=pointName;
+                      if(mitem[pressPollutantCode]!=undefined && mitem[pressPollutantCode]!=''){
+                        chartYValue=parseFloat(mitem[pressPollutantCode]);
+                      }else{
+                        chartYValue=0;
+                      } 
+                      XValueList.push(kk);
+                      chartData.push({chartXValue,chartYValue,chartColor,listtv});//柱状图data
+                      listRankData.push({chartXValue,chartYValue_new,chartColor,listtv,point_DGMIN});//柱状图下方列表data
                 }
-              }) 
-              mitem.mkindCode=mkindCode;
-              markerRealDatas.push(mitem);
+                mitem.mkindCode=mkindCode;
+                markerRealDatas.push(mitem);
+              }
         }
       })
       return {chartData,listRankData,changeAllPointList,mkindCode,markerRealDatas};
