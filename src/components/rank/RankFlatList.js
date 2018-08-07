@@ -59,19 +59,21 @@ class RankFlatList extends Component {
                          }));
                 this.props.dispatch(NavigationActions.navigate({routeName: 'PointDetailsShow', params: { }}))         
             }}>
-                <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
+                <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent: 'center',
+                alignItems:'center',}}>
                     <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.item.chartXValue}</Text> 
                     <Text style={{marginLeft:10,fontSize: 14,color:'#333333',width:40}}>{item.item.listtv}</Text> 
-                    <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:60}}>{item.item.chartYValue_new}</Text> 
+                    <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,width:60,alignContent:'center'}}>{item.item.chartYValue_new}</Text> 
                 </View>
             </TouchableOpacity>
          )
      }else{
          return (
-             <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent:'space-between'}}>
+             <View style={{backgroundColor:'#ffffff',flexDirection: 'row',width:SCREEN_WIDTH,height: 40,justifyContent: 'center',
+             alignItems:'center',}}>
                  <Text style={{marginLeft:10,fontSize: 14,color:'#868686',width:SCREEN_WIDTH/2}}>{item.chartXValue}</Text> 
                  <Text style={{marginLeft:10,fontSize: 14,color:'#333333',width:40}}>  </Text> 
-                 <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,padding:3,width:60}}>{item.chartYValue_new}</Text> 
+                 <Text style={{marginLeft:20,marginRight:10,fontSize: 14,color:item.item.chartColor,width:60}}>{item.chartYValue_new}</Text> 
              </View>
          )
      }

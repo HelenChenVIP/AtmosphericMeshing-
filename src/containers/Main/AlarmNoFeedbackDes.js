@@ -64,6 +64,7 @@ class AlarmNoFeedbackDes extends PureComponent {
       _extraUniqueKey33=(item,index)=> `index33${index}${item}`
       onChange = (val) => {
       }
+      
     _renderItemList = (item) => {
         if(item!=null){
             return(
@@ -79,7 +80,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                             </View>
                             <Text style={{fontSize:14,color:'#a2a2a2',marginRight:10}}>{item.item.AlarmTime.length>=16 ? item.item.AlarmTime.substring(5,16) : '时间'}</Text>
                         </View>
-                            <Text style={{fontSize:12,color:'#979797',marginLeft:20,marginRight:10}}>{item.item.AlarmMsg}</Text>
+                        <Text style={{fontSize:12,color:'#979797',marginLeft:20,marginRight:10}}>{item.item.PollutantName + item.item.ExceptionTypeName + '，监测值'+item.item.AlarmValue+this._getUnit(item.item) +'，关联国控点：'}</Text>
                     </View>
                     </TouchableOpacity>
             )
@@ -87,6 +88,37 @@ class AlarmNoFeedbackDes extends PureComponent {
             return(<NoDataComponent Message={'暂无数据'} />);
         }
     }
+    _getUnit = (item) =>
+    {
+       
+        if(item.PollutantCode == 'AQI' ||item.PollutantCode == 'a340102'||item.PollutantCode == '6'||item.PollutantCode == 'a01008'||item.PollutantCode == 'a21089' )
+        {
+            return '';
+        }else if(item.PollutantCode == 'a21005')
+        {
+            return 'mg/m3'
+        }else if(item.PollutantCode == 'a01015')
+        {
+            return 'dB'
+        }else if(item.PollutantCode == 'a01001')
+        {
+            return '℃'
+        }else if(item.PollutantCode == 'a01002')
+        {
+            return '%'
+        }else if(item.PollutantCode == 's0020')
+        {
+            return 'hpa'
+        }else if(item.PollutantCode == 'a01007')
+        {
+            return 'm/s'
+        }else {
+            return 'ug/m3'
+        }
+        
+
+    }
+
     //选择其中几项
     _someChoose=(item,index)=>{
         this.setState((state) => {

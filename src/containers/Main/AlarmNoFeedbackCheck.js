@@ -1,6 +1,6 @@
 //import liraries
 import React, { PureComponent } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image,TextInput,ScrollView,TouchableOpacity,Modal,FlatList, } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image,TextInput,ScrollView,TouchableOpacity,Modal,FlatList,Alert } from 'react-native';
 import alarmJson from '../../config/configjson/alarm.json';
 import {MapView, Marker, Polyline} from 'react-native-amap3d';
 import { DatePicker, List,TextareaItem } from 'antd-mobile';
@@ -202,13 +202,13 @@ class AlarmNoFeedbackCheck extends PureComponent {
               <TextInput
                 multiline = {true}
                 underlineColorAndroid="transparent"
-                style={{height: 50,backgroundColor:'#ffffff',marginRight:10,width:SCREEN_WIDTH-100}}
+                style={{height: 50,backgroundColor:'#ffffff',marginRight:10,width:SCREEN_WIDTH-100,marginTop:1}}
                 placeholder="请填写描述信息"
                 onChangeText={(sceneDescription) => this.setState({sceneDescription})}
               />
               </View>
-               <Text style={{width:SCREEN_WIDTH,height:50,fontSize:16,color:'#333333',marginTop:1,backgroundColor:'#ffffff',textAlignVertical:'center'}}>    图片</Text>
-               <View style={{flexDirection:'row',width:SCREEN_WIDTH,backgroundColor:'#ffffff',alignItems:'center',flexWrap:'wrap',marginBottom:10}}>
+               <Text style={{width:SCREEN_WIDTH,height:50,fontSize:16,color:'#333333',marginTop:1,backgroundColor:'#ffffff',textAlignVertical:'center',marginLeft:10}}>图片</Text>
+               <View style={{flexDirection:'row',width:SCREEN_WIDTH,backgroundColor:'#ffffff',alignItems:'center',flexWrap:'wrap',marginBottom:10,marginLeft:10}}>
                {this.renderPickedImage()}
                 <TouchableOpacity
                   onPress={() => {
@@ -280,11 +280,24 @@ const styles = StyleSheet.create({
     },
 });
 const TimeComponent = props => (
-    <TouchableOpacity onPress={props.onClick} style={{ flexDirection: 'row', height: 50, justifyContent: 'center', alignItems: 'center',backgroundColor:'#ffffff'}}>
-      <Text style={{fontSize:16,color:'#333333',marginLeft:10,flex:1}}>预计恢复时间：</Text>
-      <Text style={{fontSize: 16, color: '#848484',marginRight:10 }}>{`${props.extra}`}</Text>
-      <Image source={require('../../images/ic_what.png')} style={{ width: 20, height: 20,marginRight:10 }} />
-    </TouchableOpacity>
+      <View style = {{ flexDirection: 'row', height: 50,  alignItems: 'center',backgroundColor:'#ffffff'}}>
+        <TouchableOpacity onPress={props.onClick} style={{flexDirection: 'row',}}>
+          <Text style={{fontSize:16,color:'#333333',marginLeft : 10}}>预计恢复时间：</Text>
+          <Text style={{fontSize: 16, color: '#848484' ,marginLeft:30}}>{`${props.extra}`}</Text>
+        
+        </TouchableOpacity>
+        <TouchableOpacity onPress = {()=> {
+
+          Alert.alert('预计恢复时间说明','  设备故障：默认预计恢复正常时间当天24点\n  突发性环境污染：默认预计恢复正常时间当天24点前\n  区域性污染：默认预计恢复正常时间为从当前时间计算24小时后\n   其他因素默认：预计恢复正常时间为3小时后\n此处时间均可根据实际情况做修改');
+        }
+          
+        } style={{ marginRight :5 ,marginLeft:5}}>
+        <Image source={require('../../images/ic_what.png')} style={{ width: 20, height: 20 }} />
+        </TouchableOpacity>
+      
+      </View>
+
+   
   );
 //make this component available to the app
 export default AlarmNoFeedbackCheck;
