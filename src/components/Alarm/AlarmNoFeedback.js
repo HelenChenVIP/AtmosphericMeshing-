@@ -47,8 +47,8 @@ class AlarmNoFeedback extends PureComponent {
                         </View>
                         <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
                             <Text style={{fontSize:12,color:'#969696'}}>{'未反馈'}</Text>
-                            <View style={{backgroundColor:'red',width:30,height:20,borderColor:'red',borderRadius:10,marginTop:5,justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{fontSize:12,color:'white',textAlign:'center',textAlignVertical:'center'}}>{item.item.count}</Text>
+                            <View style={{backgroundColor:'red',width:34,height:22,borderColor:'red',borderRadius:10,marginTop:5,justifyContent:'center',alignItems:'center'}}>
+                            <Text style={{fontSize:12,color:'white'}}>{item.item.count}</Text>
                             </View>
                         </View>
                     </View>

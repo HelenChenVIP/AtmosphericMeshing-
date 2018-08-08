@@ -42,8 +42,8 @@ class AlarmDoneFeed extends PureComponent {
                         <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
                             <View style={{flexDirection:'column',width:40,marginRight:10,justifyContent:'center',alignItems:'center'}}>
                                 <Text style={{fontSize:12,color:'#969696'}}>{'已反馈'}</Text>
-                                <View style={{backgroundColor:'#5285ed',width:30,height:20,borderColor:'#5285ed',borderRadius:10,marginTop:5,justifyContent:'center',alignItems:'center'}}>
-                                <Text style={{fontSize:12,color:'white',textAlign:'center',textAlignVertical:'center'}}>{item.item.count}</Text>
+                                <View style={{backgroundColor:'#5285ed',width:34,height:22,borderColor:'#5285ed',borderRadius:10,marginTop:5,justifyContent:'center',alignItems:'center'}}>
+                                <Text style={{fontSize:12,color:'white'}}>{item.item.count}</Text>
                                 </View>
                             </View>
                         </View>

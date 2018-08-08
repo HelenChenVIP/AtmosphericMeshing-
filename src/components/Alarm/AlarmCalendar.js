@@ -68,9 +68,9 @@ class AlarmCalendar extends PureComponent {
                     showScrollIndicator={true}
                     markedDates={dataSelect}/>
                 <TouchableOpacity 
-                style={{width:SCREEN_WIDTH-80,height:44,backgroundColor:'#568af5',position:'absolute',bottom:16,alignContent:'center',alignItems:'center',borderRadius:4}}
+                style={{width:SCREEN_WIDTH-80,height:44,backgroundColor:'#568af5',alignItems:'center',justifyContent: 'center',position:'absolute',bottom:16,borderRadius:4}}
                 onPress={()=>{this.backView()}}>
-                    <Text style={{width:SCREEN_WIDTH-100,height:50,fontSize:18,color:'#ffffff',textAlign:'center',textAlignVertical:'center'}}>确定</Text>
+                    <Text style={{fontSize:18,color:'#ffffff'}}>确定</Text>
                 </TouchableOpacity>
             </View>
         );

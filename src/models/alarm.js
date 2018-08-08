@@ -19,22 +19,6 @@ export default Model.extend({
       PageSize:10,
       PageIndex:1,
       allTotal:0,
-      alarmNoDesData:{
-        DGIMN:'',
-        PointName:'',
-        BeginTime:'',
-        EndTime:'',
-        RegionCode:'',
-        PolluntCode:'',
-        EarlyWaringType:'',
-        State:'0',
-        IsPc:'false',
-        PageIndex:1,
-        checkboxStatemap: '',
-        checkboxIndexmap: '',
-        clearselect: '',
-        allTotal:0,
-      }
 
     },
     reducers:{
@@ -185,9 +169,9 @@ export default Model.extend({
            * @param {any} { payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } } 
            * @param {any} { callWithSpinning, update, put, call, select } 
            */
-          * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { callWithSpinning, update, put, call, select }) {
+          * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { call, update, put, select }) {
             debugger;
-            const result = yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
+            const result = yield call(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
             if (result&&result.requstresult==='1') {
               let {NoAlarmDesData,mainAlarmData} = yield select(state => state.alarm);
               debugger;
@@ -198,6 +182,7 @@ export default Model.extend({
               checkboxIndexmap.forEach((item, key, mapObj)=>{
                   arr.push(item);
               });
+              debugger;
               mainAlarmData[index].count = mainAlarmData[index].count - arr.length;
               let _mainAlarmData = mainAlarmData.slice(0)
               let _NoAlarmDesData = [];

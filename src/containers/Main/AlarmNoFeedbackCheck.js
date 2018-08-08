@@ -33,8 +33,8 @@ const options = {
  * @class AlarmNoFeedbackCheck
  * @extends {Component}
  */
-@connect(({alarm})=>({NoAlarmDesData:alarm.NoAlarmDesData,
-  alarmNoDesData:alarm.alarmNoDesData,
+@connect(({alarm})=>({
+  NoAlarmDesData:alarm.NoAlarmDesData,
   }))
 class AlarmNoFeedbackCheck extends PureComponent {
     static navigationOptions = ({ navigation }) => ({
@@ -72,7 +72,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
   extraUniqueKey=(item, index) => `index15${index}${item}`
   renderItem=({ item }) => {
     debugger;
-    if (this.props.alarmNoDesData.checkboxStatemap.get(item.ID)) {
+    if (this.props.navigation.state.params.checkboxStatemap.get(item.ID)) {
       return (
             <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'column',height:70,marginTop:5,marginBottom:5}}>
                 <View style={{flexDirection:'row',height:40,marginLeft:10,marginRight:10,alignItems:'center'}}> 
@@ -93,7 +93,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
   }
   
   feedbackCallback=() => {
-    this.props.alarmNoDesData.clearselect;
+    this.props.navigation.state.params.clearselect;
     this.props.dispatch(NavigationActions.back());
     CloseToast();
     ShowResult(true, '反馈成功');
@@ -104,7 +104,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
     let paramExceptionProcessingID = '';
     let paramImageID = '';
     let WarningReason = '';
-    this.props.alarmNoDesData.checkboxStatemap.forEach((item, key, mapObj) => {
+    this.props.navigation.state.params.checkboxStatemap.forEach((item, key, mapObj) => {
       paramExceptionProcessingID += `${key.toString()},`;
     });
     this.state.reasonStatemap.forEach((item, key)=>{
@@ -112,7 +112,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
     })
     this.props.dispatch(createAction('alarm/SummitAll')({
         postjson: {
-            DGIMN: this.props.alarmNoDesData.DGIMN,
+            DGIMN: this.props.navigation.state.params.DGIMN,
             ExceptionProcessingID: paramExceptionProcessingID,
             WarningReason: this.state.value,
             sceneDescription: this.state.sceneDescription,
@@ -128,7 +128,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
             CloseToast();
             ShowResult(false, '提交失败');
           },
-          'checkboxIndexmap':this.props.alarmNoDesData.checkboxIndexmap
+          'checkboxIndexmap':this.props.navigation.state.params.checkboxIndexmap
     }));
   }
   scrollToInput =(reactNode: any) => {
