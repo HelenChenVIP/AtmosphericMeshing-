@@ -27,11 +27,15 @@ class AlarmNoFeedback extends PureComponent {
     _renderItemList = (item) => {
             return(
                 <TouchableOpacity onPress={() => {
+                    let begin=timeForm(this.props.timeData[0],'day');
+                    let end=timeForm(this.props.timeData[1],'day');
+                    let chooseTime=[begin,end];
                     this.props.dispatch(NavigationActions.navigate({
                         routeName: 'AlarmNoFeedbackDes',                        
                         params: {
                             DGIMN:item.item.dgimn,
                             PointName:item.item.pointName,
+                            chooseTime:chooseTime,
                         } }));
                 }}>
                     <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'row',height:70,marginTop:5,marginBottom:5,marginLeft:10,marginRight:10}}>

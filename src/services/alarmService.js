@@ -24,26 +24,25 @@ export const GetMainAlarmService = async(param) => {
   }
   //获取未核实2级
   export const GetAllAlarmDataList = async(param) => {
-    //let dic=param.DGIMN+param.PointName+param.RegionCode+param.PolluntCode+param.BeginTime+param.EndTime+param.EarlyWaringType+param.State+param.PageIndex+param.PageSize+param.IsPc;
     let nowTime = (new Date()).valueOf();
-    let BeginTime;
-    let EndTime;
-    if(param.BeginTime==''){
-      let Begin=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
-      BeginTime=Begin.substring(0,11)+'00:00:00';
-      EndTime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
-    }else{
-      let Begin=param.BeginTime;
-      BeginTime=Begin.substring(0,11)+'00:00:00';
-      EndTime=param.EndTime;
-    }
+    // let BeginTime;
+    // let EndTime;
+    // if(param.BeginTime==''){
+    //   let Begin=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
+    //   BeginTime=Begin.substring(0,11)+'00:00:00';
+    //   EndTime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
+    // }else{
+    //   let Begin=param.BeginTime;
+    //   BeginTime=Begin.substring(0,11)+'00:00:00';
+    //   EndTime=param.EndTime;
+    // }
     let dic="{" +
     "\"DGIMN\":\"" + param.DGIMN + "\"," +
     "\"PointName\":\"" + param.PointName + "\"," +
     "\"RegionCode\":\"" + param.RegionCode + "\"," +
     "\"PolluntCode\":\"" + param.PolluntCode + "\"," +
-    "\"BeginTime\":\"" + BeginTime + "\"," +
-    "\"EndTime\":\"" + EndTime + "\"," +
+    "\"BeginTime\":\"" + param.BeginTime + "\"," +
+    "\"EndTime\":\"" + param.EndTime + "\"," +
     "\"EarlyWaringType\":\"" + param.EarlyWaringType + "\"," +
     "\"State\":\"" + param.State + "\"," +
     "\"PageIndex\":\"" + param.PageIndex + "\"," +
@@ -71,6 +70,7 @@ export const GetMainAlarmService = async(param) => {
       latitude: param.latitude,
       isRecord:1
     };
+    debugger;
     const result = await post(api.alarm.AddEarlyWarningFeedback, body, null);
     return result;
   };

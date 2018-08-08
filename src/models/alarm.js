@@ -81,17 +81,11 @@ export default Model.extend({
           },
           //报警未反馈二级
           *FirstGetNoAlarmDes({payload:{DGIMN,PointName,BeginTime,EndTime}}, {updatehide, call, select}){
-            const {timeData,timeDesData}
-            = yield select(state => state.alarm);
+            const {timeData,timeDesData} = yield select(state => state.alarm);
             if(BeginTime==='')
             {
-              BeginTime=timeData[0];
-              EndTime=timeData[1];
-            }
-            if(timeDesData.length!==0)
-            {
-              BeginTime=timeDesData[0];
-              EndTime=timeDesData[1];
+              BeginTime=timeData[0].substring(0,11)+'00:00:00';
+              EndTime=timeData[1].substring(0,11)+'00:00:00';
             }
             let { data : NoAlarmDesData,total : allTotal}=yield call(alarmService.GetAllAlarmDataList,
                     {DGIMN:DGIMN,
@@ -141,13 +135,8 @@ export default Model.extend({
             = yield select(state => state.alarm);
             if(BeginTime==='')
             {
-              BeginTime=timeData[0];
-              EndTime=timeData[1];
-            }
-            if(timeDesData.length!==0)
-            {
-              BeginTime=timeDesData[0];
-              EndTime=timeDesData[1];
+              BeginTime=timeData[0].substring(0,11)+'00:00:00';
+              EndTime=timeData[1].substring(0,11)+'00:00:00';
             }
             let { data : DoneAlarmDesData,total : allTotal}=yield call(alarmService.GetAllAlarmDataList,
                     {DGIMN:DGIMN,
@@ -161,7 +150,6 @@ export default Model.extend({
                       PageIndex:1,
                       PageSize:10,
                       IsPc:'false',});
-                      
               if(DoneAlarmDesData){
                 yield updatehide({DoneAlarmDesData,PageIndex:1,timeDesData:[BeginTime,EndTime],allTotal});
               }else{
@@ -192,16 +180,17 @@ export default Model.extend({
               ShowToast('没有更多数据');
             }
           },
-
-
-
-
-
-
+          /**
+           * 提交反馈
+           * @param {any} { payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } } 
+           * @param {any} { callWithSpinning, update, put, call, select } 
+           */
           * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { callWithSpinning, update, put, call, select }) {
+            debugger;
             const result = yield callWithSpinning(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
             if (result&&result.requstresult==='1') {
               let {NoAlarmDesData,mainAlarmData} = yield select(state => state.alarm);
+              debugger;
               const index=mainAlarmData.findIndex((item)=>{
                 return item.dgimn==postjson.DGIMN;
               })
@@ -217,6 +206,7 @@ export default Model.extend({
                   _NoAlarmDesData.push(item);
                 }
               });
+              debugger;
               yield update({'NoAlarmDesData':_NoAlarmDesData,'mainAlarmData':_mainAlarmData});
               successCallback();
             } else {

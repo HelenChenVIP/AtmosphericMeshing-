@@ -10,6 +10,7 @@ import AlarmNoFeedback from './../../components/Alarm/AlarmNoFeedback';
 import AlarmDoneFeed from './../../components/Alarm/AlarmDoneFeed';
 import MyCalendar from '../Main/MyCalendar';
 import AlarmCalendar from '../../components/Alarm/AlarmCalendar';
+import AlarmCalendarDes from '../../components/Alarm/AlarmCalendarDes';
 export default StackNavigator(
     {
       HomeNavigator: { screen: HomeNavigator },
@@ -23,6 +24,7 @@ export default StackNavigator(
       AlarmDoneFeed:{screen:AlarmDoneFeed},
       MyCalendar:{screen:MyCalendar},
       AlarmCalendar:{screen:AlarmCalendar},
+      AlarmCalendarDes:{screen:AlarmCalendarDes},
     }, {
       headerMode: 'float',
     }

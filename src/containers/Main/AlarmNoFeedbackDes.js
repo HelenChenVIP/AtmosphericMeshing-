@@ -8,6 +8,7 @@ import { createAction,ShowToast,NavigationActions} from '../../utils';
 import moment from 'moment';
 import { connect } from 'react-redux';
 import DateDesComponent from '../../components/Alarm/DateDesComponent';
+import {timeForm,timeJQ} from '../../utils/mathUtils';
 
 const SCREEN_WIDTH=Dimensions.get('window').width;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
@@ -22,6 +23,7 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
     PageIndex:alarm.PageIndex,
     alarmNoDesData:alarm.alarmNoDesData,
     allTotal:alarm.allTotal,
+    timeDesData:alarm.timeDesData,
     loading:alarm.effectsloading['alarm/FirstGetNoAlarmDes'],
     moreloading:alarm.effectsloading['alarm/GetNoAlarmDes'],
     submitLoading:alarm.effectsloading['alarm/SummitAll'],
@@ -174,6 +176,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                     clearselect: this.clearselect
                     }
                }));
+            debugger;
             this.props.dispatch(NavigationActions.navigate({
                 routeName: 'AlarmNoFeedbackCheck',                        
                 params: { }}));
@@ -182,15 +185,25 @@ class AlarmNoFeedbackDes extends PureComponent {
           }
     }
     render() {
+        let begin;
+        let end;
+        if(this.props.timeDesData.length===0)
+        {
+            return (<View></View>);
+        }else{
+            begin=timeForm(this.props.timeDesData[0],'day');
+            end=timeForm(this.props.timeDesData[1],'day');
+        }
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor="#5688f6"
                     barStyle="light-content"/>
-                <DateDesComponent datachange={(starttime,endtime)=>{
-                      const {DGIMN,PointName}=this.props.navigation.state.params
-                      this.props.dispatch(createAction('alarm/FirstGetNoAlarmDes')({
-                          DGIMN,PointName,PageIndex:1,BeginTime:'',EndTime:''}));
-                }} />
+                <TouchableOpacity onPress={() => {this.chooseTime()}}>
+                <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,backgroundColor:'#f3f3f3',alignItems:'center'}}>
+                    <Image source={require('../../images/icon_alarm_time.png')} style={{ marginLeft: 10, height: 15, width: 15 }} />
+                    <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{`自${begin} 至 ${end}`}</Text>
+                </View>
+                </TouchableOpacity>
                 {this.props.loading ?
                 <LoadingComponent Message={'正在加载数据...'} /> :
                 <FlatList
@@ -229,6 +242,19 @@ class AlarmNoFeedbackDes extends PureComponent {
             </View>
         );
     }
+
+    //选择时间
+    chooseTime=()=>{
+        const {DGIMN,PointName,chooseTime}=this.props.navigation.state.params
+        this.props.dispatch(NavigationActions.navigate({
+            routeName: 'AlarmCalendarDes',                        
+            params: {
+                DGIMN:DGIMN,
+                PointName:PointName,
+                chooseTime:chooseTime,
+            }}));
+    }
+
 }
 
 // define your styles

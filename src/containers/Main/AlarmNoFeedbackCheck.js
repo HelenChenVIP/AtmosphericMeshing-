@@ -71,6 +71,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
    }
   extraUniqueKey=(item, index) => `index15${index}${item}`
   renderItem=({ item }) => {
+    debugger;
     if (this.props.alarmNoDesData.checkboxStatemap.get(item.ID)) {
       return (
             <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'column',height:70,marginTop:5,marginBottom:5}}>
@@ -99,6 +100,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
   }
   //提交全部
   summitAll=()=>{
+    debugger;
     let paramExceptionProcessingID = '';
     let paramImageID = '';
     let WarningReason = '';
@@ -207,8 +209,8 @@ class AlarmNoFeedbackCheck extends PureComponent {
                 onChangeText={(sceneDescription) => this.setState({sceneDescription})}
               />
               </View>
-               <Text style={{width:SCREEN_WIDTH,height:50,fontSize:16,color:'#333333',marginTop:1,backgroundColor:'#ffffff',textAlignVertical:'center',marginLeft:10}}>图片</Text>
-               <View style={{flexDirection:'row',width:SCREEN_WIDTH,backgroundColor:'#ffffff',alignItems:'center',flexWrap:'wrap',marginBottom:10,marginLeft:10}}>
+               <Text style={{width:SCREEN_WIDTH,height:50,fontSize:16,color:'#333333',marginTop:1,backgroundColor:'#ffffff',textAlignVertical:'center'}}>    图片</Text>
+               <View style={{flexDirection:'row',width:SCREEN_WIDTH,backgroundColor:'#ffffff',alignItems:'center',flexWrap:'wrap',marginBottom:10}}>
                {this.renderPickedImage()}
                 <TouchableOpacity
                   onPress={() => {
@@ -227,7 +229,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
                     });
                   }}
                   style={{alignItems: 'center', justifyContent: 'center',  marginRight:10}}>
-                <Image source={require('../../images/home_point_add.png')} style={{ width: 60, height: 60,marginRight:5,marginLeft:5,marginBottom:8 }} />
+                <Image source={require('../../images/home_point_add.png')} style={{ width: 60, height: 60,marginRight:5,marginLeft:10,marginBottom:8 }} />
                 </TouchableOpacity>
                    
                </View>
