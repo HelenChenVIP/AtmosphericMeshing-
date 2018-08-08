@@ -71,7 +71,6 @@ class AlarmNoFeedbackCheck extends PureComponent {
    }
   extraUniqueKey=(item, index) => `index15${index}${item}`
   renderItem=({ item }) => {
-    debugger;
     if (this.props.navigation.state.params.checkboxStatemap.get(item.ID)) {
       return (
             <View style={{backgroundColor:'#ffffff',borderColor:'#d7dcdd',borderWidth:1,borderRadius:5,flexDirection:'column',height:70,marginTop:5,marginBottom:5}}>
@@ -100,7 +99,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
   }
   //提交全部
   summitAll=()=>{
-    debugger;
+    
     let paramExceptionProcessingID = '';
     let paramImageID = '';
     let WarningReason = '';

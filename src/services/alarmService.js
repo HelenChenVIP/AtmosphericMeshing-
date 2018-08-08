@@ -70,7 +70,6 @@ export const GetMainAlarmService = async(param) => {
       latitude: param.latitude,
       isRecord:1
     };
-    debugger;
     const result = await post(api.alarm.AddEarlyWarningFeedback, body, null);
     return result;
   };

@@ -6,7 +6,7 @@ import { createAction,ShowToast,NavigationActions} from '../utils';
 export default Model.extend({
     namespace: 'alarm',
     state:{
-      mainAlarmData:[],
+      // mainAlarmData:[],
       NoFeedData:[],
       DoneFeedData:[],
       NoAlarmDesData:[],
@@ -169,30 +169,26 @@ export default Model.extend({
            * @param {any} { payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } } 
            * @param {any} { callWithSpinning, update, put, call, select } 
            */
-          * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { call, update, put, select }) {
-            debugger;
+          * SummitAll({ payload: { postjson, successCallback ,failCallback ,checkboxIndexmap } }, { call, updatehide, put, select }) {
             const result = yield call(alarmService.AddEarlyWarningFeedback, postjson, { imagelist: [] });
             if (result&&result.requstresult==='1') {
-              let {NoAlarmDesData,mainAlarmData} = yield select(state => state.alarm);
-              debugger;
-              const index=mainAlarmData.findIndex((item)=>{
+              let {NoAlarmDesData,NoFeedData} = yield select(state => state.alarm);
+              const index=NoFeedData.findIndex((item)=>{
                 return item.dgimn==postjson.DGIMN;
               })
               let arr = [];
               checkboxIndexmap.forEach((item, key, mapObj)=>{
                   arr.push(item);
               });
-              debugger;
-              mainAlarmData[index].count = mainAlarmData[index].count - arr.length;
-              let _mainAlarmData = mainAlarmData.slice(0)
+              NoFeedData[index].count = NoFeedData[index].count - arr.length;
+              let _NoFeedData = NoFeedData.slice(0)
               let _NoAlarmDesData = [];
               NoAlarmDesData.map((item,key)=>{
                 if (arr.indexOf(key)==-1) {
                   _NoAlarmDesData.push(item);
                 }
               });
-              debugger;
-              yield update({'NoAlarmDesData':_NoAlarmDesData,'mainAlarmData':_mainAlarmData});
+              yield updatehide({'NoAlarmDesData':_NoAlarmDesData,'mainAlarmData':_NoFeedData});
               successCallback();
             } else {
               failCallback();

@@ -167,16 +167,6 @@ class AlarmNoFeedbackDes extends PureComponent {
     //核实
     _check=()=>{
         if (this.state.checkboxStatemap.size !== 0) {
-            // this.props.dispatch(createAction('alarm/updateState')({
-            //     alarmNoDesData:{ 
-            //         ...this.props.alarmNoDesData,
-            //         State:'0',
-            //         checkboxStatemap: this.state.checkboxStatemap,
-            //         checkboxIndexmap: this.state.checkboxIndexmap,
-            //         clearselect: this.clearselect
-            //         }
-            //    }));
-            debugger;
             this.props.dispatch(NavigationActions.navigate({
                 routeName: 'AlarmNoFeedbackCheck',                        
                 params: {
