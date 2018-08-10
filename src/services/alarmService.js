@@ -6,7 +6,8 @@ import moment from 'moment';
 
  //获取未核实1级 state:0 未核实 2核实
 export const GetMainAlarmService = async(param) => {
-  let start=param.starttime.substring(0,11)+'00:00:00';
+  let start=moment(param.starttime).format('YYYY-MM-DD HH:mm:ss')
+  // let start=param.starttime.substring(0,11)+'00:00:00';
     const body={
         starttime:start,
         endtime:param.endtime,
@@ -17,25 +18,10 @@ export const GetMainAlarmService = async(param) => {
         state:param.state,
     };
     const result=await get(api.alarm.GetEarlyWarningGroupByDGIMN,body,null);
-    if (!result.data) {
-      return{'data':[]};
-    }
-    return result;
+    return result || [];
   }
   //获取未核实2级
   export const GetAllAlarmDataList = async(param) => {
-    let nowTime = (new Date()).valueOf();
-    // let BeginTime;
-    // let EndTime;
-    // if(param.BeginTime==''){
-    //   let Begin=moment().add(-3, 'days').format('YYYY-MM-DD HH:mm:ss');
-    //   BeginTime=Begin.substring(0,11)+'00:00:00';
-    //   EndTime=moment(nowTime).format('YYYY-MM-DD HH:mm:ss');
-    // }else{
-    //   let Begin=param.BeginTime;
-    //   BeginTime=Begin.substring(0,11)+'00:00:00';
-    //   EndTime=param.EndTime;
-    // }
     let dic="{" +
     "\"DGIMN\":\"" + param.DGIMN + "\"," +
     "\"PointName\":\"" + param.PointName + "\"," +
@@ -52,7 +38,7 @@ export const GetMainAlarmService = async(param) => {
         dic:dic,
     };
     const result=await get(api.alarm.GetAllAlarmDataList,body,null);
-    return result;
+    return result || [];
   }
   //反馈全部
   export const AddEarlyWarningFeedback = async (param) => {
@@ -71,7 +57,7 @@ export const GetMainAlarmService = async(param) => {
       isRecord:1
     };
     const result = await post(api.alarm.AddEarlyWarningFeedback, body, null);
-    return result;
+    return result || [];
   };
   //获取核实单
   export const GetCheckEarlyWarningInfo = async(param) => {
@@ -79,7 +65,7 @@ export const GetMainAlarmService = async(param) => {
       exceptionID:param.ID
     };
     const result=await get(api.alarm.GetCheckEarlyWarningInfo,body,null);
-    return result;
+    return result || [];
   }
   export const uploadimage = async (param) => {
     const body = [{
@@ -91,6 +77,5 @@ export const GetMainAlarmService = async(param) => {
       FileName: 'uploadimage'
     }];
     const result = await upload(api.alarm.uploadimage, body, null);
-   
-    return result;
+    return result || [];
   };

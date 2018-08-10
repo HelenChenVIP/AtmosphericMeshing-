@@ -63,12 +63,12 @@ class AlarmDoneFeedbackCheck extends PureComponent {
                 <View style={{flexDirection:'row',flexWrap:'wrap',justifyContent:'space-around',flex:1,alignItems:'center',marginRight:10}}>
                 {alarmJson.data[0].alarmCheckReasons.map((item,key)=>{
                         return (
-                            <View style={{flexDirection:'row',marginTop:12}}>{
+                            <View style={{flexDirection:'row',marginTop:12}} key={item.value}>{
                             this.props.CheckEarlyWarningInfoData.warningReason==item.value ? 
                                 <Image source={require('../../images/ic_rbtn_select.png')} style={{ width: 16, height: 16 }}/>
                             :  <Image source={require('../../images/ic_rbtn_default.png')} style={{ width: 16, height: 16 }}/>}
                                 <Text style={{fontSize:16,color:'#848484',marginLeft:2}}>{item.label}</Text>
-                                </View>
+                            </View>
                         );})}
                 </View>
                 </View>
@@ -77,7 +77,7 @@ class AlarmDoneFeedbackCheck extends PureComponent {
                     <Text style={{fontSize: 16, color: '#848484',marginRight:10 }}>{this.props.CheckEarlyWarningInfoData.recoveryTime}</Text>
                 </View>
 
-                <View style={{flexDirection:'row',height: 60,width:SCREEN_WIDTH,alignItems:'center',padding:5,backgroundColor:'#ffffff',marginTop:1}}>
+                <View style={{flexDirection:'row',height: 50,width:SCREEN_WIDTH,alignItems:'center',backgroundColor:'#ffffff',marginTop:1}}>
                     <Text style={{fontSize:16,marginLeft:10,color:'#333333'}}>描述：</Text>
                     <Text style={{fontSize: 16, color: '#848484',marginRight:10 }}>{this.props.CheckEarlyWarningInfoData.sceneDescription}</Text>
                 </View>

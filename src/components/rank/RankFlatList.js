@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import RankChartBar from '../rank/RankChartBar';
 import mainmap from '../../config/configjson/mainmap.json';
 import { createAction,ShowToast,NavigationActions} from '../../utils'; 
-
+const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH=Dimensions.get('window').width;
 
 /**
@@ -23,7 +23,7 @@ class RankFlatList extends Component {
         return (
            <FlatList                  
             data={this.props.listRankData}
-            ListHeaderComponent={<View style={{height:240,width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}><RankChartBar ref={ref=>this._rankChartBar = ref}/></View>}
+            ListHeaderComponent={<View style={{height:SCREEN_HEIGHT/3,width:SCREEN_WIDTH,backgroundColor:'#ffffff'}}><RankChartBar ref={ref=>this._rankChartBar = ref}/></View>}
             renderItem={this._renderItemList}
             keyExtractor={this._extraUniqueKey}
             refreshing={false}

@@ -32,25 +32,23 @@ class MainRank extends PureComponent {
         labelStyle: {fontSize: 14},
         tabBarIcon: ({ focused, tintColor }) =>
           <Image source={focused ? require('../../../images/ic_sort_hover.png') : require('../../../images/ic_sort.png')} style={{height:20,width:20}}></Image>,
-      })
-
-      
-      constructor(props){
+    })
+    constructor(props){
         super(props);
         _me = this;
-      }
-      componentWillMount(){
+    }
+    componentWillMount(){
         this.props.dispatch(createAction('map/mapLoadAllPointList')({
             whitchPage:'Rank',}))
     }
-      componentDidMount(){
+    componentDidMount(){
         this.props.navigation.setParams({navigatePress:this.rankUpDown,text:'最高'})
-      }
-      rankUpDown=()=>{
+    }
+    rankUpDown=()=>{
         this.props.navigation.dispatch(createAction('map/mapAllRedures')({
-          whitchPage:'Rank',
-          pressPollutantCodeRank: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
-          pressPollutantCodeMap: ''
+            whitchPage:'Rank',
+            pressPollutantCodeRank: this.props.pressPollutantCode!=null ? this.props.pressPollutantCode : mainmap.data[2].pollutantType[0].pollutantCode,
+            pressPollutantCodeMap: ''
         }));  
     }
 

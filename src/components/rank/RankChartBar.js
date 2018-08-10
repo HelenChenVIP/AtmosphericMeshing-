@@ -47,10 +47,6 @@ class RankChartBar extends Component {
             left: {
               drawGridLines: false,
               axisMinimum: 0,
-              // drawAxisLine: false,
-              // drawLabels: true,
-              // drawValueAboveBar:false,
-              // gridColor: processColor('white')
             },
             right: {
               enabled: false,

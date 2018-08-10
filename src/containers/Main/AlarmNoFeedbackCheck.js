@@ -99,7 +99,6 @@ class AlarmNoFeedbackCheck extends PureComponent {
   }
   //提交全部
   summitAll=()=>{
-    
     let paramExceptionProcessingID = '';
     let paramImageID = '';
     let WarningReason = '';
@@ -133,7 +132,7 @@ class AlarmNoFeedbackCheck extends PureComponent {
   scrollToInput =(reactNode: any) => {
     // Add a 'scroll' ref to your ScrollView
       this.refs.scroll.scrollToPosition(0, 130, false);
-    }
+  }
     renderPickedImage=() => {
         const rtnVal = [];
         this.state.imagelist.map((item, key) => {

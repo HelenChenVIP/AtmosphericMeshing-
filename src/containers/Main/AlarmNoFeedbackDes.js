@@ -137,7 +137,7 @@ class AlarmNoFeedbackDes extends PureComponent {
                 checkboxIndexmap.delete(item.ID);
             }
             return { checkboxStatemap,checkboxIndexmap };
-          });
+        });
 
     }
     //全选
@@ -192,18 +192,18 @@ class AlarmNoFeedbackDes extends PureComponent {
         }
         return (
             <View style={styles.container}>
-                <StatusBar backgroundColor="#5688f6"
-                    barStyle="light-content"/>
+                <StatusBar backgroundColor="#5688f6" barStyle="light-content"/>
                 <TouchableOpacity onPress={() => {this.chooseTime()}}>
                 <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,backgroundColor:'#f3f3f3',alignItems:'center'}}>
                     <Image source={require('../../images/icon_alarm_time.png')} style={{ marginLeft: 10, height: 15, width: 15 }} />
                     <Text style={{fontSize:14,color:'#5285ed', marginLeft: 5}}>{`自${begin} 至 ${end}`}</Text>
                 </View>
                 </TouchableOpacity>
-                {this.props.loading ?
+                {
+                    this.props.loading ?
                 <LoadingComponent Message={'正在加载数据...'} /> :
                 <FlatList
-                ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+                ListEmptyComponent={() => (this.props.NoAlarmDesData!='' ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                 data={this.props.NoAlarmDesData}
                 renderItem={this._renderItemList}
                 keyExtractor={this._extraUniqueKey}

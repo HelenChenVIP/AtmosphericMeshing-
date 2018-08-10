@@ -51,7 +51,7 @@ export const random5=(arr)=>{
 //获取24h之前时间
 export const timeCalculate=(currTime )=>{
     let mBeging24=moment(currTime).add(-1, 'd').format('YYYY-MM-DD HH:mm:ss');
-    let starttime=moment().add(-1, 'days').format('YYYY-MM-DD HH:mm:ss');
+    let starttime=moment().add(-1, 'd').format('YYYY-MM-DD HH:mm:ss');
     return mBeging24;
 }
 
@@ -96,10 +96,11 @@ export const timeForm=(time,when)=>{
     let mTime;
     switch(when){
         case 'day':
-        mTime=time.substring(0,11);
+        mTime=moment(time).format('YYYY-MM-DD');
         break;
         case 'hour':
-        mTime=time.substring(0,13)+':00';
+        let aTime=time.substring(0,13)+':00';
+        mTime=moment(aTime).format('YYYY-MM-DD HH:mm');
         break;
     }
     return mTime;

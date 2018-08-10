@@ -1,7 +1,7 @@
 import { AppRegistry, AsyncStorage } from 'react-native';
 import React from 'react'; 
 
-// import { createLogger } from 'redux-logger';
+import { createLogger } from 'redux-logger';
 import { persistStore } from 'redux-persist';
 
 import dva from './utils/dva';
@@ -16,7 +16,7 @@ import api from './config/globalapi';
 
 
 
-// const logger = createLogger();
+const logger = createLogger();
 
 if (!__DEV__) {
   global.console = {
@@ -102,7 +102,7 @@ const app = dva({
   models: [],
   ...createLoading({ effects: true }),
   onAction: [routerMiddleware, screenTracking, 
-    // logger
+    logger
   ],
 });
 // app.use(dvaEnhancer);

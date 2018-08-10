@@ -47,24 +47,8 @@ export default Model.extend({
      */
     * loadglobalvariable({ payload }, { call, put, update }) {
       const { user } = payload;
-      let globalConfig = yield loadStorage('globalconfig');
-      if (globalConfig == null) {
-        // const { data } = yield call(systemConfig.getsystemconfig);
-        // yield saveStorage('globalconfig', data);
-        // globalConfig = data;
-      }
+      // let globalConfig = yield loadStorage('globalconfig');
       if (user && user != null) {
-        // const { data: alarmCount } = yield call(AlarmService.loadawaitcheck, { time: moment().format('YYYY-MM-DD') });
-        // const { data: pollutanttype } = yield call(systemConfig.loadpollutanttype);
-        // yield put('changebadge', { badge: alarmCount.length });
-        // yield put('hideSpinning', { pollutanttype });
-        // yield put(
-        //   NavigationActions.reset({
-        //     index: 0,
-        //     actions: [NavigationActions.navigate({ routeName: 'MainNavigator', params: { unverifiedCount: alarmCount.length, pollutanttype } })],
-        //   }),
-        // );
-        // yield put('hideSpinning', { });
         yield put(
           NavigationActions.reset({
             index: 0,
@@ -72,12 +56,12 @@ export default Model.extend({
           }),
         );
       }
-      yield update({ globalConfig, user });
-      yield call(delay, 500);
+      yield update({ user });
+      // yield call(delay, 500);
       //等到添加闪屏之后再使用
-      if (SplashScreen) {
-        SplashScreen.hide();
-      }
+      // if (SplashScreen) {
+      //   SplashScreen.hide();
+      // }
     },
 
     /**
@@ -104,14 +88,11 @@ export default Model.extend({
       if (userName === '' || passWord === '') {
         ShowToast('用户名，密码不能为空');
       } else {
-        yield put('showSpinning', {});
         const { data: user } = yield call(homeService.login, { userName, passWord });
         if (user !== null) {
           yield saveToken(user);
           yield put('loadglobalvariable', { user });
-        } else {
-          yield put('hideSpinning', { });
-        }
+        } 
       }
     },
     /**
@@ -124,28 +105,6 @@ export default Model.extend({
       const { data: pointTypeList } = yield callWithLoading(homeService.PointTypeList, {});
       yield update({ pointTypeList });
       payload.callback();
-    },
-  
-    /**
-     *  提交全部信息
-     * HelenChen
-     * @param {any} { payload: { pointname, pointdgmin,PollutantTypeCode,pickerValue, longitude,latitude} } 
-     * @param {any} { call, put } 
-     */
-    * commitAll({ payload: { pointname, pointdgmin,PollutantTypeCode,pickerValue, longitude,latitude} }, { call, put }) {
-      if (pointname === '') {
-        ShowToast('监测点名称不能为空');
-      } else {
-        yield put('showSpinning', {});        
-        const { data: commitAllResult } = yield call(homeService.commitAll, { pointname, pointdgmin,PollutantTypeCode,pickerValue, longitude,latitude});
-        if (commitAllResult !== null) {
-          // yield saveToken(commitAllResult);
-          yield put('loadglobalvariable', { commitAllResult });
-          ShowToast('提交成功');
-        } else {
-          yield put('hideSpinning', { });
-        }
-      }
     },
   
 

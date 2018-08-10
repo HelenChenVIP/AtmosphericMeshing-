@@ -85,7 +85,7 @@ class AlarmDoneFeedDes extends PureComponent {
             {this.props.loading?
                 <LoadingComponent Message={'正在加载数据'} /> :
                 <FlatList           
-                ListEmptyComponent={() => (this.props.NoAlarmDesData ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
+                ListEmptyComponent={() => (this.props.NoAlarmDesData!='' ? null : <View style={{ height: SCREEN_HEIGHT - 200 }}><NoDataComponent Message={'没有查询到数据'} /></View>)}
                 data={this.props.DoneAlarmDesData}
                 renderItem={this._renderItemList}
                 keyExtractor={this._extraUniqueKey}

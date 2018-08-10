@@ -89,7 +89,6 @@ class PointDetailsShow extends PureComponent  {
         }
     }
    
-    
     render() {
         const color = {
             subColor: '#fff',
@@ -109,7 +108,6 @@ class PointDetailsShow extends PureComponent  {
                 chooseTime=timeForm(this.props.DaystartTime,'day')+'至'+timeForm(this.props.DayendTime,'day');
             }
         }
-        this.setState({chooseTime:chooseTime});
         return (
             this.props.loading ? <LoadingComponent Message={'正在加载数据...'} /> 
             :
@@ -132,7 +130,7 @@ class PointDetailsShow extends PureComponent  {
                 onValueChange={this.onValueChange}/>
                 <View style={{flexDirection:'row',width:SCREEN_WIDTH,height:30,marginTop:1,backgroundColor:'#ffffff',alignItems:'center',justifyContent:'space-between'}}>
                     {
-                        <TouchableOpacity onPress={()=>{this.chooseTime()}}>
+                        <TouchableOpacity onPress={()=>{this.chooseTime(chooseTime)}}>
                         <Image source={require('../../images/time.png')} style={{width:26,height:26,marginLeft:10}}/>
                         </TouchableOpacity>
                     }
@@ -157,7 +155,7 @@ class PointDetailsShow extends PureComponent  {
                     visible={this.state.modalVisible}
                     onRequestClose={() => {alert("Modal has been closed.")}}>
                     <TouchableWithoutFeedback
-                        onPress={()=>{this.setState({modalVisible:false})}}>
+                        onPress={()=>{this.setState({modalVisible:false}) }}>
                         <View style={{backgroundColor:"#383838",opacity:0.8,position:"absolute",alignSelf:'center',flex:1,height:SCREEN_HEIGHT,width:SCREEN_WIDTH,alignItems:'center',justifyContent:'center',}}>
                             <View style={{minHeight: SCREEN_HEIGHT/3,width:SCREEN_WIDTH-40,flexDirection:'column',backgroundColor:'#ffffff',borderRadius:10,alignItems:'center',justifyContent: 'center', }}>
                                 <View style={{width:SCREEN_WIDTH-40,height:40,alignSelf:'center'}}>
@@ -217,9 +215,8 @@ class PointDetailsShow extends PureComponent  {
         this.setState({modalVisible:true});
     }
     //选择时间
-    chooseTime=()=>{
-        // this.calendar && this.calendar.open();
-        let startEnd=timeJQ(this.state.chooseTime);
+    chooseTime=(chooseTime)=>{
+        let startEnd=timeJQ(chooseTime);
 
         this.props.dispatch(NavigationActions.navigate({
             routeName: 'MyCalendar',                        
