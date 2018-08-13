@@ -18,7 +18,6 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
  */
 @connect(({pointdetails,loading})=>({
   zxData:pointdetails.zxData,
-  // loading:loading.effects['pointdetails/GetHourDatas'],
 }))
 class PointDetailsChart extends PureComponent  {
     constructor() {
@@ -31,19 +30,12 @@ class PointDetailsChart extends PureComponent  {
             enabled: true,
             digits: 2,
             backgroundTint: processColor('#ef3344'),
-            // markerColor: processColor('rgba(240, 240, 240, 0.8)'),
             textColor: processColor('#666666'),
           }
         };
       }
       componentWillMount(){
-      //   this.props.dispatch(createAction('pointdetails/updateState')({
-      //     showIndex: '0',
-      //     HourStartTime:'',
-      //     HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
-      // }))
-      //   this.props.dispatch(createAction('pointdetails/GetHourDatas')({
-      //      }));
+      
       }    
    
     componentWillReceiveProps(nextProps) {
@@ -69,9 +61,7 @@ class PointDetailsChart extends PureComponent  {
                     drawValues: false,
                     lineWidth: 1.5,
                     drawCircles: false,
-                    // highlightColor: processColor('blue'),
                     colors: nextProps.zxData.colors,
-                    // circleColors:nextProps.zxData.pointColors,
                     drawFilled: true,
                     fillColor: processColor('white'),
                     fillAlpha: 60,
@@ -132,9 +122,6 @@ class PointDetailsChart extends PureComponent  {
   
     }
     render() {
-      // this.props.loading?
-      // <LoadingComponent Message={'正在加载数据...'} /> 
-      //   : 
         return (
           <LineChart
             style={{width:SCREEN_WIDTH,height:SCREEN_HEIGHT/3,marginBottom:10}}

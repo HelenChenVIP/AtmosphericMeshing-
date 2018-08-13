@@ -20,28 +20,73 @@ const SCREEN_HEIGHT = Dimensions.get('window').height;
 @connect(({pointdetails,loading})=>({
     zxData:pointdetails.zxData,
     showIndex:pointdetails.showIndex,
-    loading:loading.effects['pointdetails/GetHourDatas']||loading.effects['pointdetails/GetDayDatas'],
+    PageIndex:pointdetails.PageIndex,
+    allTotal:pointdetails.allTotal,
+    loading:pointdetails.effectsloading['pointdetails/GetHourDatasFirst'] || pointdetails.effectsloading['pointdetails/GetDayDatasFirst'] ,
+    moreloading:pointdetails.effectsloading['pointdetails/GetHourDatas'] || pointdetails.effectsloading['pointdetails/GetDayDatas'],
    }))
 class PointDetailsFlatList extends PureComponent  {
 
     componentWillMount(){
         if (this.props.showIndex=='0') {
             this.props.dispatch(createAction('pointdetails/updateState')({
+                PageIndex:1,
                 showIndex: '0',
                 HourStartTime:'',
                 HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
             }))
-            this.props.dispatch(createAction('pointdetails/GetHourDatas')({
+            this.props.dispatch(createAction('pointdetails/GetHourDatasFirst')({
                 }));
         } else {
             this.props.dispatch(createAction('pointdetails/updateState')({
+                PageIndex:1,
                 showIndex: '1',
                 HourStartTime:'',
                 HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
             }))
     
-            this.props.dispatch(createAction('pointdetails/GetDayDatas')({
+            this.props.dispatch(createAction('pointdetails/GetDayDatasFirst')({
                 }));
+        }
+    }
+    onRefresh=()=>{
+        if (this.props.showIndex=='0') {
+            this.props.dispatch(createAction('pointdetails/updateState')({
+                PageIndex:1,
+                showIndex: '0',
+                HourStartTime:'',
+                HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
+            }))
+            this.props.dispatch(createAction('pointdetails/GetHourDatasFirst')({
+                }));
+        } else {
+            this.props.dispatch(createAction('pointdetails/updateState')({
+                PageIndex:1,
+                showIndex: '1',
+                HourStartTime:'',
+                HourendTime: moment().format('YYYY-MM-DD HH:mm:ss')
+            }))
+            this.props.dispatch(createAction('pointdetails/GetDayDatasFirst')({
+                }));
+        }
+    }
+    onEndReached=()=>{
+        if(this.props.PageIndex<=(this.props.allTotal/10)){
+            if (this.props.showIndex=='0') {
+                this.props.dispatch(createAction('pointdetails/updateState')({
+                    showIndex: '0',
+                    PageIndex:this.props.PageIndex+1
+                }))
+                this.props.dispatch(createAction('pointdetails/GetHourDatas')({
+                    }));
+            } else {
+                this.props.dispatch(createAction('pointdetails/updateState')({
+                    showIndex: '1',
+                    PageIndex:this.props.PageIndex+1
+                }))
+                this.props.dispatch(createAction('pointdetails/GetDayDatas')({
+                    }));
+            }
         }
     }
 
@@ -51,7 +96,6 @@ class PointDetailsFlatList extends PureComponent  {
             this.props.loading?
             <LoadingComponent Message={'正在加载数据...'} /> 
             :<FlatList   
-            style={{height:SCREEN_HEIGHT,width:SCREEN_WIDTH,backgroundColor:'#ffffff',flex: 1,}}
             ListEmptyComponent={() => (this.props.zxData.ZXvaule ? null : <View style={{ height: SCREEN_HEIGHT - 600 }}><NoDataComponent Message={'暂无数据'} /></View>)}
             data={this.props.zxData.ZXvaule}
             ListHeaderComponent={<View style={{height:SCREEN_HEIGHT/3,width:SCREEN_WIDTH,backgroundColor:'#ffffff',marginBottom: 5,}}>
@@ -59,7 +103,17 @@ class PointDetailsFlatList extends PureComponent  {
                 showIndex=='0' ? <PointDetailsChart/> : <PointDetailsBar/>
             }</View>}
             renderItem={this._renderItemList}
-            keyExtractor={this._extraUniqueKey}/>
+            keyExtractor={this._extraUniqueKey}
+            onEndReachedThreshold={0.1}
+            initialNumToRender={30}
+            // refreshing={this.props.moreloading ? this.props.moreloading : false}
+            // onRefresh={() => {
+            //     this.onRefresh();
+            // }}
+            onEndReached={(info) => {
+                this.onEndReached();
+            }}
+            />
         );
     }
     //FlatList key

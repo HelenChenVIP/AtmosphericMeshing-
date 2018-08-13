@@ -90,8 +90,7 @@ export const uploadimage = async (param) => {
  */
   export const GethourAQIDatasColumn = async(param) => {
     let start='';
-    let pageIndex=1;
-    let pageSize=80;
+    let pageSize=30;
     if(param.HourStartTime=='' || param.HourendTime==''){
       start=timeCalculate(param.HourendTime);
     }else{
@@ -102,12 +101,12 @@ export const uploadimage = async (param) => {
       DGIMNs: param.dgimn,
       beginTime:start,
       endTime:param.HourendTime,
-      pageIndex:pageIndex,
+      pageIndex:param.PageIndex,
       pageSize:pageSize,
       isAsc:true
     };
     const result = await post(api.tool.GetHourData,body,null);
-    return result === null ? { data: null } : result;
+    return result;
   }
 
 /**
@@ -116,7 +115,7 @@ export const uploadimage = async (param) => {
  */
 export const GetDayAQIDatasColumn = async(param) => {
   let pageIndex=1;
-  let pageSize=80;
+  let pageSize=30;
   let lastTime=timeZC(param.DayendTime,param.DaystartTime).lastTime;
   let endTime=timeZC(param.DayendTime,param.DaystartTime).endTime;
   const body = {
@@ -124,7 +123,7 @@ export const GetDayAQIDatasColumn = async(param) => {
     DGIMNs: param.dgimn,
     beginTime:lastTime,
     endTime:endTime,
-    pageIndex:pageIndex,
+    pageIndex:param.PageIndex,
     pageSize:pageSize,
     isAsc:true
   };

@@ -190,6 +190,7 @@ class AlarmNoFeedbackDes extends PureComponent {
             begin=timeForm(this.props.timeDesData[0],'day');
             end=timeForm(this.props.timeDesData[1],'day');
         }
+        
         return (
             <View style={styles.container}>
                 <StatusBar backgroundColor="#5688f6" barStyle="light-content"/>
